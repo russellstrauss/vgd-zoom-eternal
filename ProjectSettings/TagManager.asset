@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Pick Up
   - Floor
+  - saw
   layers:
   - Default
   - TransparentFX

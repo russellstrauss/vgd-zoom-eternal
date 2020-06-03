@@ -47,7 +47,6 @@ public class PlayerController : MonoBehaviour {
 	
 	void Jump() {
 		if (jumpCount < 2) {
-			
 			rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
 			FindObjectOfType<AudioManager>().Play("Ting");
 			jumpCount++;
@@ -102,31 +101,40 @@ public class PlayerController : MonoBehaviour {
 		{
 			jumpCount = 0;
 			Vector3 contactPoint = collision.contacts[0].normal;
-			rb.AddForce(contactPoint * rb.velocity.magnitude * 25);
+			rb.AddForce(contactPoint * rb.velocity.magnitude * 5);
+		}
+		
+		if (collision.gameObject.CompareTag("saw")) {
+			Vector3 contactPoint = collision.contacts[0].normal;
+			rb.AddForce(contactPoint * 5000);
 		}
 	}
 
 	void SetCountText()
 	{
-		countText.text = "Score: " + count.ToString();
-		if (count > gems.Length - 1) {
-			winText.text = winTextDefault;
-		}
+
+		// if (count > gems.Length - 1) {
+		// 	winText.text = winTextDefault;
+		// }
 	}
 	
 	void ResetState() {
-		transform.position = playerStartPosition;
-		count = 0;
-		SetCountText();
-		rb.velocity = Vector3.zero;
-		rb.angularVelocity = Vector3.zero;
-		mainCamera.transform.position = cameraStartPosition;
-		FindObjectOfType<AudioManager>().Play("Death");
-		winText.text = "";
 		
-		foreach (var gem in gems)
-		{
-			gem.gameObject.SetActive(true);
-		}
+		
+		winText.text = winTextDefault;
+		
+		// transform.position = playerStartPosition;
+		// count = 0;
+		// SetCountText();
+		// rb.velocity = Vector3.zero;
+		// rb.angularVelocity = Vector3.zero;
+		// mainCamera.transform.position = cameraStartPosition;
+		// FindObjectOfType<AudioManager>().Play("Death");
+		// winText.text = "";
+		
+		// foreach (var gem in gems)
+		// {
+		// 	gem.gameObject.SetActive(true);
+		// }
 	}
 }
