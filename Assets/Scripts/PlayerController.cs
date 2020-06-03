@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour {
 		cameraStartPosition = mainCamera.transform.position;
 		winTextDefault = winText.text;
 		winText.text = "";
+		gameObject.tag = "Player";
 	}
 	
 	void Jump() {
@@ -106,7 +107,8 @@ public class PlayerController : MonoBehaviour {
 		
 		if (collision.gameObject.CompareTag("saw")) {
 			Vector3 contactPoint = collision.contacts[0].normal;
-			rb.AddForce(contactPoint * 5000);
+			rb.AddForce(contactPoint * 500);
+			FindObjectOfType<AudioManager>().Play("crash");
 		}
 	}
 
