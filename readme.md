@@ -6,6 +6,7 @@ Added modifications:
 -Music
 -Jump action
 -Particle effects on player
+-Add bounce collisions based on normal force
 -Add input forusb/bluetooth game controller
 -Unique ball reflective material
 -SkyBox for decoration

@@ -15,10 +15,12 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 cameraStartPosition;
 	private Rigidbody rb;
 	private int count;
+	private int jumpCount = 0;
 	private GameObject[] gems;
 	Vector2 movementInput;
 	InputMaster controls;
 	private GameObject mainCamera;
+	private ParticleSystem particles;
 	
 	void Awake() {
 		controls = new InputMaster();
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour {
 	
 	void Start()
 	{
+		particles = gameObject.GetComponent<ParticleSystem>();
 		gems = GameObject.FindGameObjectsWithTag("Pick Up");
 		mainCamera = GameObject.FindWithTag("MainCamera");
 		rb = GetComponent<Rigidbody>();
@@ -38,14 +41,17 @@ public class PlayerController : MonoBehaviour {
 		SetCountText();
 		playerStartPosition = rb.position;
 		cameraStartPosition = mainCamera.transform.position;
-		//winTextDefault = winText.text;
+		winTextDefault = winText.text;
 		winText.text = "";
 	}
 	
 	void Jump() {
-		rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
-		
-		FindObjectOfType<AudioManager>().Play("Ting");
+		if (jumpCount < 2) {
+			
+			rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
+			FindObjectOfType<AudioManager>().Play("Ting");
+			jumpCount++;
+		}
 	}
 	
 	void OnEnable() {
@@ -74,7 +80,7 @@ public class PlayerController : MonoBehaviour {
 		
 		rb.AddForce(movement * speed);
 		
-		if (transform.position.y < -1000) {
+		if (transform.position.y < -350) {
 			ResetState();
 		}
 	}
@@ -89,11 +95,21 @@ public class PlayerController : MonoBehaviour {
 			FindObjectOfType<AudioManager>().Play("PickUpSound");
 		}
 	}
+	
+	void OnCollisionEnter(Collision collision) 
+	{
+		if (collision.gameObject.CompareTag("Floor"))
+		{
+			jumpCount = 0;
+			Vector3 contactPoint = collision.contacts[0].normal;
+			rb.AddForce(contactPoint * rb.velocity.magnitude * 25);
+		}
+	}
 
 	void SetCountText()
 	{
 		countText.text = "Score: " + count.ToString();
-		if (count > 22) {
+		if (count > gems.Length - 1) {
 			winText.text = winTextDefault;
 		}
 	}
@@ -105,6 +121,8 @@ public class PlayerController : MonoBehaviour {
 		rb.velocity = Vector3.zero;
 		rb.angularVelocity = Vector3.zero;
 		mainCamera.transform.position = cameraStartPosition;
+		FindObjectOfType<AudioManager>().Play("Death");
+		winText.text = "";
 		
 		foreach (var gem in gems)
 		{

@@ -6,20 +6,20 @@ public class OrbitCamera : MonoBehaviour {
 	[SerializeField]
 	Transform focus = default;
 
-	[SerializeField, Range(5f, 20f)]
+	[SerializeField, Range(10f, 20f)]
 	float distance = 5f;
 
 	[SerializeField, Min(0f)]
-	float focusRadius = 5f;
+	float focusRadius = 12f;
 
 	[SerializeField, Range(0f, 1f)]
 	float focusCentering = 0.5f;
 
 	[SerializeField, Range(1f, 360f)]
-	float rotationSpeed = 90f;
+	float rotationSpeed = 220f;
 
 	[SerializeField, Range(-89f, 89f)]
-	float minVerticalAngle = -45f, maxVerticalAngle = 45f;
+	float minVerticalAngle = 0, maxVerticalAngle = 15;
 
 	[SerializeField, Min(0f)]
 	float alignDelay = 5f;
@@ -56,6 +56,7 @@ public class OrbitCamera : MonoBehaviour {
 
 	void Awake () {
 		regularCamera = GetComponent<Camera>();
+		regularCamera.transform.position = new Vector3(0, 100, 0);
 		focusPoint = focus.position;
 		transform.localRotation = Quaternion.Euler(orbitAngles);
 	}
