@@ -1129,14 +1129,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   focus: {fileID: 572932383}
-  distance: 39
+  distance: 25.2
   focusRadius: 10
-  focusCentering: 0.724
-  rotationSpeed: 203
+  focusCentering: 0.19
+  rotationSpeed: 121
   minVerticalAngle: 5
   maxVerticalAngle: 35
   alignDelay: 0
-  alignSmoothRange: 90
+  alignSmoothRange: 33.9
   obstructionMask:
     serializedVersion: 2
     m_Bits: 0
