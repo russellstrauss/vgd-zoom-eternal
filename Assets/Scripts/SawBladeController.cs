@@ -11,6 +11,7 @@ public class SawBladeController : MonoBehaviour {
 	private float sawOscillationDistance = .01f;
 	private Vector3 oscillationDirection;
 	private Vector3 oscillation;
+	private float randomSeed;
 
 	void Awake() {
 		
@@ -19,6 +20,8 @@ public class SawBladeController : MonoBehaviour {
 	void Start() {
 		gameObject.tag = "saw";
 		oscillationDirection = new Vector3(0, -1, 0);
+		randomSeed = UnityEngine.Random.Range(0, 100);
+		
 	}
 
 	void Update() {

@@ -64,7 +64,6 @@ public class PlayerController : MonoBehaviour {
 
 	void FixedUpdate() {
 		
-		// Vector3 travelDirection = new 
 		float fallingVelocity = Physics.gravity.y * (rb.mass * rb.mass) / 10;
 		
 		Vector3 cameraForward = mainCamera.transform.forward.normalized;
@@ -72,7 +71,6 @@ public class PlayerController : MonoBehaviour {
 		cameraForward.y = 0;
 		cameraRight.y = 0;
 		
-		//Vector3 movement = new Vector3(movementInput.x, fallingVelocity, movementInput.y);
 		Vector3 movement = cameraForward * movementInput.y + cameraRight * movementInput.x;
 		movement.y = fallingVelocity;
 		
@@ -107,8 +105,13 @@ public class PlayerController : MonoBehaviour {
 		
 		if (collision.gameObject.CompareTag("saw")) {
 			Vector3 contactPoint = collision.contacts[0].normal;
-			rb.AddForce(contactPoint * 500);
+			rb.AddForce(contactPoint * 3500);
 			FindObjectOfType<AudioManager>().Play("crash");
+		}
+		
+		if (collision.gameObject.CompareTag("enemy")) {
+			Vector3 contactPoint = collision.contacts[0].normal;
+			rb.AddForce(contactPoint * 2500);
 		}
 	}
 

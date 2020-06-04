@@ -172,7 +172,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 978db213586642e4db4b574a2ffd00fc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -227,6 +227,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c53ddd67aae33e6488826485cdccae4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleSize: 0.5
+  particleSubdivisions: 5
+  particleMass: 10
+  explosionForce: 300
+  explosionRadius: 4
+  explosionUpward: 2
+  explosionParticleMaterial: {fileID: 2100000, guid: 978db213586642e4db4b574a2ffd00fc,
+    type: 2}
 --- !u!1001 &402215590
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -409,7 +417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5568fa4e3a6c2dd4db0a8c8814fee67f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 60
+  speed: 150
   countText: {fileID: 0}
   winText: {fileID: 578749099}
   jumpForce: 25
@@ -946,7 +954,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: -11.69}
+  m_LocalPosition: {x: 0, y: 13, z: -11.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1123,7 +1131,7 @@ MonoBehaviour:
   focus: {fileID: 572932383}
   distance: 39
   focusRadius: 10
-  focusCentering: 0.25
+  focusCentering: 0.724
   rotationSpeed: 203
   minVerticalAngle: 5
   maxVerticalAngle: 35
@@ -2688,7 +2696,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh15708
+  m_Name: pb_Mesh15722
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
