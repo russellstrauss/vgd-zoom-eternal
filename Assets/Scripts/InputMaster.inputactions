@@ -2,17 +2,9 @@
     "name": "InputMaster",
     "maps": [
         {
-            "name": "Gameplay",
+            "name": "Player",
             "id": "421fa351-efbd-4880-9351-69b8db252ed4",
             "actions": [
-                {
-                    "name": "Look",
-                    "type": "Value",
-                    "id": "96b58e53-6fdf-4d57-95b5-0da66eb0d817",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
-                },
                 {
                     "name": "Move",
                     "type": "Value",
@@ -33,22 +25,11 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "a7067b76-4d5d-44b5-a006-4fa6d5848c05",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "6e88b920-f7b3-4798-9806-f4c61e5e57ab",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Controls",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -59,7 +40,7 @@
                     "path": "<Gamepad>/dpad",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Controls",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -81,7 +62,7 @@
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Controls",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -92,7 +73,7 @@
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Controls",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -103,7 +84,7 @@
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Controls",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -114,7 +95,7 @@
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Controls",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -125,7 +106,7 @@
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Controls",
                     "action": "Select",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -136,7 +117,7 @@
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Controls",
                     "action": "Select",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -144,5 +125,22 @@
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "Controls",
+            "bindingGroup": "Controls",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": true,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": true,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }

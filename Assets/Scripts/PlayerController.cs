@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour {
+	
 	private const string Tag = "Pick Up";
 	public float speed;
 	public TextMeshProUGUI countText;
@@ -25,9 +26,9 @@ public class PlayerController : MonoBehaviour {
 	void Awake() {
 		controls = new InputMaster();
 		if (controls != null) {
-			controls.Gameplay.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
-			controls.Gameplay.Move.canceled += ctx => movementInput = Vector2.zero;
-			controls.Gameplay.Select.performed += ctx => Jump();
+			// controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
+			// controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
+			controls.Player.Select.performed += ctx => Jump();
 		}
 	}
 	
@@ -48,18 +49,18 @@ public class PlayerController : MonoBehaviour {
 	
 	void Jump() {
 		if (jumpCount < 2) {
-			rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
-			FindObjectOfType<AudioManager>().Play("Ting");
+		// 	rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
+		// 	FindObjectOfType<AudioManager>().Play("Ting");
 			jumpCount++;
 		}
 	}
 	
 	void OnEnable() {
-		if (controls != null) controls.Gameplay.Enable();
+		if (controls != null) controls.Player.Enable();
 	}
 	
 	void OnDisable() {
-		if (controls != null) controls.Gameplay.Disable();
+		if (controls != null) controls.Player.Disable();
 	}
 
 	void FixedUpdate() {
