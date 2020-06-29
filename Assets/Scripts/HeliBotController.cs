@@ -55,7 +55,7 @@ public class HeliBotController : MonoBehaviour
 			}
 		}
 		propeller.transform.Rotate(new Vector3(0, propellerRotationSpeed, 0) * Time.deltaTime);
-		Debug.Log("propellerRotationSpeed: " + propellerRotationSpeed + " propellerTimer: " + propellerTimer);
+		// Debug.Log("propellerRotationSpeed: " + propellerRotationSpeed + " propellerTimer: " + propellerTimer);
 	}
 
 	void OnCollisionEnter(Collision collision)
