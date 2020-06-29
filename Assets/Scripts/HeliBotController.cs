@@ -15,14 +15,15 @@ public class HeliBotController : MonoBehaviour
 	private Boolean propellerOn = false;
 	private Rigidbody rb;
 	private GameObject propeller;
-	private float propellerRotation;
-	private float timer = 0.0f;
-	private float propellerRotationBaseSpeed = 2f;
+	private float propellerRotationSpeed;
+	private float propellerMaxSpeed = 3000f;
+	private float propellerTimer = 0.0f;
+	private float propellerRotationBaseSpeed = 4f; // exponential
 	// bot
-	private float maxSpeed = 3000f;
 	private float health = 100f;
 	private float botRotationSpeed = 100f;
 	private float botMovementSpeed = 25f;
+	private int count = 0;
 	
 	void Awake() {
 		controls = new InputMaster();
@@ -45,15 +46,16 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	void Update() {
-		timer += Time.deltaTime;
-		if (propellerRotation < maxSpeed && propellerOn) propellerRotation = (float)Math.Pow(propellerRotationBaseSpeed, timer);
-		else {
-			if (propellerRotation > 0) propellerRotation -= 10;
+		propellerTimer += Time.deltaTime;
+		if (propellerRotationSpeed < propellerMaxSpeed && propellerOn) propellerRotationSpeed = (float)Math.Pow(propellerRotationBaseSpeed, propellerTimer);
+		else if (!propellerOn) {
+			if (propellerRotationSpeed > 0) propellerRotationSpeed -= (propellerTimer * 5);
 			else {
-				propellerRotation = 0;
+				propellerRotationSpeed = 0;
 			}
 		}
-		propeller.transform.Rotate(new Vector3(0, propellerRotation, 0) * Time.deltaTime);
+		propeller.transform.Rotate(new Vector3(0, propellerRotationSpeed, 0) * Time.deltaTime);
+		Debug.Log("propellerRotationSpeed: " + propellerRotationSpeed + " propellerTimer: " + propellerTimer);
 	}
 
 	void OnCollisionEnter(Collision collision)
@@ -88,10 +90,14 @@ public class HeliBotController : MonoBehaviour
 	
 	void PropellerOn() {
 		propellerOn = true;
+		propellerTimer = 0;
+		count++;
 	}
 	
 	void PropellerOff() {
 		propellerOn = false;
+		propellerTimer = 0;
+		count++;
 	}
 	
 	void Reset() {
