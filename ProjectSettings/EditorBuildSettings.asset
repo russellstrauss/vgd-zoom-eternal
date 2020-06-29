@@ -12,5 +12,5 @@ EditorBuildSettings:
     path: Assets/Scenes/FlatArena.unity
     guid: 7b69b328cea71734e86d4f78d58159fd
   m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: 6caed87764e99b04794b242a00e2db33,
+    com.unity.input.settings: {fileID: 11400000, guid: d0d12858e465c564c9d13bddb9817c3e,
       type: 2}
