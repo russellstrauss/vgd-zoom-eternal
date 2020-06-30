@@ -7,7 +7,7 @@ public class get_close_to_shoot_fire : MonoBehaviour
     private GameObject wayPoint;
     private Vector3 wayPointPos;
     //This will be the AI's speed. Adjust as necessary.
-    private float speed = 6.0f;
+    private float speed = 10.0f;
     private Transform Target;
     private float RotationSpeed = 3.0f;
 

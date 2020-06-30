@@ -16,6 +16,7 @@ public class HeliBotController : MonoBehaviour
 	// Win state
 	public TextMeshProUGUI winText;
 	public TextMeshProUGUI loseText;
+	public TextMeshProUGUI playerHealthLabel;
 	private string winTextDefault;
 	private string loseTextDefault;
 	private GameObject enemyWayPoint;
@@ -31,7 +32,8 @@ public class HeliBotController : MonoBehaviour
 	private float propellerRotationBaseSpeed = 4f; // exponential
 	
 	// bot
-	private float health = 100f;
+	private float healthDefault = 1000f;
+	private float health = 1000f;
 	private float botRotationSpeed = 100f;
 	private float botMovementSpeed = 25f;
 	private Boolean grounded = false;
@@ -40,6 +42,7 @@ public class HeliBotController : MonoBehaviour
 	public GameObject explosionEffect;
 	public GameObject sparkEffect;
 	private GameObject explosion;
+	private GameObject enemy;
 	
 	// test vars
 	private int count = 0;
@@ -68,9 +71,10 @@ public class HeliBotController : MonoBehaviour
 		winText.text = "";
 		loseTextDefault = loseText.text;
 		loseText.text = "";
+		playerHealthLabel.text = health.ToString();
 		gameObject.tag = "Player";
 		enemyWayPoint = GameObject.Find("wayPoint");
-		
+		enemy = GameObject.FindWithTag("enemy");
 	}
 	
 	void Update() {
@@ -98,10 +102,15 @@ public class HeliBotController : MonoBehaviour
 		
 	}
 	
-	void OnCollisionEnter(Collision otherObject) {
+	void OnCollisionEnter(Collision otherObjectCollision) {
 		
 		//if (propellerRotationSpeed > propellerMaxSpeed / 2) Instantiate(sparkEffect, otherObject.transform.position, transform.rotation);
-		
+		if (otherObjectCollision.gameObject == enemy) {
+			
+			float damage = propellerRotationSpeed / 100;
+			enemy.GetComponent<EnemyController>().SubtractHealth(damage);
+			if (enemy.GetComponent<EnemyController>().health < .1) TriggerWinState();
+		}
 	}
 
 	void FixedUpdate() {
@@ -117,8 +126,6 @@ public class HeliBotController : MonoBehaviour
 		propellerOn = true;
 		propellerTimer = 0;
 		count++;
-		
-		UpdateHealth();
 	}
 	
 	void PropellerOff() {
@@ -128,11 +135,12 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	void Reset() {
-		health = 100f;
+		health = healthDefault;
 	}
 	
-	void UpdateHealth() {
-		health -= 50;
+	public void SubtractHealth(float amount) {
+		health -= amount;
+		playerHealthLabel.text = health.ToString();
 		if (health < .1) {
 			TriggerDeathState();
 		}
@@ -141,6 +149,10 @@ public class HeliBotController : MonoBehaviour
 	void TriggerDeathState() {
 		loseText.text = loseTextDefault;
 		Explode();
+	}
+	
+	void TriggerWinState() {
+		winText.text = winTextDefault;
 	}
 	
 	void Explode() {

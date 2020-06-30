@@ -18,6 +18,11 @@ public class EnemyController : MonoBehaviour {
 	public float explosionUpward;
 	public Material explosionParticleMaterial;
 	private Renderer particleRenderer;
+	private GameObject player;
+	public float health = 1000f;
+	public TextMeshProUGUI enemyHealthLabel;
+	private int gravityMultiplier = 10000;
+	Rigidbody enemyRB;
 	
 	void Start() {
 		collisionCount = 0;
@@ -27,23 +32,34 @@ public class EnemyController : MonoBehaviour {
 		particlesPivot = new Vector3(particlePivotDistance, particlePivotDistance, particlePivotDistance);
 		
 		particleRenderer = GetComponent<Renderer>();
+		player = GameObject.FindWithTag("Player");
+		enemyHealthLabel.text = health.ToString();
+		enemyRB = gameObject.GetComponent<Rigidbody>();
 	}
 
 	void Update() {
-		
+		enemyRB.AddForce(-transform.up * gravityMultiplier, ForceMode.Force);
 	}
 	
 	void OnCollisionEnter(Collision collision) 
 	{
 		
-		if (collision.gameObject.CompareTag("Player")) {
+		if (collision.gameObject == player) {
+			
+			player.GetComponent<HeliBotController>().SubtractHealth(10);
 			
 			collisionCount++;
-			//Vector3 contactPoint = collision.contacts[0].normal;
-			//rb.AddForce(contactPoint * 500);
 			FindObjectOfType<AudioManager>().Play("crash");
 			
-			if (collisionCount > 4) explode();
+		}
+	}
+	
+	public void SubtractHealth(float amount) {
+		health -= amount;
+		if (enemyHealthLabel != null) enemyHealthLabel.text = health.ToString();
+		
+		if (health < .1) {
+			explode();
 		}
 	}
 	
