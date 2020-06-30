@@ -11,18 +11,27 @@ public class HeliBotController : MonoBehaviour
 	InputMaster controls;
 	private Vector3 playerStartPosition;
 	private Vector3 cameraStartPosition;
+	
 	// propeller
 	private Boolean propellerOn = false;
-	private Rigidbody rb;
+	private Rigidbody propellerRB;
+	private Rigidbody baseRB;
 	private GameObject propeller;
 	private float propellerRotationSpeed;
 	private float propellerMaxSpeed = 3000f;
 	private float propellerTimer = 0.0f;
 	private float propellerRotationBaseSpeed = 4f; // exponential
+	
 	// bot
 	private float health = 100f;
 	private float botRotationSpeed = 100f;
 	private float botMovementSpeed = 25f;
+	private Boolean grounded = false;
+	private GameObject[] wheels;
+	private int contactPoints = 0;
+	private int gravityMultiplier = 40000;
+	
+	// test vars
 	private int count = 0;
 	
 	void Awake() {
@@ -41,8 +50,10 @@ public class HeliBotController : MonoBehaviour
 	void Start() {
 		Reset();
 		propeller = GameObject.Find("Propeller");
-		rb = propeller.GetComponent<Rigidbody>();
+		propellerRB = propeller.GetComponent<Rigidbody>();
+		baseRB = gameObject.GetComponent<Rigidbody>();
 		mainCamera = GameObject.FindWithTag("MainCamera");
+		GameObject[] wheels = { GameObject.Find("Wheel"), GameObject.Find("Wheel (1)"), GameObject.Find("Wheel (2)"), GameObject.Find("Wheel (3)")};
 	}
 	
 	void Update() {
@@ -57,35 +68,20 @@ public class HeliBotController : MonoBehaviour
 		propeller.transform.Rotate(new Vector3(0, propellerRotationSpeed, 0) * Time.deltaTime);
 		// Debug.Log("propellerRotationSpeed: " + propellerRotationSpeed + " propellerTimer: " + propellerTimer);
 	}
-
-	void OnCollisionEnter(Collision collision)
-	{
-		// ContactPoint contact = collision.contacts[0];
-		// Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
-		// Vector3 pos = contact.point;
+	
+	void OnCollisionStay(Collision collision) {
 		
-		Vector3 contactPoint = collision.contacts[0].normal;
-		// rb.AddForce(contactPoint * 500);
-		// FindObjectOfType<AudioManager>().Play("crash");
-			
-			
-		if (collision.gameObject.CompareTag("Player") && collision.gameObject.GetComponent<Rigidbody>() != null) {
-			
-			Rigidbody gameObjectRB = collision.gameObject.GetComponent<Rigidbody>();
-			gameObjectRB.AddForce(contactPoint * 5000, ForceMode.Impulse);
-		}
-	}
+    }
 
 	void FixedUpdate() {
-		
-		// Vector3 cameraForward = mainCamera.transform.forward.normalized;
-		// Vector3 cameraRight = mainCamera.transform.right.normalized;
-		// cameraForward.y = 0;
-		// cameraRight.y = 0;
-		
-		// Vector3 movement = cameraForward * movementInput.y + cameraRight * movementInput.x;
-		gameObject.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
-		if (movementInput.y < -0.5 || movementInput.y > .5) transform.position += transform.forward * Time.deltaTime * botMovementSpeed * (movementInput.y / 2);
+	
+		if (!(movementInput.y < -0.5 || movementInput.y > .5)) gameObject.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
+		if ((movementInput.y < -0.5 || movementInput.y > .5)) {
+			//baseRB.AddForce(transform.forward * 5000 * movementInput.y, ForceMode.Force);
+			// baseRB.velocity += (transform.forward * movementInput.y);
+			baseRB.AddForce(transform.forward * 2000 * movementInput.y, ForceMode.Impulse);
+		}
+		baseRB.AddForce(-transform.up * gravityMultiplier, ForceMode.Force);
 	}
 	
 	void PropellerOn() {
