@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class HeliBotController : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class HeliBotController : MonoBehaviour
 	InputMaster controls;
 	private Vector3 playerStartPosition;
 	private Vector3 cameraStartPosition;
+	
+	// Win state
+	public TextMeshProUGUI winText;
+	private string winTextDefault;
 	
 	// propeller
 	private Boolean propellerOn = false;
@@ -27,9 +32,11 @@ public class HeliBotController : MonoBehaviour
 	private float botRotationSpeed = 100f;
 	private float botMovementSpeed = 25f;
 	private Boolean grounded = false;
-	private GameObject[] wheels;
 	private int contactPoints = 0;
 	private int gravityMultiplier = 40000;
+	public GameObject explosionEffect;
+	public GameObject sparkEffect;
+	private GameObject explosion;
 	
 	// test vars
 	private int count = 0;
@@ -39,6 +46,7 @@ public class HeliBotController : MonoBehaviour
 		if (controls != null) {
 			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
 			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
+			
 			controls.Player.Select.performed += ctx => PropellerOn();
 			controls.Player.Select.canceled += ctx => PropellerOff();
 		}
@@ -53,7 +61,9 @@ public class HeliBotController : MonoBehaviour
 		propellerRB = propeller.GetComponent<Rigidbody>();
 		baseRB = gameObject.GetComponent<Rigidbody>();
 		mainCamera = GameObject.FindWithTag("MainCamera");
-		GameObject[] wheels = { GameObject.Find("Wheel"), GameObject.Find("Wheel (1)"), GameObject.Find("Wheel (2)"), GameObject.Find("Wheel (3)")};
+		winTextDefault = winText.text;
+		winText.text = "";
+		gameObject.tag = "Player";
 	}
 	
 	void Update() {
@@ -67,11 +77,20 @@ public class HeliBotController : MonoBehaviour
 		}
 		propeller.transform.Rotate(new Vector3(0, propellerRotationSpeed, 0) * Time.deltaTime);
 		// Debug.Log("propellerRotationSpeed: " + propellerRotationSpeed + " propellerTimer: " + propellerTimer);
+		if (explosion != null) {
+			explosion.transform.position = propeller.transform.position;
+			explosion.transform.rotation = propeller.transform.rotation;
+		}
 	}
 	
 	void OnCollisionStay(Collision collision) {
 		
-    }
+	}
+	
+	void OnCollisionEnter(Collision otherObject) {
+		
+		//if (propellerRotationSpeed > propellerMaxSpeed / 2) Instantiate(sparkEffect, otherObject.transform.position, transform.rotation);
+	}
 
 	void FixedUpdate() {
 	
@@ -86,6 +105,8 @@ public class HeliBotController : MonoBehaviour
 		propellerOn = true;
 		propellerTimer = 0;
 		count++;
+		
+		// UpdateHealth();
 	}
 	
 	void PropellerOff() {
@@ -96,5 +117,22 @@ public class HeliBotController : MonoBehaviour
 	
 	void Reset() {
 		health = 100f;
+	}
+	
+	void UpdateHealth() {
+		health -= 50;
+		if (health < .1) {
+			TriggerDeathState();
+		}
+	}
+	
+	void TriggerDeathState() {
+		winText.text = winTextDefault;
+		Explode();
+	}
+	
+	void Explode() {
+		explosion = Instantiate(explosionEffect, propeller.transform.position, transform.rotation);
+		controls.Player.Disable();
 	}
 }
