@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Shootable
+  - enemy
+  - Floor
+  - saw
+  - FireLayer
   layers:
   - Default
   - TransparentFX
@@ -17,7 +21,7 @@ TagManager:
   - Lighting
   - Ground
   - Postprocessing
-  - 
+  - FireLayer
   - 
   - 
   - 

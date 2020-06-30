@@ -16,6 +16,7 @@ public class HeliBotController : MonoBehaviour
 	// Win state
 	public TextMeshProUGUI winText;
 	private string winTextDefault;
+	private GameObject enemyWayPoint;
 	
 	// propeller
 	private Boolean propellerOn = false;
@@ -64,6 +65,7 @@ public class HeliBotController : MonoBehaviour
 		winTextDefault = winText.text;
 		winText.text = "";
 		gameObject.tag = "Player";
+		enemyWayPoint = GameObject.Find("wayPoint");
 	}
 	
 	void Update() {
@@ -80,6 +82,10 @@ public class HeliBotController : MonoBehaviour
 		if (explosion != null) {
 			explosion.transform.position = propeller.transform.position;
 			explosion.transform.rotation = propeller.transform.rotation;
+		}
+		
+		if (enemyWayPoint != null) {
+			enemyWayPoint.transform.position = gameObject.transform.position;
 		}
 	}
 	
