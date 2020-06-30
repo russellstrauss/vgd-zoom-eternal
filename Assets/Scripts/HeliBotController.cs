@@ -77,8 +77,6 @@ public class HeliBotController : MonoBehaviour
 	
 		if (!(movementInput.y < -0.5 || movementInput.y > .5)) gameObject.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
 		if ((movementInput.y < -0.5 || movementInput.y > .5)) {
-			//baseRB.AddForce(transform.forward * 5000 * movementInput.y, ForceMode.Force);
-			// baseRB.velocity += (transform.forward * movementInput.y);
 			baseRB.AddForce(transform.forward * 2000 * movementInput.y, ForceMode.Impulse);
 		}
 		baseRB.AddForce(-transform.up * gravityMultiplier, ForceMode.Force);
