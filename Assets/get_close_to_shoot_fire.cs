@@ -74,7 +74,7 @@ public class get_close_to_shoot_fire : MonoBehaviour
     }
     if (distance > trail + 4) {
         //gonna try and shoot some fire!
-        Debug.Log("I think i wana stop shooting fire?" + Prefabs.Length);
+        //Debug.Log("I think i wana stop shooting fire?" + Prefabs.Length);
         StopCurrent();
     }
     }

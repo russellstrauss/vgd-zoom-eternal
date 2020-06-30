@@ -15,7 +15,9 @@ public class HeliBotController : MonoBehaviour
 	
 	// Win state
 	public TextMeshProUGUI winText;
+	public TextMeshProUGUI loseText;
 	private string winTextDefault;
+	private string loseTextDefault;
 	private GameObject enemyWayPoint;
 	
 	// propeller
@@ -64,8 +66,11 @@ public class HeliBotController : MonoBehaviour
 		mainCamera = GameObject.FindWithTag("MainCamera");
 		winTextDefault = winText.text;
 		winText.text = "";
+		loseTextDefault = loseText.text;
+		loseText.text = "";
 		gameObject.tag = "Player";
 		enemyWayPoint = GameObject.Find("wayPoint");
+		
 	}
 	
 	void Update() {
@@ -113,7 +118,7 @@ public class HeliBotController : MonoBehaviour
 		propellerTimer = 0;
 		count++;
 		
-		// UpdateHealth();
+		UpdateHealth();
 	}
 	
 	void PropellerOff() {
@@ -134,7 +139,7 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	void TriggerDeathState() {
-		winText.text = winTextDefault;
+		loseText.text = loseTextDefault;
 		Explode();
 	}
 	
