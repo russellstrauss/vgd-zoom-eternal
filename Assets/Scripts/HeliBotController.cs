@@ -90,6 +90,7 @@ public class HeliBotController : MonoBehaviour
 	void OnCollisionEnter(Collision otherObject) {
 		
 		//if (propellerRotationSpeed > propellerMaxSpeed / 2) Instantiate(sparkEffect, otherObject.transform.position, transform.rotation);
+		
 	}
 
 	void FixedUpdate() {
