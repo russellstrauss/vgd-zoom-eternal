@@ -56,7 +56,7 @@ public class get_close_to_shoot_fire : MonoBehaviour
 
     //rotate us over time according to speed until we are in the required rotation
     transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * RotationSpeed);
-    if (distance < trail + 2) {
+    if (distance < trail + 4) {
         //gonna try and shoot some fire!
 
         if (GameObject.Find("Flamethrower(Clone)") != null) {
@@ -68,11 +68,11 @@ public class get_close_to_shoot_fire : MonoBehaviour
             //Debug.Log("at pt" + fire.transform.position);
         } else {
             //does not exist so lets make flame
-            Debug.Log("Making flame");
+            //Debug.Log("Making flame");
             BeginEffect();
         }
     }
-    if (distance > trail + 4) {
+    if (distance > trail + 6) {
         //gonna try and shoot some fire!
         //Debug.Log("I think i wana stop shooting fire?" + Prefabs.Length);
         StopCurrent();
