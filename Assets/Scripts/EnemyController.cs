@@ -33,12 +33,13 @@ public class EnemyController : MonoBehaviour {
 		
 		particleRenderer = GetComponent<Renderer>();
 		player = GameObject.FindWithTag("Player");
-		enemyHealthLabel.text = health.ToString();
+		Debug.Log("Health " + health.ToString());
+		if (enemyHealthLabel != null) enemyHealthLabel.text = health.ToString();
 		enemyRB = gameObject.GetComponent<Rigidbody>();
 	}
 
 	void Update() {
-		enemyRB.AddForce(-transform.up * gravityMultiplier, ForceMode.Force);
+		if (enemyRB != null) enemyRB.AddForce(-transform.up * gravityMultiplier, ForceMode.Force);
 	}
 	
 	void OnCollisionEnter(Collision collision) 

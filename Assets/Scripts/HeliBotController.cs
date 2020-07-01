@@ -33,7 +33,7 @@ public class HeliBotController : MonoBehaviour
 	
 	// bot
 	private float healthDefault = 1000f;
-	private float health = 1000f;
+	public float health = 1000f;
 	private float botRotationSpeed = 100f;
 	private float botMovementSpeed = 25f;
 	private Boolean grounded = false;
@@ -67,11 +67,15 @@ public class HeliBotController : MonoBehaviour
 		propellerRB = propeller.GetComponent<Rigidbody>();
 		baseRB = gameObject.GetComponent<Rigidbody>();
 		mainCamera = GameObject.FindWithTag("MainCamera");
-		winTextDefault = winText.text;
-		winText.text = "";
-		loseTextDefault = loseText.text;
-		loseText.text = "";
-		playerHealthLabel.text = health.ToString();
+		if (winText != null) {
+			winTextDefault = winText.text;
+			winText.text = "";
+		}
+		if (loseText != null) {
+			loseTextDefault = loseText.text;
+			loseText.text = "";
+		}
+		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString();
 		gameObject.tag = "Player";
 		enemyWayPoint = GameObject.Find("wayPoint");
 		enemy = GameObject.FindWithTag("enemy");
@@ -140,10 +144,14 @@ public class HeliBotController : MonoBehaviour
 	
 	public void SubtractHealth(float amount) {
 		health -= amount;
-		playerHealthLabel.text = health.ToString();
+		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString();
 		if (health < .1) {
 			TriggerDeathState();
 		}
+	}
+	
+	public void AddHealth(float amount) {
+		health += amount;
 	}
 	
 	void TriggerDeathState() {

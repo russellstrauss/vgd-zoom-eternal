@@ -11,7 +11,7 @@ public class HazardController : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
 
-    	if (other.CompareTag("Player")){
+    	if (other.gameObject.CompareTag("Player")){
     		// Pickup(other);
 			Debug.Log("!!!!!!!!!!!!!!!");
     		StartCoroutine(Pickup(other));
