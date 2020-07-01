@@ -4,32 +4,36 @@ using UnityEngine;
 namespace DigitalRuby.PyroParticles {
 public class get_close_to_shoot_fire : MonoBehaviour
 {
-    private GameObject wayPoint;
-    private Vector3 wayPointPos;
-    //This will be the AI's speed. Adjust as necessary.
-    private float speed = 10.0f;
-    private Transform Target;
-    private float RotationSpeed = 3.0f;
+	private GameObject wayPoint;
+	private Vector3 wayPointPos;
+	//This will be the AI's speed. Adjust as necessary.
+	private float speed = 10.0f;
+	private Transform Target;
+	private float RotationSpeed = 3.0f;
 
-     //values for internal u
-     private Quaternion _lookRotation;
-     private Vector3 _direction;
-     private float distance;
-     private float trail = 8.0f;
-     public GameObject[] Prefabs;
-     public UnityEngine.UI.Text CurrentItemText;
+	//values for internal u
+	private Quaternion _lookRotation;
+	private Vector3 _direction;
+	private float distance;
+	private float trail = 8.0f;
+	public GameObject[] Prefabs;
+	public UnityEngine.UI.Text CurrentItemText;
 
-     private GameObject currentPrefabObject;
-     private FireBaseScript currentPrefabScript;
-     private int currentPrefabIndex;
-     private Quaternion originalRotation;
+	private GameObject currentPrefabObject;
+	private FireBaseScript currentPrefabScript;
+	private int currentPrefabIndex;
+	private Quaternion originalRotation;
+	
+	// Player damage
+	private GameObject player;
+	
     void Start ()
     {
-      //At the start of the game, the zombies will find the gameobject called wayPoint.
-      wayPoint = GameObject.Find("wayPoint");
-      Target = wayPoint.transform;
-      originalRotation = transform.localRotation;
-
+		//At the start of the game, the zombies will find the gameobject called wayPoint.
+		wayPoint = GameObject.Find("wayPoint");
+		Target = wayPoint.transform;
+		originalRotation = transform.localRotation;
+		player = GameObject.FindWithTag("Player");
     }
 
     void Update ()
@@ -65,6 +69,7 @@ public class get_close_to_shoot_fire : MonoBehaviour
             // Debug.Log("Game object exists");
             fire.transform.position =  transform.position+(transform.right*2)+transform.up*2;
             fire.transform.rotation = _lookRotation * Quaternion.Euler(0, 90, 0);
+			player.GetComponent<HeliBotController>().SubtractHealth(.15f);
             //Debug.Log("at pt" + fire.transform.position);
         } else {
             //does not exist so lets make flame

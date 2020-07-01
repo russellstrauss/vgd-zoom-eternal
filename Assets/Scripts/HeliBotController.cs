@@ -20,6 +20,7 @@ public class HeliBotController : MonoBehaviour
 	private string winTextDefault;
 	private string loseTextDefault;
 	private GameObject enemyWayPoint;
+	private int explodeCount = 0;
 	
 	// propeller
 	private Boolean propellerOn = false;
@@ -29,7 +30,7 @@ public class HeliBotController : MonoBehaviour
 	private float propellerRotationSpeed;
 	private float propellerMaxSpeed = 3000f;
 	private float propellerTimer = 0.0f;
-	private float propellerRotationBaseSpeed = 4f; // exponential
+	private float propellerRotationBaseSpeed = 5f; // exponential
 	
 	// bot
 	private float healthDefault = 1000f;
@@ -91,7 +92,6 @@ public class HeliBotController : MonoBehaviour
 			}
 		}
 		propeller.transform.Rotate(new Vector3(0, propellerRotationSpeed, 0) * Time.deltaTime);
-		// Debug.Log("propellerRotationSpeed: " + propellerRotationSpeed + " propellerTimer: " + propellerTimer);
 		if (explosion != null) {
 			explosion.transform.position = propeller.transform.position;
 			explosion.transform.rotation = propeller.transform.rotation;
@@ -108,12 +108,15 @@ public class HeliBotController : MonoBehaviour
 	
 	void OnCollisionEnter(Collision otherObjectCollision) {
 		
-		//if (propellerRotationSpeed > propellerMaxSpeed / 2) Instantiate(sparkEffect, otherObject.transform.position, transform.rotation);
 		if (otherObjectCollision.gameObject == enemy) {
 			
-			float damage = propellerRotationSpeed / 100;
+			float damage = propellerRotationSpeed / 40;
 			enemy.GetComponent<EnemyController>().SubtractHealth(damage);
 			if (enemy.GetComponent<EnemyController>().health < .1) TriggerWinState();
+			if (propellerOn && propellerRotationSpeed > propellerMaxSpeed * .9f) {
+				baseRB.AddForce(-transform.forward * 2000 * movementInput.y, ForceMode.Impulse);
+				propellerOn = false;
+			}
 		}
 	}
 
@@ -164,7 +167,8 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	void Explode() {
-		explosion = Instantiate(explosionEffect, propeller.transform.position, transform.rotation);
-		controls.Player.Disable();
+		if (explodeCount < 10) explosion = Instantiate(explosionEffect, propeller.transform.position, transform.rotation);
+		if (controls != null) controls.Player.Disable();
+		explodeCount++;
 	}
 }
