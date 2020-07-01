@@ -1401,8 +1401,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.3563128e-19, y: 9.596085e+11, z: 6.9767185e+22,
-    w: 4.6168024e+24}
+  m_BoundingSphereOverride: {x: 0, y: 4.48e-43, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -2187,7 +2186,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 67145669803331d4280778a162ef38e8, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -3661,22 +3660,22 @@ PrefabInstance:
     - target: {fileID: 5631375808888630384, guid: c7f9505a40fd241449cf2f92c9292a6c,
         type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 1.5051888e+37
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5631375808888630384, guid: c7f9505a40fd241449cf2f92c9292a6c,
         type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 3.097271e+27
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 5631375808888630384, guid: c7f9505a40fd241449cf2f92c9292a6c,
         type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 6.973258e+22
+      value: 9.1834e-41
       objectReference: {fileID: 0}
     - target: {fileID: 5631375808888630384, guid: c7f9505a40fd241449cf2f92c9292a6c,
         type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 1.5586191e+28
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7f9505a40fd241449cf2f92c9292a6c, type: 3}
