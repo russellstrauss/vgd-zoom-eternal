@@ -5,10 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+	InputMaster controls;
     public GameObject pauseMenu;
     public static bool isPaused;
     
-    // Start is called before the first frame update
+	void Awake() {
+		controls = new InputMaster();
+		if (controls != null) {
+			controls.Player.Exit.performed += ctx => setState();
+		}
+	}
+	
     void Start()
     {
         pauseMenu.SetActive(false);
@@ -17,17 +24,18 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.Escape))
-        // {
-        //     if (isPaused)
-        //     {
-        //         ResumeGame();
-        //     } else
-        //     {
-        //         PauseGame();
-        //     }
-        // }
+
     }
+	
+	void setState() {
+		if (isPaused)
+		{
+			ResumeGame();
+		} else
+		{
+			PauseGame();
+		}
+	}
 
     public void PauseGame()
     {
@@ -53,4 +61,7 @@ public class PauseMenu : MonoBehaviour
     {
         Application.Quit();
     }
+	
+	void OnEnable()	{ if (controls != null) controls.Player.Enable(); }
+	void OnDisable() { if (controls != null) controls.Player.Disable(); }
 }
