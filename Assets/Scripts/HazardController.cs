@@ -7,24 +7,30 @@ public class HazardController : MonoBehaviour
 	public GameObject pickupEffect;
 	// public float multiplier = 1.4f;
 	public float duration = 2;
+	private GameObject player;
+	void Start()
+	{
+		// var rb = GetComponent<Rigidbody>();
+        // rb.angularVelocity = Random.insideUnitSphere;
+		player = GameObject.FindWithTag("Player");
+	}
 
     void OnTriggerEnter(Collider other)
     {
 
     	if (other.gameObject.CompareTag("Player")){
     		// Pickup(other);
-			Debug.Log("!!!!!!!!!!!!!!!Hazard");
     		StartCoroutine(Pickup(other));
 			GetComponent<TimeStop>().StopTime(0.05f, 10, 0.1f);
 		}
     }
-    IEnumerator Pickup(Collider player)
+    IEnumerator Pickup(Collider other)
     {
     	// Debug.Log("Hazard is being picked");
     	GameObject clone = Instantiate(pickupEffect, transform.position, transform.rotation);
     	
     	// TODO add more healthy to the player
-		player.GetComponent<HeliBotController>().AddHealth(-100);
+		player.GetComponent<HeliBotController>().SubtractHealth(100);
 
     	// GetComponent<MeshRenderer>().enabled = false;
     	// GetComponent<Collider>().enabled = false;

@@ -2936,7 +2936,7 @@ MonoBehaviour:
     pitch: 1.15
     loop: 0
     source: {fileID: 0}
-  - name: Ting
+  - name: ting
     clip: {fileID: 8300000, guid: 112add87d0c603440829fa6fe770a57a, type: 3}
     volume: 1
     pitch: 1.15
@@ -5638,6 +5638,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Saw_Blade_particles
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780677048650408341, guid: 8b027c5cc426b435b805f047a93899e3,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780677048650408341, guid: 8b027c5cc426b435b805f047a93899e3,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7780677048650408342, guid: 8b027c5cc426b435b805f047a93899e3,
         type: 3}
