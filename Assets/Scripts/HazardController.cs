@@ -13,7 +13,7 @@ public class HazardController : MonoBehaviour
 
     	if (other.gameObject.CompareTag("Player")){
     		// Pickup(other);
-			Debug.Log("!!!!!!!!!!!!!!!");
+			Debug.Log("!!!!!!!!!!!!!!!Hazard");
     		StartCoroutine(Pickup(other));
 			GetComponent<TimeStop>().StopTime(0.05f, 10, 0.1f);
 		}
@@ -24,6 +24,7 @@ public class HazardController : MonoBehaviour
     	GameObject clone = Instantiate(pickupEffect, transform.position, transform.rotation);
     	
     	// TODO add more healthy to the player
+		player.GetComponent<HeliBotController>().AddHealth(-100);
 
     	// GetComponent<MeshRenderer>().enabled = false;
     	// GetComponent<Collider>().enabled = false;

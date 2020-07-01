@@ -28,41 +28,39 @@ public class PowerUpController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-		Debug.Log(other.gameObject.tag);
+		// Debug.Log(other.gameObject.tag);
+		Debug.Log("PowerUp");
     	if (other.gameObject.CompareTag("Player")) {
-			
-			Debug.Log("player collsion");
-			
     		// Pickup(other);
     		StartCoroutine(Pickup(other));
-			// FindObjectOfType<AudioManager>().Play("ting");
-			FindObjectOfType<AudioManager>().Play("crash");
+			FindObjectOfType<AudioManager>().Play("ting");
+			// FindObjectOfType<AudioManager>().Play("crash");
 			
     	}
 
 
     }
 	
-    IEnumerator Pickup(Collider player)
+    IEnumerator Pickup(Collider other)
     {
     	
     	// TODO add more healthy to the player
-		if (player.GetComponent<HeliBotController>().health < 1200) {
+		// if (player.GetComponent<HeliBotController>().health < 1200) {
 			
-			Debug.Log("Power up is being picked");
-			GameObject clone = Instantiate(pickupEffect, transform.position, transform.rotation);
-			player.GetComponent<HeliBotController>().AddHealth(100);
-			GetComponent<MeshRenderer>().enabled = false;
-			GetComponent<Collider>().enabled = false;
+		Debug.Log("Power up is being picked");
+		GameObject clone = Instantiate(pickupEffect, transform.position, transform.rotation);
+		player.GetComponent<HeliBotController>().AddHealth(100);
+		GetComponent<MeshRenderer>().enabled = false;
+		GetComponent<Collider>().enabled = false;
 
-			//remove the effect from theplayer
-			yield return new WaitForSeconds(duration);
-			//wait x amount of seconds
+		//remove the effect from theplayer
+		yield return new WaitForSeconds(duration);
+		//wait x amount of seconds
 
-			// remove power up object
-			ParticleSystem.MainModule particle = clone.GetComponent<ParticleSystem>().main;
-			Destroy(clone, particle.duration);
-			Destroy(gameObject);
-		}
+		// remove power up object
+		ParticleSystem.MainModule particle = clone.GetComponent<ParticleSystem>().main;
+		Destroy(clone, particle.duration);
+		Destroy(gameObject);
+		// }
     }
 }
