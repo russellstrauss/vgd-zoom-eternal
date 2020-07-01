@@ -9,6 +9,7 @@ TagManager:
   - Floor
   - saw
   - FireLayer
+  - Pick Up
   layers:
   - Default
   - TransparentFX

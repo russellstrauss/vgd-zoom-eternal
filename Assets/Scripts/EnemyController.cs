@@ -33,7 +33,6 @@ public class EnemyController : MonoBehaviour {
 		
 		particleRenderer = GetComponent<Renderer>();
 		player = GameObject.FindWithTag("Player");
-		Debug.Log("Health " + health.ToString());
 		if (enemyHealthLabel != null) enemyHealthLabel.text = health.ToString();
 		enemyRB = gameObject.GetComponent<Rigidbody>();
 	}
@@ -46,12 +45,8 @@ public class EnemyController : MonoBehaviour {
 	{
 		
 		if (collision.gameObject == player) {
-			
-			player.GetComponent<HeliBotController>().SubtractHealth(10);
-			
 			collisionCount++;
 			FindObjectOfType<AudioManager>().Play("crash");
-			
 		}
 	}
 	
