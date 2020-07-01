@@ -36,7 +36,7 @@ public class HeliBotController : MonoBehaviour
 	private float healthDefault = 1000f;
 	public float health = 1000f;
 	private float botRotationSpeed = 100f;
-	private float botMovementSpeed = 25f;
+	public float botMovementSpeed = 2000f;
 	private Boolean grounded = false;
 	private int contactPoints = 0;
 	private int gravityMultiplier = 40000;
@@ -114,7 +114,7 @@ public class HeliBotController : MonoBehaviour
 			enemy.GetComponent<EnemyController>().SubtractHealth(damage);
 			if (enemy.GetComponent<EnemyController>().health < .1) TriggerWinState();
 			if (propellerOn && propellerRotationSpeed > propellerMaxSpeed * .9f) {
-				baseRB.AddForce(-transform.forward * 2000 * movementInput.y, ForceMode.Impulse);
+				baseRB.AddForce(transform.up * 2000 * movementInput.y, ForceMode.Impulse);
 				propellerOn = false;
 			}
 		}
@@ -124,9 +124,10 @@ public class HeliBotController : MonoBehaviour
 	
 		if (!(movementInput.y < -0.5 || movementInput.y > .5)) gameObject.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
 		if ((movementInput.y < -0.5 || movementInput.y > .5)) {
-			baseRB.AddForce(transform.forward * 2000 * movementInput.y, ForceMode.Impulse);
+			Debug.Log(botMovementSpeed);
+			baseRB.AddForce(transform.forward * botMovementSpeed * movementInput.y, ForceMode.Impulse);
 		}
-		baseRB.AddForce(-transform.up * gravityMultiplier, ForceMode.Force);
+		baseRB.AddForce(new Vector3(0, -1, 0) * gravityMultiplier, ForceMode.Force);
 	}
 	
 	void PropellerOn() {
@@ -151,6 +152,10 @@ public class HeliBotController : MonoBehaviour
 		if (health < .1) {
 			TriggerDeathState();
 		}
+	}
+	
+	public void setBotSpeed(float newSpeed) {
+		botMovementSpeed = newSpeed;
 	}
 	
 	public void AddHealth(float amount) {

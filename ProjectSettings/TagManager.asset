@@ -10,6 +10,7 @@ TagManager:
   - saw
   - FireLayer
   - Pick Up
+  - playerCollider
   layers:
   - Default
   - TransparentFX
