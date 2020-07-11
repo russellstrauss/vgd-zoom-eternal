@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
 	InputMaster controls;
+	Vector2 movementInput;
     public GameObject pauseMenu;
     public static bool isPaused;
     
@@ -13,6 +14,9 @@ public class PauseMenu : MonoBehaviour
 		controls = new InputMaster();
 		if (controls != null) {
 			controls.Player.Exit.performed += ctx => setState();
+			controls.Player.Move.performed+= ctx => selectMenu();
+			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
+			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
 		}
 	}
 	
@@ -21,13 +25,13 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
-
+		// Debug.Log(movementInput);
     }
 	
-	void setState() {
+	void setState() 
+	{
 		if (isPaused)
 		{
 			ResumeGame();
@@ -35,6 +39,11 @@ public class PauseMenu : MonoBehaviour
 		{
 			PauseGame();
 		}
+	}
+	
+	void selectMenu() 
+	{
+		
 	}
 
     public void PauseGame()

@@ -37,13 +37,14 @@ public class HeliBotController : MonoBehaviour
 	public float health = 1000f;
 	private float botRotationSpeed = 100f;
 	public float botMovementSpeed = 2000f;
-	private Boolean grounded = false;
+	private Boolean grounded = true;
 	private int contactPoints = 0;
 	private int gravityMultiplier = 40000;
 	public GameObject explosionEffect;
 	public GameObject sparkEffect;
 	private GameObject explosion;
 	private GameObject enemy;
+	private GameObject floor;
 	
 	// test vars
 	private int count = 0;
@@ -80,6 +81,7 @@ public class HeliBotController : MonoBehaviour
 		gameObject.tag = "Player";
 		enemyWayPoint = GameObject.Find("wayPoint");
 		enemy = GameObject.FindWithTag("enemy");
+		floor = GameObject.FindWithTag("Floor");
 	}
 	
 	void Update() {
@@ -110,7 +112,7 @@ public class HeliBotController : MonoBehaviour
 		
 		if (otherObjectCollision.gameObject == enemy) {
 			
-			float damage = propellerRotationSpeed / 40;
+			float damage = propellerRotationSpeed / 30;
 			enemy.GetComponent<EnemyController>().SubtractHealth(damage);
 			if (enemy.GetComponent<EnemyController>().health < .1) TriggerWinState();
 			if (propellerOn && propellerRotationSpeed > propellerMaxSpeed * .9f) {
@@ -118,13 +120,21 @@ public class HeliBotController : MonoBehaviour
 				propellerOn = false;
 			}
 		}
+		
+		if (otherObjectCollision.gameObject == floor) grounded = true;
+	}
+	
+	void OnCollisionExit(Collision otherObjectCollision) {
+		
+		if (otherObjectCollision.gameObject == floor) grounded = false;
 	}
 
 	void FixedUpdate() {
+		
+		Debug.Log(grounded);
 	
-		if (!(movementInput.y < -0.5 || movementInput.y > .5)) gameObject.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
-		if ((movementInput.y < -0.5 || movementInput.y > .5)) {
-			Debug.Log(botMovementSpeed);
+		if ((movementInput.x < -0.5 || movementInput.x > .5)) gameObject.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
+		if (grounded && (movementInput.y < -0.5 || movementInput.y > .5)) {
 			baseRB.AddForce(transform.forward * botMovementSpeed * movementInput.y, ForceMode.Impulse);
 		}
 		baseRB.AddForce(new Vector3(0, -1, 0) * gravityMultiplier, ForceMode.Force);
