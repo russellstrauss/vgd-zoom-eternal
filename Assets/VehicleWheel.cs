@@ -5,10 +5,8 @@ using UnityEngine;
 public class VehicleWheel : MonoBehaviour
 {
     public WheelCollider targetWheel;
-    private Vector3 wheelPosition = new Vector3();
-    private Quaternion wheelRotation = new Quaternion();
-    // Start is called before the first frame update
-    // Update is called once per frame
+    // private Vector3 wheelPosition = new Vector3();
+    // private Quaternion wheelRotation = new Quaternion();
     void Update()
     {
         // targetWheel.GetWorldPose(out wheelPosition, out wheelRotation);

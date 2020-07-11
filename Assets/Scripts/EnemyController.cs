@@ -33,7 +33,7 @@ public class EnemyController : MonoBehaviour {
 		
 		particleRenderer = GetComponent<Renderer>();
 		player = GameObject.FindWithTag("Player");
-		if (enemyHealthLabel != null) enemyHealthLabel.text = health.ToString();
+		if (enemyHealthLabel != null) enemyHealthLabel.text = health.ToString("0");
 		enemyRB = gameObject.GetComponent<Rigidbody>();
 	}
 
@@ -52,7 +52,7 @@ public class EnemyController : MonoBehaviour {
 	
 	public void SubtractHealth(float amount) {
 		health -= amount;
-		if (enemyHealthLabel != null) enemyHealthLabel.text = health.ToString();
+		if (enemyHealthLabel != null) enemyHealthLabel.text = health.ToString("0");
 		
 		if (health < .1) {
 			explode();

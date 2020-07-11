@@ -34,11 +34,10 @@ public class HeliBotController : MonoBehaviour
 	
 	// bot
 	private float healthDefault = 1000f;
-	public float health = 1000f;
+	private float health = 1000f;
 	private float botRotationSpeed = 100f;
 	public float botMovementSpeed = 2000f;
 	private Boolean grounded = true;
-	private int contactPoints = 0;
 	private int gravityMultiplier = 40000;
 	public GameObject explosionEffect;
 	public GameObject sparkEffect;
@@ -77,31 +76,13 @@ public class HeliBotController : MonoBehaviour
 			loseTextDefault = loseText.text;
 			loseText.text = "";
 		}
-		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString();
+		if (playerHealthLabel != null) {
+			playerHealthLabel.text = health.ToString("0");
+		}
 		gameObject.tag = "Player";
 		enemyWayPoint = GameObject.Find("wayPoint");
 		enemy = GameObject.FindWithTag("enemy");
 		floor = GameObject.FindWithTag("Floor");
-	}
-	
-	void Update() {
-		propellerTimer += Time.deltaTime;
-		if (propellerRotationSpeed < propellerMaxSpeed && propellerOn) propellerRotationSpeed = (float)Math.Pow(propellerRotationBaseSpeed, propellerTimer);
-		else if (!propellerOn) {
-			if (propellerRotationSpeed > 0) propellerRotationSpeed -= (propellerTimer * 5);
-			else {
-				propellerRotationSpeed = 0;
-			}
-		}
-		propeller.transform.Rotate(new Vector3(0, propellerRotationSpeed, 0) * Time.deltaTime);
-		if (explosion != null) {
-			explosion.transform.position = propeller.transform.position;
-			explosion.transform.rotation = propeller.transform.rotation;
-		}
-		
-		if (enemyWayPoint != null) {
-			enemyWayPoint.transform.position = gameObject.transform.position;
-		}
 	}
 	
 	void OnCollisionStay(Collision collision) {
@@ -131,13 +112,37 @@ public class HeliBotController : MonoBehaviour
 
 	void FixedUpdate() {
 		
-		Debug.Log(grounded);
+		updatePropeller();
+		updatePlayerMovement();
+	}
 	
+	void updatePlayerMovement() {
+		
 		if ((movementInput.x < -0.5 || movementInput.x > .5)) gameObject.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
 		if (grounded && (movementInput.y < -0.5 || movementInput.y > .5)) {
 			baseRB.AddForce(transform.forward * botMovementSpeed * movementInput.y, ForceMode.Impulse);
 		}
 		baseRB.AddForce(new Vector3(0, -1, 0) * gravityMultiplier, ForceMode.Force);
+	}
+	
+	void updatePropeller() {
+		propellerTimer += Time.deltaTime;
+		if (propellerRotationSpeed < propellerMaxSpeed && propellerOn) propellerRotationSpeed = (float)Math.Pow(propellerRotationBaseSpeed, propellerTimer);
+		else if (!propellerOn) {
+			if (propellerRotationSpeed > 0) propellerRotationSpeed -= (propellerTimer * 5);
+			else {
+				propellerRotationSpeed = 0;
+			}
+		}
+		propeller.transform.Rotate(new Vector3(0, propellerRotationSpeed, 0) * Time.deltaTime);
+		if (explosion != null) {
+			explosion.transform.position = propeller.transform.position;
+			explosion.transform.rotation = propeller.transform.rotation;
+		}
+		
+		if (enemyWayPoint != null) {
+			enemyWayPoint.transform.position = gameObject.transform.position;
+		}
 	}
 	
 	void PropellerOn() {
@@ -158,7 +163,7 @@ public class HeliBotController : MonoBehaviour
 	
 	public void SubtractHealth(float amount) {
 		health -= amount;
-		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString();
+		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
 		if (health < .1) {
 			TriggerDeathState();
 		}
