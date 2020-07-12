@@ -37,6 +37,7 @@ public class HeliBotController : MonoBehaviour
 	private float health = 1000f;
 	private float botRotationSpeed = 100f;
 	public float botMovementSpeed = 2000f;
+	private float botMovementSpeedDefault = 2000f;
 	private Boolean grounded = true;
 	private int gravityMultiplier = 40000;
 	public GameObject explosionEffect;
@@ -44,6 +45,7 @@ public class HeliBotController : MonoBehaviour
 	private GameObject explosion;
 	private GameObject enemy;
 	private GameObject floor;
+	private Boolean upsideDown = false;
 	
 	// test vars
 	private int count = 0;
@@ -68,14 +70,8 @@ public class HeliBotController : MonoBehaviour
 		propellerRB = propeller.GetComponent<Rigidbody>();
 		baseRB = gameObject.GetComponent<Rigidbody>();
 		mainCamera = GameObject.FindWithTag("MainCamera");
-		if (winText != null) {
-			winTextDefault = winText.text;
-			winText.text = "";
-		}
-		if (loseText != null) {
-			loseTextDefault = loseText.text;
-			loseText.text = "";
-		}
+		if (winText != null) winText.enabled = false;
+		if (loseText != null) loseText.enabled = false;
 		if (playerHealthLabel != null) {
 			playerHealthLabel.text = health.ToString("0");
 		}
@@ -118,9 +114,19 @@ public class HeliBotController : MonoBehaviour
 	
 	void updatePlayerMovement() {
 		
+		upsideDown = Vector3.Dot(transform.up, Vector3.down) > 0;
 		if ((movementInput.x < -0.5 || movementInput.x > .5)) gameObject.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
-		if (grounded && (movementInput.y < -0.5 || movementInput.y > .5)) {
+		if (!upsideDown && grounded && (movementInput.y < -0.5 || movementInput.y > .5)) {
 			baseRB.AddForce(transform.forward * botMovementSpeed * movementInput.y, ForceMode.Impulse);
+		}
+		if (upsideDown && propellerOn && propellerRotationSpeed > (propellerMaxSpeed * .2)) {
+			//botMovementSpeed = botMovementSpeedDefault * 2;
+			// initial blast, then turn off
+			baseRB.AddTorque(transform.up * 1000);
+			// baseRB.AddForce(transform.forward * botMovementSpeed * movementInput.y, ForceMode.Impulse);
+		}
+		else {
+			botMovementSpeed = botMovementSpeedDefault;
 		}
 		baseRB.AddForce(new Vector3(0, -1, 0) * gravityMultiplier, ForceMode.Force);
 	}

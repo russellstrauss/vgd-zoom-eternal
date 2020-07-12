@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class PauseMenu : MonoBehaviour
 	Vector2 movementInput;
     public GameObject pauseMenu;
     public static bool isPaused;
+	public GameObject[] menuItems;
     
 	void Awake() {
 		controls = new InputMaster();
@@ -23,6 +26,11 @@ public class PauseMenu : MonoBehaviour
     void Start()
     {
         pauseMenu.SetActive(false);
+		
+		foreach (GameObject menuItem in menuItems) {
+			Debug.Log(menuItem.GetComponent<Button>());
+			menuItem.GetComponent<Button>().interactable = true;
+		}
     }
 
     void Update()
@@ -58,6 +66,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
+		Debug.Log("ResumeGame() fired");
     }
 
     public void GoToMenu()
@@ -69,6 +78,7 @@ public class PauseMenu : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+		Debug.Log("QuitGame() fired");
     }
 	
 	void OnEnable()	{ if (controls != null) controls.Player.Enable(); }
