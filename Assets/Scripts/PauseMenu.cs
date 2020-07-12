@@ -26,11 +26,6 @@ public class PauseMenu : MonoBehaviour
     void Start()
     {
         pauseMenu.SetActive(false);
-		
-		foreach (GameObject menuItem in menuItems) {
-			Debug.Log(menuItem.GetComponent<Button>());
-			menuItem.GetComponent<Button>().interactable = true;
-		}
     }
 
     void Update()
@@ -66,19 +61,17 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
-		Debug.Log("ResumeGame() fired");
     }
 
     public void GoToMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        SceneManager.LoadScene("StartMenu");
     }
 
     public void QuitGame()
     {
         Application.Quit();
-		Debug.Log("QuitGame() fired");
     }
 	
 	void OnEnable()	{ if (controls != null) controls.Player.Enable(); }
