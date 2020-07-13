@@ -22,28 +22,20 @@ public class HazardController : MonoBehaviour
 	
 	void OnCollisionEnter(Collision collision){
 		
-		if (collision.gameObject.CompareTag("playerCollider")) {
+		if (collision.collider.CompareTag("playerCollider")) {
 			Vector3 contactNormal = collision.contacts[0].normal;
 			
 			playerRb.AddForce(new Vector3(0, 1, 0) * 10000, ForceMode.Impulse);
 			FindObjectOfType<AudioManager>().Play("crash");
+			StartCoroutine(Pickup());
 		}
 	}
 	
 	
 	
-    void OnTriggerEnter(Collider other)
+    IEnumerator Pickup()
     {
-
-    	if (other.gameObject.CompareTag("playerCollider")){
-    		// Pickup(other);
-    		StartCoroutine(Pickup(other));
-			GetComponent<TimeStop>().StopTime(0.05f, 10, 0.1f);
-		}
-    }
-    IEnumerator Pickup(Collider other)
-    {
-    	// Debug.Log("Hazard is being picked");
+    	Debug.Log("Hazard is being picked");
     	GameObject clone = Instantiate(pickupEffect, transform.position, transform.rotation);
     	
     	// TODO add more healthy to the player
@@ -58,7 +50,7 @@ public class HazardController : MonoBehaviour
 
     	// remove power up object
     	ParticleSystem.MainModule particle = clone.GetComponent<ParticleSystem>().main;
-    	Destroy(clone, particle.duration);
+    	Destroy(clone, duration);
     	// Destroy(gameObject);
     }
 }

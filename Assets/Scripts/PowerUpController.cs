@@ -7,7 +7,7 @@ using UnityEngine;
 public class PowerUpController : MonoBehaviour
 {
 	public GameObject pickupEffect;
-	public float duration = 2;
+	public float duration = 0.0f;
 	public float spinForce = 200.0f;
 	private GameObject player;
 	private HeliBotController heliBotController;
@@ -46,7 +46,7 @@ public class PowerUpController : MonoBehaviour
 
 		// remove power up object
 		ParticleSystem.MainModule particle = clone.GetComponent<ParticleSystem>().main;
-		Destroy(clone, particle.duration);
+		Destroy(clone, duration);
 		Destroy(gameObject);
     }
 }
