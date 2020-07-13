@@ -17,8 +17,6 @@ public class HeliBotController : MonoBehaviour
 	public TextMeshProUGUI winText;
 	public TextMeshProUGUI loseText;
 	public TextMeshProUGUI playerHealthLabel;
-	private string winTextDefault;
-	private string loseTextDefault;
 	private GameObject enemyWayPoint;
 	private int explodeCount = 0;
 	
@@ -35,7 +33,7 @@ public class HeliBotController : MonoBehaviour
 	// bot
 	private float healthDefault = 1000f;
 	private float health = 1000f;
-	private float botRotationSpeed = 100f;
+	private float botRotationSpeed = 200f;
 	public float botMovementSpeed = 2000f;
 	private float botMovementSpeedDefault = 2000f;
 	private Boolean grounded = true;
@@ -46,6 +44,7 @@ public class HeliBotController : MonoBehaviour
 	private GameObject enemy;
 	private GameObject floor;
 	private Boolean upsideDown = false;
+	private ParticleSystem[] sparks;
 	
 	// test vars
 	private int count = 0;
@@ -79,9 +78,12 @@ public class HeliBotController : MonoBehaviour
 		enemyWayPoint = GameObject.Find("wayPoint");
 		enemy = GameObject.FindWithTag("enemy");
 		floor = GameObject.FindWithTag("Floor");
+		
+		sparks = gameObject.GetComponentsInChildren<ParticleSystem>();
+		hideWheelSparks();
 	}
 	
-	void OnCollisionStay(Collision collision) {
+	void OnCollisionStay(Collision otherObjectCollision) {
 		
 	}
 	
@@ -112,22 +114,33 @@ public class HeliBotController : MonoBehaviour
 		updatePlayerMovement();
 	}
 	
+	void showWheelSparks() {
+		foreach(ParticleSystem s in sparks) {
+			s.Play();
+		}
+	}
+	
+	void hideWheelSparks() {
+		foreach(ParticleSystem s in sparks) {
+			s.Stop();
+		}
+	}
+	
 	void updatePlayerMovement() {
 		
 		upsideDown = Vector3.Dot(transform.up, Vector3.down) > 0;
-		if ((movementInput.x < -0.5 || movementInput.x > .5)) gameObject.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
+		if (movementInput.y > -0.5 && movementInput.y < 0.5 && (movementInput.x < -0.5 || movementInput.x > .5)) gameObject.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
 		if (!upsideDown && grounded && (movementInput.y < -0.5 || movementInput.y > .5)) {
 			baseRB.AddForce(transform.forward * botMovementSpeed * movementInput.y, ForceMode.Impulse);
-		}
-		if (upsideDown && propellerOn && propellerRotationSpeed > (propellerMaxSpeed * .2)) {
-			//botMovementSpeed = botMovementSpeedDefault * 2;
-			// initial blast, then turn off
-			baseRB.AddTorque(transform.up * 1000);
-			// baseRB.AddForce(transform.forward * botMovementSpeed * movementInput.y, ForceMode.Impulse);
+			if (movementInput.y > 1) showWheelSparks();
 		}
 		else {
-			botMovementSpeed = botMovementSpeedDefault;
+			hideWheelSparks();
 		}
+		// if (upsideDown && propellerOn && propellerRotationSpeed > (propellerMaxSpeed * .2)) {
+		// 	// initial blast, then turn off
+		// 	baseRB.AddTorque(transform.up * 1000);
+		// }
 		baseRB.AddForce(new Vector3(0, -1, 0) * gravityMultiplier, ForceMode.Force);
 	}
 	
@@ -184,12 +197,12 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	void TriggerDeathState() {
-		loseText.text = loseTextDefault;
+		loseText.enabled = true;
 		Explode();
 	}
 	
 	void TriggerWinState() {
-		winText.text = winTextDefault;
+		winText.enabled = true;
 	}
 	
 	void Explode() {

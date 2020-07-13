@@ -1,4 +1,5 @@
 Temp/
+obj/
 sysinfo.txt
 .hg
 .git
