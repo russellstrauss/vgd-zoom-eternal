@@ -114,6 +114,12 @@ public class HeliBotController : MonoBehaviour
 		updatePlayerMovement();
 	}
 	
+	public void hideAllLabels() {
+		Debug.Log("Label hide attempt");
+		if (winText != null) winText.enabled = false;
+		if (loseText != null) loseText.enabled = false;
+	}
+	
 	void showWheelSparks() {
 		foreach(ParticleSystem s in sparks) {
 			s.Play();
@@ -131,7 +137,8 @@ public class HeliBotController : MonoBehaviour
 		upsideDown = Vector3.Dot(transform.up, Vector3.down) > 0;
 		if (movementInput.y > -0.5 && movementInput.y < 0.5 && (movementInput.x < -0.5 || movementInput.x > .5)) gameObject.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
 		if (!upsideDown && grounded && (movementInput.y < -0.5 || movementInput.y > .5)) {
-			baseRB.AddForce(transform.forward * botMovementSpeed * movementInput.y, ForceMode.Impulse);
+			Vector3 direction =  Vector3.Normalize(Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0))); // Get forward direction along the ground
+			baseRB.AddForce(direction * botMovementSpeed * movementInput.y, ForceMode.Impulse);
 			if (movementInput.y > 1) showWheelSparks();
 		}
 		else {

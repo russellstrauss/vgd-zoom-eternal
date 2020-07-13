@@ -12,6 +12,10 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenu;
     public static bool isPaused;
 	public GameObject[] menuItems;
+	
+	// Hide Win/Lose state GUI's
+	private GameObject player;
+	private HeliBotController heliBotController;
     
 	void Awake() {
 		controls = new InputMaster();
@@ -26,6 +30,8 @@ public class PauseMenu : MonoBehaviour
     void Start()
     {
         pauseMenu.SetActive(false);
+		player = GameObject.FindWithTag("Player");
+		heliBotController = player.GetComponent<HeliBotController>();
     }
 
     void Update()
@@ -54,6 +60,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
+		heliBotController.hideAllLabels();
     }
 
     public void ResumeGame()
