@@ -28,7 +28,7 @@ public class PowerUpController : MonoBehaviour
     	if (other.gameObject.CompareTag("playerCollider")) {
     		StartCoroutine(Pickup(other));
 			FindObjectOfType<AudioManager>().Play("ting");
-			heliBotController.setBotSpeed(heliBotController.botMovementSpeed + 500);
+			heliBotController.SetBotSpeed(heliBotController.botMovementSpeed + 500);
     	}
     }
 	

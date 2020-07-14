@@ -11,6 +11,8 @@ TagManager:
   - FireLayer
   - Pick Up
   - playerCollider
+  - music
+  - GameManager
   layers:
   - Default
   - TransparentFX

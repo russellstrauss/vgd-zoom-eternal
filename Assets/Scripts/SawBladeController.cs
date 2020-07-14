@@ -25,8 +25,11 @@ public class SawBladeController : MonoBehaviour {
 	}
 
 	void Update() {
-		oscillation = Mathf.Sin(Time.time) * oscillationDirection * sawOscillationDistance;
-		transform.Rotate(rotation * Time.deltaTime);
-		transform.position = transform.position + oscillation;
+		
+		if (Time.timeScale > 0) {
+			oscillation = Mathf.Sin(Time.time) * oscillationDirection * sawOscillationDistance;
+			transform.Rotate(rotation * Time.deltaTime);
+			transform.position = transform.position + oscillation;
+		}
 	}
 }

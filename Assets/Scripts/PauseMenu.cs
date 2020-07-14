@@ -36,7 +36,7 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-		// Debug.Log(movementInput);
+		
     }
 	
 	void setState() 
@@ -60,7 +60,8 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
-		heliBotController.hideAllLabels();
+		Debug.Log("Game Pause Trigger. Time.timeScale=" + Time.timeScale.ToString() + " isPaused=" + isPaused);
+		// if (heliBotController) heliBotController.hideAllLabels();
     }
 
     public void ResumeGame()
