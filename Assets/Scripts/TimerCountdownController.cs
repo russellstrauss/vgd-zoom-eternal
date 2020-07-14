@@ -20,6 +20,8 @@ public class TimerCountdownController : MonoBehaviour
 	private EnemyController enemyController;
 	private PauseMenu pauseMenu;
 	
+	private IEnumerator battleClockTimer;
+	
 	InputMaster controls;
 	Vector2 movementInput;
 	
@@ -37,13 +39,14 @@ public class TimerCountdownController : MonoBehaviour
 		battleClock = gameObject.transform.Find("Game Timer").GetComponent<TextMeshProUGUI>();
 		countdownClock = gameObject.transform.Find("Match Start Countdown").GetComponent<TextMeshProUGUI>();
 		countdownClock.text = countdownSecondsRemaining.ToString("0");
+		battleClockTimer = DecreaseBattleTime();
 		StartCountdown();
 	}
 
 	void Update() {
 		
 		if (battleClockInitialized && !battleClockDecreasing && battleSecondsRemaining > 0 && Time.timeScale == 1) {
-			StartCoroutine(DecreaseBattleTime());
+			StartCoroutine("DecreaseBattleTime");
 		}
 		
 		if (countdownInitialized && !countdownDecreasing && countdownSecondsRemaining > 0) {
@@ -75,17 +78,15 @@ public class TimerCountdownController : MonoBehaviour
 	}
 	
 	IEnumerator DecreaseBattleTime() {
-		if (battleClockInitialized) {
-			
-			battleClockDecreasing = true;
-			yield return new WaitForSecondsRealtime(1);
-			battleSecondsRemaining -= 1;
-			String time = TimeSpan.FromSeconds(battleSecondsRemaining).ToString(@"m\:ss");
-			if (battleClock) battleClock.text = time;
-			battleClockDecreasing = false;
-			
-			if (battleSecondsRemaining < 1) TimeUp();
-		}
+		
+		battleClockDecreasing = true;
+		yield return new WaitForSecondsRealtime(1);
+		battleSecondsRemaining -= 1;
+		String time = TimeSpan.FromSeconds(battleSecondsRemaining).ToString(@"m\:ss");
+		if (battleClock) battleClock.text = time;
+		battleClockDecreasing = false;
+		
+		if (battleSecondsRemaining < 1) TimeUp();
 	}
 	
 	void TimeUp() {
@@ -111,7 +112,6 @@ public class TimerCountdownController : MonoBehaviour
 	
 	public void StopTimer() {
 		battleClockInitialized = false;
-		StopCoroutine(DecreaseBattleTime());
-		Debug.Log("timer stopped");
+		StopCoroutine("DecreaseBattleTime");
 	}
 }
