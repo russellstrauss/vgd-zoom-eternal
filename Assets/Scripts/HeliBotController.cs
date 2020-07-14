@@ -19,13 +19,14 @@ public class HeliBotController : MonoBehaviour
 	public TextMeshProUGUI playerHealthLabel;
 	private GameObject enemyWayPoint;
 	private int explodeCount = 0;
+	private TimerCountdownController battleClock;
 	
 	// propeller
 	private Boolean propellerOn = false;
 	private Rigidbody propellerRB;
 	private Rigidbody baseRB;
 	private GameObject propeller;
-	private float propellerRotationSpeed;
+	private double propellerRotationSpeed;
 	private float propellerMaxSpeed = 3000f;
 	private float propellerTimer = 0.0f;
 	private float propellerRotationBaseSpeed = 6f; // exponential
@@ -80,6 +81,7 @@ public class HeliBotController : MonoBehaviour
 		enemyWayPoint = GameObject.Find("wayPoint");
 		enemy = GameObject.FindWithTag("enemy");
 		floor = GameObject.FindWithTag("Floor");
+		battleClock = FindObjectsOfType<TimerCountdownController>()[0];
 		
 		sparks = player.GetComponentsInChildren<ParticleSystem>();
 		HideWheelSparks();
@@ -93,7 +95,7 @@ public class HeliBotController : MonoBehaviour
 		
 		if (otherObjectCollision.gameObject == enemy) {
 			
-			float damage = propellerRotationSpeed / 30;
+			float damage = (float)propellerRotationSpeed / 30;
 			enemy.GetComponent<EnemyController>().SubtractHealth(damage);
 			if (enemy.GetComponent<EnemyController>().health < .1) TriggerWinState();
 			if (propellerOn && propellerRotationSpeed > propellerMaxSpeed * .9f) {
@@ -169,7 +171,7 @@ public class HeliBotController : MonoBehaviour
 				propellerRotationSpeed = 0;
 			}
 		}
-		propeller.transform.Rotate(new Vector3(0, propellerRotationSpeed, 0) * Time.deltaTime);
+		propeller.transform.Rotate(new Vector3(0, (float)propellerRotationSpeed, 0) * Time.deltaTime);
 		if (explosion != null) {
 			explosion.transform.position = propeller.transform.position;
 			explosion.transform.rotation = propeller.transform.rotation;
@@ -210,16 +212,33 @@ public class HeliBotController : MonoBehaviour
 	
 	public void AddHealth(float amount) {
 		health += amount;
+		battleClock.StopTimer();
 	}
 	
 	void TriggerDeathState() {
-		loseText.enabled = true;
 		Explode();
+		winText.text = "YOUR BATTLE BOT HAS BEEN DESTROYED";
+		winText.enabled = true;
+		endState();
 	}
 	
 	public void TriggerTimeUpLose() {
 		winText.text = "TIME UP YOU LOST";
 		winText.enabled = true;
+		endState();
+	}
+	
+	public void TriggerTimeUpWin() {
+		winText.text = "TIME UP YOU WON";
+		winText.enabled = true;
+		endState();
+	}
+	
+	void endState() {
+		Time.timeScale = .1f;
+		OrbitalCameraController cameraController = mainCamera.GetComponent<OrbitalCameraController>();
+		cameraController.distance = 10f;
+		battleClock.StopTimer();
 	}
 	
 	void TriggerWinState() {

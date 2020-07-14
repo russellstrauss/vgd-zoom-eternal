@@ -21,7 +21,7 @@ public class PauseMenu : MonoBehaviour
 		controls = new InputMaster();
 		if (controls != null) {
 			controls.Player.Exit.performed += ctx => setState();
-			controls.Player.Move.performed+= ctx => selectMenu();
+			controls.Player.Move.performed+= ctx => selectMenuItem();
 			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
 			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
 		}
@@ -50,7 +50,7 @@ public class PauseMenu : MonoBehaviour
 		}
 	}
 	
-	void selectMenu() 
+	void selectMenuItem() 
 	{
 		
 	}
@@ -60,8 +60,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
-		Debug.Log("Game Pause Trigger. Time.timeScale=" + Time.timeScale.ToString() + " isPaused=" + isPaused);
-		// if (heliBotController) heliBotController.hideAllLabels();
+		if (heliBotController) heliBotController.hideAllLabels();
     }
 
     public void ResumeGame()

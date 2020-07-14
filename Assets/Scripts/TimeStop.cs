@@ -10,6 +10,7 @@ public class TimeStop : MonoBehaviour
     private void Start()
     {
         RestoreTime = false;
+		if (RestoreTime) {}
     }
 
     // Update is called once per frame

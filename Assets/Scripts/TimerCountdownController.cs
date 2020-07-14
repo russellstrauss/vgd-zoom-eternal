@@ -25,7 +25,7 @@ public class TimerCountdownController : MonoBehaviour
 	
 	void Start() {
 		
-		music = GameObject.FindWithTag("music").GetComponent<AudioSource>();
+		music = GameObject.FindWithTag("MainCamera").GetComponent<AudioSource>();
 		music.Play();
 		music.Pause();
 		
@@ -49,7 +49,7 @@ public class TimerCountdownController : MonoBehaviour
 		if (countdownInitialized && !countdownDecreasing && countdownSecondsRemaining > 0) {
 			StartCoroutine(DecreaseCountdown());
 		}
-		else if (countdownSecondsRemaining < 1) {
+		else if (countdownSecondsRemaining < 1 && !battleClockInitialized) {
 			StartTimer();
 		}
 	}
@@ -69,25 +69,32 @@ public class TimerCountdownController : MonoBehaviour
 			FindObjectOfType<AudioManager>().Play("buzzer");
 			yield return new WaitForSecondsRealtime(1);
 			countdownClock.enabled = false;
+			StartTimer();
 		}
 		countdownDecreasing = false;
 	}
 	
 	IEnumerator DecreaseBattleTime() {
-		battleClockDecreasing = true;
-		yield return new WaitForSecondsRealtime(1);
-		battleSecondsRemaining -= 1;
-		String time = TimeSpan.FromSeconds(battleSecondsRemaining).ToString(@"m\:ss");
-		if (battleClock) battleClock.text = time;
-		battleClockDecreasing = false;
-		
-		if (battleSecondsRemaining < 1) TimeUp();
+		if (battleClockInitialized) {
+			
+			battleClockDecreasing = true;
+			yield return new WaitForSecondsRealtime(1);
+			battleSecondsRemaining -= 1;
+			String time = TimeSpan.FromSeconds(battleSecondsRemaining).ToString(@"m\:ss");
+			if (battleClock) battleClock.text = time;
+			battleClockDecreasing = false;
+			
+			if (battleSecondsRemaining < 1) TimeUp();
+		}
 	}
 	
 	void TimeUp() {
 		
 		if (playerController.health < enemyController.health) {
 			playerController.TriggerTimeUpLose();
+		}
+		else {
+			playerController.TriggerTimeUpWin();
 		}
 	}
 	
@@ -100,5 +107,11 @@ public class TimerCountdownController : MonoBehaviour
 		pauseMenu.ResumeGame();
 		battleClockInitialized = true;
 		music.UnPause();
+	}
+	
+	public void StopTimer() {
+		battleClockInitialized = false;
+		StopCoroutine(DecreaseBattleTime());
+		Debug.Log("timer stopped");
 	}
 }
