@@ -212,33 +212,33 @@ public class HeliBotController : MonoBehaviour
 	
 	public void AddHealth(float amount) {
 		health += amount;
-		battleClock.StopTimer();
 	}
 	
 	void TriggerDeathState() {
 		Explode();
 		winText.text = "YOUR BATTLE BOT HAS BEEN DESTROYED";
 		winText.enabled = true;
-		endState();
+		EndState();
 	}
 	
 	public void TriggerTimeUpLose() {
 		winText.text = "TIME UP YOU LOST";
 		winText.enabled = true;
-		endState();
+		EndState();
 	}
 	
 	public void TriggerTimeUpWin() {
 		winText.text = "TIME UP YOU WON";
 		winText.enabled = true;
-		endState();
+		EndState();
 	}
 	
-	void endState() {
+	void EndState() {
 		Time.timeScale = .1f;
 		OrbitalCameraController cameraController = mainCamera.GetComponent<OrbitalCameraController>();
 		cameraController.distance = 10f;
 		battleClock.StopTimer();
+		// Debug.Log("timeScale=" + Time.timeScale);
 	}
 	
 	void TriggerWinState() {
@@ -247,7 +247,12 @@ public class HeliBotController : MonoBehaviour
 	
 	void Explode() {
 		if (explodeCount < 10) explosion = Instantiate(explosionEffect, propeller.transform.position, transform.rotation);
-		if (controls != null) controls.Player.Disable();
+		if (controls != null) disableBotControls();
 		explodeCount++;
+	}
+	
+	void disableBotControls() {
+		controls.Player.Move.Disable();
+		controls.Player.Select.Disable();
 	}
 }
