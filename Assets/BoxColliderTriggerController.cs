@@ -21,7 +21,7 @@ public class BoxColliderTriggerController : MonoBehaviour
 	}
 	
 	void OnTriggerEnter(Collider otherObject) {
-		Debug.Log(otherObject.gameObject);
+		// Debug.Log(otherObject.gameObject);
 		if (otherObject.gameObject.CompareTag("Player")) sawBladeController.TriggerAttack();
 	}
 }

@@ -27,8 +27,8 @@ public class PowerUpController : MonoBehaviour
     {
     	if (other.gameObject.CompareTag("playerCollider")) {
     		StartCoroutine(Pickup(other));
-			FindObjectOfType<AudioManager>().Play("ting");
-			heliBotController.SetBotSpeed(heliBotController.botMovementSpeed + 500);
+			FindObjectOfType<AudioManager>().Play("robust-beep");
+			IncreaseSpeed(500);
     	}
     }
 	
@@ -49,4 +49,8 @@ public class PowerUpController : MonoBehaviour
 		Destroy(clone, particle.duration);
 		Destroy(gameObject);
     }
+	
+	void IncreaseSpeed(int speed) {
+		heliBotController.SetBotSpeed(heliBotController.botMovementSpeed + speed);
+	}
 }

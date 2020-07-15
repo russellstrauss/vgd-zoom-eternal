@@ -43,8 +43,5 @@ public class SawBladeController : MonoBehaviour {
 	
 	public void TriggerAttack() {
 		Debug.Log("Sawblade Attack");
-		
-		
-		
 	}
 }

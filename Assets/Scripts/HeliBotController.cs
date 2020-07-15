@@ -29,13 +29,13 @@ public class HeliBotController : MonoBehaviour
 	private double propellerRotationSpeed;
 	private float propellerMaxSpeed = 3000f;
 	private float propellerTimer = 0.0f;
-	private float propellerRotationBaseSpeed = 6f; // exponential
+	private float propellerRotationBaseSpeed = 8f; // exponential
 	
 	// bot
 	private float healthDefault = 1000f;
 	public float health = 1000f;
-	private float botRotationSpeed = 200f;
-	public float botMovementSpeed = 2000f;
+	private float botRotationSpeed = 100f;
+	public float botMovementSpeed = 1500f;
 	// private float botMovementSpeedDefault = 2000f;
 	private Boolean grounded = true;
 	private int gravityMultiplier = 40000;
@@ -101,6 +101,8 @@ public class HeliBotController : MonoBehaviour
 			enemy.GetComponent<EnemyController>().SubtractHealth(damage);
 			if (enemy.GetComponent<EnemyController>().health < .1) TriggerWinState();
 			if (propellerOn && propellerRotationSpeed > propellerMaxSpeed * .9f) {
+				FindObjectOfType<AudioManager>().Stop("propeller-on");
+				FindObjectOfType<AudioManager>().Play("propeller-off-sudden");
 				baseRB.AddForce(transform.up * 2000 * movementInput.y, ForceMode.Impulse);
 				propellerOn = false;
 			}
@@ -147,7 +149,7 @@ public class HeliBotController : MonoBehaviour
 	void UpdatePlayerMovement() {
 		
 		upsideDown = Vector3.Dot(transform.up, Vector3.down) > 0;
-		if (movementInput.y > -0.5 && movementInput.y < 0.5 && (movementInput.x < -0.5 || movementInput.x > .5)) player.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
+		if (movementInput.y > -0.5 && movementInput.y < 0.5) player.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
 		if (!upsideDown && (movementInput.y < -0.5 || movementInput.y > .5)) {
 			Vector3 direction =  Vector3.Normalize(Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0))); // Get forward direction along the ground
 			if (grounded) Debug.DrawRay(transform.position, direction * 3, Color.green);
@@ -188,12 +190,15 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	void PropellerOn() {
+		FindObjectOfType<AudioManager>().Play("propeller-on");
 		propellerOn = true;
 		propellerTimer = 0;
 		count++;
 	}
 	
 	void PropellerOff() {
+		FindObjectOfType<AudioManager>().Play("propeller-off");
+		if (propellerRotationSpeed > propellerMaxSpeed * .5) FindObjectOfType<AudioManager>().Stop("propeller-on");
 		propellerOn = false;
 		propellerTimer = 0;
 		count++;
