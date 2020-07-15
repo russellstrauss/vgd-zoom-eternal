@@ -50,6 +50,7 @@ public class HeliBotController : MonoBehaviour
 	
 	// test vars
 	private int count = 0;
+	EnemyController enemyController;
 	
 	void Awake() {
 		controls = new InputMaster();
@@ -82,6 +83,7 @@ public class HeliBotController : MonoBehaviour
 		enemy = GameObject.FindWithTag("enemy");
 		floor = GameObject.FindWithTag("Floor");
 		battleClock = FindObjectsOfType<TimerCountdownController>()[0];
+		enemyController = FindObjectsOfType<EnemyController>()[0];
 		
 		sparks = player.GetComponentsInChildren<ParticleSystem>();
 		HideWheelSparks();
@@ -122,20 +124,23 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	public void hideAllLabels() {
-		Debug.Log("Label hide attempt");
 		if (winText != null) winText.enabled = false;
 		if (loseText != null) loseText.enabled = false;
 	}
 	
 	void ShowWheelSparks() {
-		foreach(ParticleSystem s in sparks) {
-			s.Play();
+		if (sparks != null) {
+			foreach(ParticleSystem s in sparks) {
+				s.Play();
+			}
 		}
 	}
 	
 	void HideWheelSparks() {
-		foreach(ParticleSystem s in sparks) {
-			s.Stop();
+		if (sparks != null) {
+			foreach(ParticleSystem s in sparks) {
+				s.Stop();
+			}
 		}
 	}
 	

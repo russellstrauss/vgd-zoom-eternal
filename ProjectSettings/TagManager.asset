@@ -7,12 +7,12 @@ TagManager:
   - Shootable
   - enemy
   - Floor
-  - saw
   - FireLayer
   - Pick Up
   - playerCollider
   - music
   - GameManager
+  - hazard
   layers:
   - Default
   - TransparentFX
