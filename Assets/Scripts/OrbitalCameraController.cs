@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Camera))]
@@ -8,7 +9,7 @@ public class OrbitalCameraController : MonoBehaviour {
 	Transform focus = default;
 
 	[SerializeField, Range(1f, 80f)]
-	float distance = 5f;
+	public float distance = 5f;
 
 	[SerializeField, Min(0f)]
 	float focusRadius = 5f;
@@ -33,7 +34,7 @@ public class OrbitalCameraController : MonoBehaviour {
 
 	Camera regularCamera;
 	Vector3 focusPoint, previousFocusPoint;
-	Vector2 orbitAngles = new Vector2(45f, 0f);
+	public Vector2 orbitAngles = new Vector2(45f, 0f);
 	float lastManualRotationTime = 0f;
 
 	Vector3 CameraHalfExtends {
@@ -146,22 +147,19 @@ public class OrbitalCameraController : MonoBehaviour {
 
 		float headingAngle = GetAngle(movement / Mathf.Sqrt(movementDeltaSqr));
 		float deltaAbs = Mathf.Abs(Mathf.DeltaAngle(orbitAngles.y, headingAngle));
-		float rotationChange =
-			rotationSpeed * Mathf.Min(Time.unscaledDeltaTime, movementDeltaSqr);
+		float rotationChange = rotationSpeed * Mathf.Min(Time.unscaledDeltaTime, movementDeltaSqr);
 		if (deltaAbs < alignSmoothRange) {
 			rotationChange *= deltaAbs / alignSmoothRange;
 		}
 		else if (180f - deltaAbs < alignSmoothRange) {
 			rotationChange *= (180f - deltaAbs) / alignSmoothRange;
 		}
-		orbitAngles.y =
-			Mathf.MoveTowardsAngle(orbitAngles.y, headingAngle, rotationChange);
+		orbitAngles.y = Mathf.MoveTowardsAngle(orbitAngles.y, headingAngle, rotationChange);
 		return true;
 	}
 
 	void ConstrainAngles () {
-		orbitAngles.x =
-			Mathf.Clamp(orbitAngles.x, minVerticalAngle, maxVerticalAngle);
+		orbitAngles.x = Mathf.Clamp(orbitAngles.x, minVerticalAngle, maxVerticalAngle);
 
 		if (orbitAngles.y < 0f) {
 			orbitAngles.y += 360f;

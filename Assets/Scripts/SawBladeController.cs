@@ -21,12 +21,14 @@ public class SawBladeController : MonoBehaviour {
 		gameObject.tag = "saw";
 		oscillationDirection = new Vector3(0, -1, 0);
 		randomSeed = UnityEngine.Random.Range(0, 100);
-		
 	}
 
 	void Update() {
-		oscillation = Mathf.Sin(Time.time) * oscillationDirection * sawOscillationDistance;
-		transform.Rotate(rotation * Time.deltaTime);
-		transform.position = transform.position + oscillation;
+		
+		if (Time.timeScale > 0) {
+			oscillation = Mathf.Sin(Time.time * Time.deltaTime) * oscillationDirection * sawOscillationDistance;
+			transform.Rotate(rotation * Time.deltaTime);
+			transform.position = transform.position + oscillation;
+		}
 	}
 }
