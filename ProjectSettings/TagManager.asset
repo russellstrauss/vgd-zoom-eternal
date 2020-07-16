@@ -13,6 +13,8 @@ TagManager:
   - playerCollider
   - music
   - GameManager
+  - hammer
+  - hammer_trigger
   layers:
   - Default
   - TransparentFX
