@@ -24,9 +24,11 @@ public class HazardTriggerController : MonoBehaviour
 		hazardTrigger = other.GetComponent<BoxCollider>();
 		
 		if (hazardTrigger != null) {
-			Debug.Log("OnTriggerEnter=" + other.name + " x" + count);
-			if (sawBladeController != null) sawBladeController.TriggerAttack();
-			count++;
+			
+			if (sawBladeController != null) {
+				sawBladeController.TriggerAttack();
+				// Debug.Log("Trigger Attack object=" + other);
+			}
 		}
 	}
 	
@@ -36,8 +38,11 @@ public class HazardTriggerController : MonoBehaviour
 		
 		if (hazardTrigger != null) {
 			
-			Debug.Log("OnTriggerExit=" + other.name + " x" + count);
-			if (sawBladeController != null) sawBladeController.ExitAttack();
+			if (sawBladeController != null) {
+				
+				sawBladeController.ExitAttack();
+				// Debug.Log("Trigger Exit object=" + other);
+			}
 			count++;
 		}
 	}

@@ -18,72 +18,56 @@ public class SawBladeController : MonoBehaviour {
 	GameObject player;
 	[HideInInspector]
 	
-	Vector3 displacement = new Vector3(0, 15, 0);
+	Vector3 displacement = new Vector3(0, 5, 0);
 	float sawSpeed = 2.5f;
 	Vector3[] bladeStartingPositions;
 	int count = 0;
-	
+	// create timer for saw
+	float sawTimer = 0f;
 
 	void Awake() {
 		
 	}
 	
 	void Start() {
+		player = GameObject.FindWithTag("Player");
 		blades = GameObject.FindGameObjectsWithTag("hazard");
 		bladeStartingPositions = new Vector3[blades.Length];
-		oscillationDirection = new Vector3(0, -1, 0);
-		randomSeed = UnityEngine.Random.Range(0, 100);
-		player = GameObject.FindWithTag("Player");
-		
-		
-		
+		for (int i = 0; i < blades.Length; i++) {
+			bladeStartingPositions[i] = blades[i].transform.position;
+			
+			Vector3 targetPosition = bladeStartingPositions[i] + displacement;
+			// blades[i].transform.position = targetPosition;
+			Debug.DrawLine(bladeStartingPositions[i], targetPosition, Color.red);
+		}
 	}
 
 	void Update() {
 		
-		// float step =  sawSpeed * Time.deltaTime; // calculate distance to move
-		// blades[i].transform.position = Vector3.MoveTowards(blades[i].transform.position, target.position, step);
+		sawTimer += Time.deltaTime;
 
-		// if (Vector3.Distance(transform.position, target.position) < 0.001f)
-		// {
-		// 	// Swap the position of the cylinder.
-		// 	target.position *= -1.0f;
-		// }
-		
-		if (count == 0) {
-			for (int i = 0; i < blades.Length; i++) {
-				bladeStartingPositions[i] = blades[i].transform.position;
-			}
-		}
-		
+		Debug.Log(sawTimer);
 
 		for (int i = 0; i < blades.Length; i++) {
 			
-			// Gizmos.color = Color.yellow;
-			// Gizmos.DrawSphere(transform.position, 1);
-			
-			
-			Vector3 targetPosition = bladeStartingPositions[i] + displacement;
-			Debug.DrawRay(bladeStartingPositions[i], displacement, Color.green);
-			Debug.DrawLine(bladeStartingPositions[i], targetPosition, Color.red);
-			
 			blades[i].transform.Rotate(rotation * Time.deltaTime);
-			// Debug.Log(isColliding);
-			// blades[i].transform.position = targetPosition;
 			
-			// blades[i].transform.position = Vector3.MoveTowards(blades[i].transform.position, player.transform.position, sawSpeed * Time.deltaTime);
-			blades[i].transform.position = Vector3.MoveTowards(blades[i].transform.position, bladeStartingPositions[i], sawSpeed * Time.deltaTime);
+			Debug.DrawRay(bladeStartingPositions[i], new Vector3(0, .1f, 0), Color.yellow);
 			
-			if (isColliding) {
+			
+			if (sawTimer < 2) {
+				blades[i].transform.position = Vector3.MoveTowards(blades[i].transform.position, bladeStartingPositions[i] + displacement, sawSpeed * Time.deltaTime);
 				// blades[i].transform.position = Vector3.MoveTowards(blades[i].transform.position, targetPosition, sawSpeed * Time.deltaTime);
 			}
-			else {
+			if(sawTimer > 2) {
+				blades[i].transform.position = Vector3.MoveTowards(blades[i].transform.position, bladeStartingPositions[i], sawSpeed * Time.deltaTime);
 			}
 		}
 		count++;
 	}
 	
 	public void TriggerAttack() {
+		sawTimer = 0;
 		isColliding = true;
 		FindObjectOfType<AudioManager>().Play("crash");
 	}
