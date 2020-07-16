@@ -24,17 +24,15 @@ public class PeckerWreckerController : MonoBehaviour
 	private Rigidbody baseRB;
 	private float healthDefault = 1000f;
 	public float health = 1000f;
-	private float botRotationSpeed = 200f;
-	public float botMovementSpeed = 1500f;
-	private int gravityMultiplier = 40000;
+	private float botRotationSpeed = 100f;
+	public float botMovementSpeed = 200f;
+	private int gravityMultiplier = 10000;
 	private GameObject explosion;
 	private GameObject player;
 	private GameObject enemy;
 	private GameObject floor;
-	private ParticleSystem[] sparks;
+	private Rigidbody hammer;
 	
-	// test vars
-	private int count = 0;
 	EnemyController enemyController;
 	
 	void Awake() {
@@ -43,8 +41,17 @@ public class PeckerWreckerController : MonoBehaviour
 			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
 			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
 			
-			//controls.Player.Select.performed += ctx => Strike();
+			controls.Player.Select.performed += ctx => HammerOn();
+			controls.Player.Select.canceled += ctx => HammerOff();
 		}
+	}
+	
+	void HammerOn() {
+		// hammer.AddTorque(-gameObject.transform.forward * 1000);
+	}
+	
+	void HammerOff() {
+		
 	}
 	
 	void OnEnable()	{ if (controls != null) controls.Player.Enable(); }
@@ -63,72 +70,37 @@ public class PeckerWreckerController : MonoBehaviour
 		floor = GameObject.FindWithTag("Floor");
 		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
 		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
+		HingeJoint hinge = gameObject.GetComponent<HingeJoint>();
+		hammer = gameObject.GetComponentInChildren<Rigidbody>();
 	}
 	
-	void OnCollisionStay(Collision otherObjectCollision) {
-		
-	}
-	
-	void OnCollisionEnter(Collision otherObjectCollision) {
-		
-		if (otherObjectCollision.gameObject == enemy) {
-			
-			// float damage = (float)propellerRotationSpeed / 30;
-			// enemy.GetComponent<EnemyController>().SubtractHealth(damage);
-			// if (enemy.GetComponent<EnemyController>().health < .1) TriggerWinState();
-		}
-	}
-	
-	void OnCollisionExit(Collision otherObjectCollision) {
-		
-	}
-	
-	void FixedUpdate() {
-		
-		Debug.Log("Update");
+	void Update() {
 		UpdatePlayerMovement();
 	}
+	
+	void OnCollisionStay(Collision otherObjectCollision) {}
+	void OnCollisionEnter(Collision otherObjectCollision) {}
+	void OnCollisionExit(Collision otherObjectCollision) {}
 	
 	public void hideAllLabels() {
 		if (winText != null) winText.enabled = false;
 	}
 	
-	void ShowWheelSparks() {
-		if (sparks != null) {
-			foreach(ParticleSystem s in sparks) {
-				s.Play();
-			}
-		}
-	}
-	
-	void HideWheelSparks() {
-		if (sparks != null) {
-			foreach(ParticleSystem s in sparks) {
-				s.Stop();
-			}
-		}
-	}
-	
 	void UpdatePlayerMovement() {
 		
-		Debug.Log(movementInput);
-		if (movementInput.x < -0.75 || movementInput.x > 0.75) player.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
-		if (movementInput.y < -0.5 || movementInput.y > .5) {
-			Vector3 direction =  Vector3.Normalize(Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0))); // Get forward direction along the ground
-			Debug.DrawRay(transform.position, direction * 3, Color.red);
-			baseRB.AddForce(-direction * botMovementSpeed * movementInput.y, ForceMode.Impulse);
-		}
+		player.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
+
+		Vector3 direction =  Vector3.Normalize(Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0))); // Get forward direction along the ground
+		Debug.DrawRay(transform.position, direction * 3, Color.red);
+		baseRB.AddForce(-direction * botMovementSpeed * movementInput.y, ForceMode.Impulse);
 
 		baseRB.AddForce(new Vector3(0, -1, 0) * gravityMultiplier, ForceMode.Force);
-	}
-	
-	void Strike() {
-		// Debug.Log(gameObject.Find("Hammer"));
 	}
 	
 	void Reset() {
 		health = healthDefault;
 	}
+
 	
 	public void SubtractHealth(float amount) {
 		health -= amount;
@@ -148,23 +120,18 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	void TriggerDeathState() {
 		Explode();
-		winText.enabled = true;
-		EndState("YOUR BATTLE BOT HAS BEEN DESTROYED");
+		EndState();
 	}
 	
 	public void TriggerTimeUpLose() {
-		winText.enabled = true;
-		EndState("TIME UP YOU LOST");
+		EndState();
 	}
 	
 	public void TriggerTimeUpWin() {
-		winText.enabled = true;
-		EndState("TIME UP YOU WON");
+		EndState();
 	}
 	
-	void EndState(String message) {
-		winText.text = message;
-		winText.enabled = true;
+	void EndState() {
 		Time.timeScale = .1f;
 		OrbitalCameraController cameraController = mainCamera.GetComponent<OrbitalCameraController>();
 		cameraController.distance = 10f;
@@ -173,7 +140,6 @@ public class PeckerWreckerController : MonoBehaviour
 	}
 	
 	void TriggerWinState() {
-		winText.enabled = true;
 	}
 	
 	void Explode() {

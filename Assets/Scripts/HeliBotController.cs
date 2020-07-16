@@ -21,7 +21,7 @@ public class HeliBotController : MonoBehaviour
 	private TimerCountdownController battleClock;
 	
 	// propeller
-	private Boolean propellerOn = false;
+	private bool propellerOn = false;
 	private Rigidbody propellerRB;
 	private Rigidbody baseRB;
 	private GameObject propeller;
@@ -36,7 +36,7 @@ public class HeliBotController : MonoBehaviour
 	private float botRotationSpeed = 200f;
 	public float botMovementSpeed = 1500f;
 	// private float botMovementSpeedDefault = 2000f;
-	private Boolean grounded = true;
+	private bool grounded = true;
 	private int gravityMultiplier = 40000;
 	public GameObject explosionEffect;
 	public GameObject sparkEffect;
@@ -44,8 +44,9 @@ public class HeliBotController : MonoBehaviour
 	private GameObject player;
 	private GameObject enemy;
 	private GameObject floor;
-	private Boolean upsideDown = false;
+	private bool upsideDown = false;
 	private ParticleSystem[] sparks;
+	bool propellerButtonHeld = false;
 	
 	// test vars
 	private int count = 0;
@@ -58,7 +59,7 @@ public class HeliBotController : MonoBehaviour
 			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
 			
 			controls.Player.Select.performed += ctx => PropellerOn();
-			controls.Player.Select.canceled += ctx => PropellerOff();
+			controls.Player.Select.canceled += ctx => PropellerButtonRelease();
 		}
 	}
 	
@@ -120,7 +121,6 @@ public class HeliBotController : MonoBehaviour
 		
 		if (gameObject == player) {
 			UpdatePropeller();
-
 			UpdatePlayerMovement();
 		}
 	}
@@ -148,7 +148,7 @@ public class HeliBotController : MonoBehaviour
 	void UpdatePlayerMovement() {
 		
 		upsideDown = Vector3.Dot(transform.up, Vector3.down) > 0;
-		if (movementInput.x < -0.75 || movementInput.x > 0.75) player.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
+		player.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
 		if (!upsideDown && (movementInput.y < -0.5 || movementInput.y > .5)) {
 			Vector3 direction =  Vector3.Normalize(Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0))); // Get forward direction along the ground
 			if (grounded) Debug.DrawRay(transform.position, direction * 3, Color.green);
@@ -189,10 +189,16 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	void PropellerOn() {
+		propellerButtonHeld = true;
 		FindObjectOfType<AudioManager>().Play("propeller-on");
 		propellerOn = true;
 		propellerTimer = 0;
 		count++;
+	}
+	
+	void PropellerButtonRelease() {
+		propellerButtonHeld = false;
+		PropellerOff();
 	}
 	
 	void PropellerOff() {
@@ -201,6 +207,8 @@ public class HeliBotController : MonoBehaviour
 		propellerOn = false;
 		propellerTimer = 0;
 		count++;
+		
+		if (propellerButtonHeld) PropellerOn();
 	}
 	
 	void Reset() {
