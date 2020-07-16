@@ -15,7 +15,6 @@ public class HeliBotController : MonoBehaviour
 	
 	// Win state
 	public TextMeshProUGUI winText;
-	public TextMeshProUGUI loseText;
 	public TextMeshProUGUI playerHealthLabel;
 	private GameObject enemyWayPoint;
 	private int explodeCount = 0;
@@ -35,7 +34,7 @@ public class HeliBotController : MonoBehaviour
 	private float healthDefault = 1000f;
 	public float health = 1000f;
 	private float botRotationSpeed = 200f;
-	public float botMovementSpeed = 1000f;
+	public float botMovementSpeed = 1500f;
 	// private float botMovementSpeedDefault = 2000f;
 	private Boolean grounded = true;
 	private int gravityMultiplier = 40000;
@@ -54,7 +53,7 @@ public class HeliBotController : MonoBehaviour
 	
 	void Awake() {
 		controls = new InputMaster();
-		if (controls != null) {
+		if (controls != null && gameObject.CompareTag("Player")) {
 			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
 			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
 			
@@ -68,22 +67,20 @@ public class HeliBotController : MonoBehaviour
 	
 	void Start() {
 		Reset();
-		gameObject.tag = "Player";
-		player = gameObject;
+		player = GameObject.FindWithTag("Player");
 		propeller = GameObject.Find("Propeller");
 		propellerRB = propeller.GetComponent<Rigidbody>();
 		baseRB = player.GetComponent<Rigidbody>();
 		mainCamera = GameObject.FindWithTag("MainCamera");
 		if (winText != null) winText.enabled = false;
-		if (loseText != null) loseText.enabled = false;
 		if (playerHealthLabel != null) {
 			playerHealthLabel.text = health.ToString("0");
 		}
 		enemyWayPoint = GameObject.Find("wayPoint");
 		enemy = GameObject.FindWithTag("enemy");
 		floor = GameObject.FindWithTag("Floor");
-		battleClock = FindObjectsOfType<TimerCountdownController>()[0];
-		enemyController = FindObjectsOfType<EnemyController>()[0];
+		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
+		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
 		
 		sparks = player.GetComponentsInChildren<ParticleSystem>();
 		HideWheelSparks();
@@ -121,13 +118,15 @@ public class HeliBotController : MonoBehaviour
 		// Debug.Log(floor.transform.position.y);
 		// Debug.Log(player.transform.position.y);
 		
-		UpdatePropeller();
-		UpdatePlayerMovement();
+		if (gameObject == player) {
+			UpdatePropeller();
+
+			UpdatePlayerMovement();
+		}
 	}
 	
 	public void hideAllLabels() {
 		if (winText != null) winText.enabled = false;
-		if (loseText != null) loseText.enabled = false;
 	}
 	
 	void ShowWheelSparks() {

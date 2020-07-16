@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class OrbitalCameraController : MonoBehaviour {
 
 	[SerializeField]
-	Transform focus = default;
+	private Transform focus = default;
 
 	[SerializeField, Range(1f, 80f)]
 	public float distance = 5f;
@@ -57,6 +57,7 @@ public class OrbitalCameraController : MonoBehaviour {
 
 	void Awake () {
 		regularCamera = GetComponent<Camera>();
+		focus = GameObject.FindWithTag("Player").transform;
 		focusPoint = focus.position;
 		transform.localRotation = Quaternion.Euler(orbitAngles);
 	}

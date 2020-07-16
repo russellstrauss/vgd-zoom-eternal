@@ -3148,7 +3148,7 @@ Transform:
   m_GameObject: {fileID: 257591678272485717}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 3.33, z: 0}
-  m_LocalScale: {x: 17.331556, y: 0.4142781, z: 1.4349}
+  m_LocalScale: {x: 23.278013, y: 0.55641687, z: 1.9272141}
   m_Children: []
   m_Father: {fileID: 6451579420147986099}
   m_RootOrder: 4
@@ -3181,7 +3181,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 978db213586642e4db4b574a2ffd00fc, type: 2}
+  - {fileID: 2100000, guid: 5edfec7f1c9036f4fa591cf8413e89b1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6413,9 +6413,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   winText: {fileID: 578633418842625830, guid: b7d3919bf0ccb1f4e88fe14571a4688e, type: 3}
-  loseText: {fileID: 645854258604382123, guid: bfbc13c3b25ccdd48811aba2354e7fda, type: 3}
   playerHealthLabel: {fileID: 8045037812668582150, guid: adbf732c9c59b5540aad9752f3b829ce,
     type: 3}
+  health: 1000
   botMovementSpeed: 2000
   explosionEffect: {fileID: 118616, guid: 8c51d7df2d29ba8449f85eb74c672555, type: 3}
   sparkEffect: {fileID: 6452269366533336841}

@@ -44,4 +44,17 @@ public class SawBladeController : MonoBehaviour {
 	public void TriggerAttack() {
 		Debug.Log("Sawblade Attack");
 	}
+	
+	void OnTriggerEnter(Collider other) {
+		
+		Debug.Log(other);
+		
+		if (other.CompareTag("Player")) {
+			TriggerAttack();
+		}
+		
+		if (other == player) {
+			TriggerAttack();
+		}
+	}
 }
