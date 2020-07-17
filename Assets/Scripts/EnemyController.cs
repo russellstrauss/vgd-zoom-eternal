@@ -38,7 +38,7 @@ public class EnemyController : MonoBehaviour {
 		
 		InputMaster controls = new InputMaster();
 		if (controls != null) {
-			controls.Player.Select.performed += ctx => explode();
+			//controls.Player.Select.performed += ctx => explode();
 		}
 	}
 
@@ -49,10 +49,10 @@ public class EnemyController : MonoBehaviour {
 	void OnCollisionEnter(Collision collision) 
 	{
 		
-		if (collision.gameObject == player) {
-			collisionCount++;
-			FindObjectOfType<AudioManager>().Play("crash");
-		}
+		// if (collision.gameObject == player) {
+		// 	collisionCount++;
+		// 	FindObjectOfType<AudioManager>().Play("crash");
+		// }
 	}
 	
 	public void SubtractHealth(float amount) {

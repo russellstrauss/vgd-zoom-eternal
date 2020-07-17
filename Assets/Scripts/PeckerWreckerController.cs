@@ -79,7 +79,6 @@ public class PeckerWreckerController : MonoBehaviour
 	void Update() {
 		if (gameObject == player) UpdatePlayerMovement();
 		if (gameObject == enemy) updateAIBehavior();
-		Debug.Log(gameObject == enemy);
 	}
 	
 	void OnCollisionStay(Collision otherObjectCollision) {}
@@ -168,7 +167,7 @@ public class PeckerWreckerController : MonoBehaviour
 		float speed = 1.0f;
 
 
-		Vector3 targetDirection = target.position - transform.position;
+		Vector3 targetDirection = (target.position - transform.position).normalized;
 		// Debug.DrawRay(gameObject.transform.position, targetDirection * 3, Color.cyan);
 		// The step size is equal to speed times frame time.
 		float singleStep = speed * Time.deltaTime;
@@ -181,5 +180,9 @@ public class PeckerWreckerController : MonoBehaviour
 
 		// Calculate a rotation a step closer to the target and applies rotation to this object
 		transform.rotation = Quaternion.LookRotation(newDirection);
+		
+		// transform.position = Vector3.MoveTowards(transform.position, target.position, 10 * Time.deltaTime);
+		
+		// baseRB.MovePosition(transform.position + targetDirection *  Time.deltaTime * 100f);
 	}
 }

@@ -91,8 +91,6 @@ public class HeliBotController : MonoBehaviour
 		
 		sparks = player.GetComponentsInChildren<ParticleSystem>();
 		HideWheelSparks();
-		
-		transform.forward = -transform.forward;
 	}
 	
 	void OnCollisionStay(Collision otherObjectCollision) {
@@ -101,11 +99,11 @@ public class HeliBotController : MonoBehaviour
 	
 	void OnCollisionEnter(Collision otherObjectCollision) {
 		
-		if (otherObjectCollision.gameObject == enemy && enemy != null) {
+		if (otherObjectCollision.gameObject == enemy && enemy != null && enemyController != null) {
 			
 			float damage = (float)propellerRotationSpeed / 30;
-			enemy.GetComponent<EnemyController>().SubtractHealth(damage);
-			if (enemy.GetComponent<EnemyController>().health < .1) TriggerWinState();
+			enemyController.SubtractHealth(damage);
+			if (enemyController.health < .1) TriggerWinState();
 			if (propellerOn && propellerRotationSpeed > propellerMaxSpeed * .9f) {
 				PropellerOff("propeller-off-sudden");
 				FindObjectOfType<AudioManager>().Stop("propeller-on");

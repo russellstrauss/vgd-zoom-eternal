@@ -24,14 +24,14 @@ public class PropellerController : MonoBehaviour
 
 		if (particleTimer > 1) {
 			
-			LaunchShrapnel(otherObjectCollision.gameObject.transform.position);
+			// LaunchShrapnel(otherObjectCollision.gameObject.transform.position);
 			particleTimer = 0;
 		}
 		
 		// if (otherObjectCollision.gameObject.GetComponent<Rigidbody>() == enemyRB) {
 			
 		// 	ContactPoint contact = otherObjectCollision.contacts[0];
-		// 	enemyRB.AddForce(contact.normal * 100000, ForceMode.Impulse);
+		// 	enemyRB.AddForce(contact.normal * 100, ForceMode.Impulse);
 		// }
 	}
 	
