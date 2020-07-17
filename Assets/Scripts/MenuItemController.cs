@@ -3,22 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MenuItemController : MonoBehaviour
 {
-	
-	GameObject hoverIcon;
+	Image activeBG;
+	public GameObject hoverIcon;
+	public GameObject background;
+	public string sceneNameToLoad;
 	
 	void Start() {
 		
-		Image[] uiSprites = gameObject.GetComponentsInChildren<Image>();
-         
-       foreach(Image icon in uiSprites)
-       {
-           if (icon.gameObject.transform.parent != null && icon != gameObject) {
-               hoverIcon = icon.gameObject;
-           }
-       }
+		background.SetActive(false);
+		if (gameObject.GetComponentInChildren<TextMeshProUGUI>().text != "Rage in the Cage") hoverIcon.SetActive(false);
+		activeBG = GameObject.Find("ActiveBG").GetComponent<Image>();
 	}
 	
 	void Update() {
@@ -26,20 +25,16 @@ public class MenuItemController : MonoBehaviour
 	}
 	
 	public void mouseIn() {
-		// Debug.Log("mouseIn " + gameObject);
-		// hoverIcon.enabled = true;
 		hoverIcon.SetActive(true);
-		Debug.Log(hoverIcon);
+		activeBG.sprite = background.GetComponent<Image>().sprite;
 	}
 	
 	public void mouseOut() {
-		// Debug.Log("mouseOut " + gameObject);
-		// hoverIcon.enabled = false;
 		hoverIcon.SetActive(false);
-		Debug.Log(hoverIcon);
 	}
 	
 	public void menuClick() {
 		Debug.Log("menuClick " + gameObject);
+		SceneManager.LoadScene(sceneNameToLoad);
 	}
 }

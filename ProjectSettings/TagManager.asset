@@ -15,6 +15,7 @@ TagManager:
   - hammer
   - hammer_trigger
   - hazard
+  - background
   layers:
   - Default
   - TransparentFX
