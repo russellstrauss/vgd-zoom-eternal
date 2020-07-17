@@ -35,7 +35,7 @@ public class HeliBotController : MonoBehaviour
 	private float healthDefault = 1000f;
 	public float health = 1000f;
 	private float botRotationSpeed = 200f;
-	public float botMovementSpeed = 1500f;
+	public float botMovementSpeed = 2000f;
 	// private float botMovementSpeedDefault = 2000f;
 	private bool grounded = true;
 	private int gravityMultiplier = 40000;

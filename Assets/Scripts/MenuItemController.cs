@@ -16,7 +16,8 @@ public class MenuItemController : MonoBehaviour
 	void Start() {
 		
 		background.SetActive(false);
-		if (gameObject.GetComponentInChildren<TextMeshProUGUI>().text != "Rage in the Cage") hoverIcon.SetActive(false);
+		// if (gameObject.GetComponentInChildren<TextMeshProUGUI>().text != "Rage in the Cage") hoverIcon.SetActive(false);
+		hoverIcon.SetActive(false);
 		activeBG = GameObject.Find("ActiveBG").GetComponent<Image>();
 	}
 	
@@ -36,5 +37,6 @@ public class MenuItemController : MonoBehaviour
 	public void menuClick() {
 		Debug.Log("menuClick " + gameObject);
 		SceneManager.LoadScene(sceneNameToLoad);
+		FindObjectOfType<MusicManagerController>().Stop();
 	}
 }
