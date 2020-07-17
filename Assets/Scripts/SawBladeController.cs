@@ -46,7 +46,7 @@ public class SawBladeController : MonoBehaviour {
 		
 		sawTimer += Time.deltaTime;
 
-		Debug.Log(sawTimer);
+		// Debug.Log(sawTimer);
 
 		for (int i = 0; i < blades.Length; i++) {
 			

@@ -59,9 +59,8 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	void Start() {
 		Reset();
-		gameObject.tag = "Player";
-		player = gameObject;
-		baseRB = player.GetComponent<Rigidbody>();
+		if (gameObject.CompareTag("Player")) player = gameObject;
+		baseRB = gameObject.GetComponent<Rigidbody>();
 		mainCamera = GameObject.FindWithTag("MainCamera");
 		if (winText != null) winText.enabled = false;
 		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
@@ -75,7 +74,7 @@ public class PeckerWreckerController : MonoBehaviour
 	}
 	
 	void Update() {
-		UpdatePlayerMovement();
+		if (player != null) UpdatePlayerMovement();
 	}
 	
 	void OnCollisionStay(Collision otherObjectCollision) {}

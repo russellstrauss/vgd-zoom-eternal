@@ -45,6 +45,7 @@ public class HeliBotController : MonoBehaviour
 	private GameObject enemy;
 	private GameObject floor;
 	private bool upsideDown = false;
+	Renderer particleRenderer;
 	private ParticleSystem[] sparks;
 	bool propellerButtonHeld = false;
 	
@@ -54,6 +55,7 @@ public class HeliBotController : MonoBehaviour
 	
 	void Awake() {
 		controls = new InputMaster();
+		
 		if (controls != null && gameObject.CompareTag("Player")) {
 			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
 			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
@@ -71,7 +73,7 @@ public class HeliBotController : MonoBehaviour
 		player = GameObject.FindWithTag("Player");
 		propeller = GameObject.Find("Propeller");
 		propellerRB = propeller.GetComponent<Rigidbody>();
-		baseRB = player.GetComponent<Rigidbody>();
+		baseRB = gameObject.GetComponent<Rigidbody>();
 		mainCamera = GameObject.FindWithTag("MainCamera");
 		if (winText != null) winText.enabled = false;
 		if (playerHealthLabel != null) {
@@ -93,14 +95,14 @@ public class HeliBotController : MonoBehaviour
 	
 	void OnCollisionEnter(Collision otherObjectCollision) {
 		
-		if (otherObjectCollision.gameObject == enemy) {
+		if (otherObjectCollision.gameObject == enemy && enemy != null) {
 			
 			float damage = (float)propellerRotationSpeed / 30;
 			enemy.GetComponent<EnemyController>().SubtractHealth(damage);
 			if (enemy.GetComponent<EnemyController>().health < .1) TriggerWinState();
 			if (propellerOn && propellerRotationSpeed > propellerMaxSpeed * .9f) {
+				PropellerOff("propeller-off-sudden");
 				FindObjectOfType<AudioManager>().Stop("propeller-on");
-				FindObjectOfType<AudioManager>().Play("propeller-off-sudden");
 				baseRB.AddForce(transform.up * 2000 * movementInput.y, ForceMode.Impulse);
 				propellerOn = false;
 			}
@@ -119,7 +121,7 @@ public class HeliBotController : MonoBehaviour
 		// Debug.Log(floor.transform.position.y);
 		// Debug.Log(player.transform.position.y);
 		
-		if (gameObject == player) {
+		if (player != null) {
 			UpdatePropeller();
 			UpdatePlayerMovement();
 		}
@@ -149,7 +151,8 @@ public class HeliBotController : MonoBehaviour
 		
 		upsideDown = Vector3.Dot(transform.up, Vector3.down) > 0;
 		player.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
-		if (!upsideDown && (movementInput.y < -0.5 || movementInput.y > .5)) {
+		
+		if (movementInput.y < -0.5 || movementInput.y > .5) {
 			Vector3 direction =  Vector3.Normalize(Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0))); // Get forward direction along the ground
 			if (grounded) Debug.DrawRay(transform.position, direction * 3, Color.green);
 			else {
@@ -201,12 +204,15 @@ public class HeliBotController : MonoBehaviour
 		PropellerOff();
 	}
 	
-	void PropellerOff() {
+	void PropellerOff(String offSound = "propeller-off") {
+		
 		FindObjectOfType<AudioManager>().Stop("propeller-on");
-		if (propellerRotationSpeed > propellerMaxSpeed * .6) FindObjectOfType<AudioManager>().Play("propeller-off");
+		if (propellerRotationSpeed > propellerMaxSpeed * .6) FindObjectOfType<AudioManager>().Play(offSound);
 		propellerOn = false;
 		propellerTimer = 0;
 		count++;
+		
+		// Debug.Log("propellerButtonHeld=" + propellerButtonHeld);
 		
 		if (propellerButtonHeld) PropellerOn();
 	}
@@ -233,20 +239,26 @@ public class HeliBotController : MonoBehaviour
 	
 	void TriggerDeathState() {
 		Explode();
-		winText.text = "YOUR BATTLE BOT HAS BEEN DESTROYED";
-		winText.enabled = true;
+		if (winText != null) {
+			winText.text = "YOUR BATTLE BOT HAS BEEN DESTROYED";
+			winText.enabled = true;
+		}
 		EndState();
 	}
 	
 	public void TriggerTimeUpLose() {
-		winText.text = "TIME UP YOU LOST";
-		winText.enabled = true;
+		if (winText != null) {
+			winText.text = "TIME UP YOU LOST";
+			winText.enabled = true;
+		}
 		EndState();
 	}
 	
 	public void TriggerTimeUpWin() {
-		winText.text = "TIME UP YOU WON";
-		winText.enabled = true;
+		if (winText != null) {
+			winText.text = "TIME UP YOU WON";
+			winText.enabled = true;
+		}
 		EndState();
 	}
 	
@@ -259,7 +271,7 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	void TriggerWinState() {
-		winText.enabled = true;
+		if (winText != null) winText.enabled = true;
 	}
 	
 	void Explode() {

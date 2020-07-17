@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Camera))]
 public class OrbitalCameraController : MonoBehaviour {
 
-	[SerializeField]
 	private Transform focus = default;
 
 	[SerializeField, Range(1f, 80f)]
