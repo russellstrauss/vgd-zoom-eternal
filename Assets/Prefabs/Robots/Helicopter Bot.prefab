@@ -3131,6 +3131,8 @@ GameObject:
   - component: {fileID: 257591678272485735}
   - component: {fileID: 257591678272485728}
   - component: {fileID: 257591678272485727}
+  - component: {fileID: 6387489707160082726}
+  - component: {fileID: 4164961682902446636}
   m_Layer: 0
   m_Name: Propeller
   m_TagString: Untagged
@@ -3148,7 +3150,7 @@ Transform:
   m_GameObject: {fileID: 257591678272485717}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 3.33, z: 0}
-  m_LocalScale: {x: 17.331556, y: 0.4142781, z: 1.4349}
+  m_LocalScale: {x: 23.278013, y: 0.55641687, z: 1.9272141}
   m_Children: []
   m_Father: {fileID: 6451579420147986099}
   m_RootOrder: 4
@@ -3181,7 +3183,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 978db213586642e4db4b574a2ffd00fc, type: 2}
+  - {fileID: 2100000, guid: 5edfec7f1c9036f4fa591cf8413e89b1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3214,8 +3216,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 2.5026016, z: 2.0335374}
-  m_Center: {x: 0, y: 0.7513008, z: -0.5167687}
+  m_Size: {x: 1, y: 1.1054664, z: 1.0279268}
+  m_Center: {x: 0, y: -0.0002898729, z: 0.006286153}
 --- !u!114 &257591678272485727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3431,6 +3433,34 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!114 &6387489707160082726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257591678272485717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f875bc47f28f0449835cd58350564a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!54 &4164961682902446636
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257591678272485717}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 1
 --- !u!1 &1297006726946323831
 GameObject:
   m_ObjectHideFlags: 0
@@ -6413,9 +6443,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   winText: {fileID: 578633418842625830, guid: b7d3919bf0ccb1f4e88fe14571a4688e, type: 3}
-  loseText: {fileID: 645854258604382123, guid: bfbc13c3b25ccdd48811aba2354e7fda, type: 3}
   playerHealthLabel: {fileID: 8045037812668582150, guid: adbf732c9c59b5540aad9752f3b829ce,
     type: 3}
+  health: 1000
   botMovementSpeed: 2000
   explosionEffect: {fileID: 118616, guid: 8c51d7df2d29ba8449f85eb74c672555, type: 3}
   sparkEffect: {fileID: 6452269366533336841}

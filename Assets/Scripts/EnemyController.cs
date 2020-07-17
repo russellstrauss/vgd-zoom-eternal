@@ -9,13 +9,13 @@ public class EnemyController : MonoBehaviour {
 	
 	private int collisionCount;
 	public float particleSize = .2f;
-	public int particleSubdivisions = 5;
+	public int particleSubdivisions = 10;
 	public float particleMass;
 	float particlePivotDistance;
 	Vector3 particlesPivot;
-	public float explosionForce;
-	public float explosionRadius;
-	public float explosionUpward;
+	private float explosionForce = 250f;
+	private float explosionRadius = 2f;
+	private float explosionUpward = 1f;
 	public Material explosionParticleMaterial;
 	private Renderer particleRenderer;
 	private GameObject player;
@@ -35,6 +35,11 @@ public class EnemyController : MonoBehaviour {
 		player = GameObject.FindWithTag("Player");
 		if (enemyHealthLabel != null) enemyHealthLabel.text = health.ToString("0");
 		enemyRB = gameObject.GetComponent<Rigidbody>();
+		
+		InputMaster controls = new InputMaster();
+		if (controls != null) {
+			controls.Player.Select.performed += ctx => explode();
+		}
 	}
 
 	void Update() {

@@ -7,7 +7,6 @@ TagManager:
   - Shootable
   - enemy
   - Floor
-  - saw
   - FireLayer
   - Pick Up
   - playerCollider
@@ -15,6 +14,7 @@ TagManager:
   - GameManager
   - hammer
   - hammer_trigger
+  - hazard
   layers:
   - Default
   - TransparentFX

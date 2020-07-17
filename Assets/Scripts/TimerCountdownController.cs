@@ -9,16 +9,16 @@ public class TimerCountdownController : MonoBehaviour
 {
 	private TextMeshProUGUI countdownClock;
 	private int countdownSecondsRemaining = 3;
-	private Boolean countdownDecreasing = false;
-	private Boolean countdownInitialized = false;
+	private bool countdownDecreasing = false;
+	private bool countdownInitialized = false;
 	private TextMeshProUGUI battleClock;
 	private float battleSecondsRemaining = 180f;
-	private Boolean battleClockDecreasing = false;
-	private Boolean battleClockInitialized = false;
+	private bool battleClockDecreasing = false;
+	private bool battleClockInitialized = false;
 	private AudioSource music;
 	private HeliBotController playerController;
 	private EnemyController enemyController;
-	private PauseMenu pauseMenu;
+	private PauseMenu pauseMenuController;
 	
 	private IEnumerator battleClockTimer;
 	
@@ -34,8 +34,9 @@ public class TimerCountdownController : MonoBehaviour
 		enemyController = GameObject.FindWithTag("enemy").GetComponent<EnemyController>();
 		playerController = GameObject.FindWithTag("Player").GetComponent<HeliBotController>();
 		
-		pauseMenu = GameObject.FindWithTag("GameManager").GetComponent<PauseMenu>();
-		pauseMenu.PauseGame();
+		pauseMenuController = GameObject.FindWithTag("GameManager").GetComponent<PauseMenu>();
+		pauseMenuController.PauseGame();
+		pauseMenuController.pauseMenu.SetActive(false);
 		battleClock = gameObject.transform.Find("Game Timer").GetComponent<TextMeshProUGUI>();
 		countdownClock = gameObject.transform.Find("Match Start Countdown").GetComponent<TextMeshProUGUI>();
 		countdownClock.text = countdownSecondsRemaining.ToString("0");
@@ -105,7 +106,7 @@ public class TimerCountdownController : MonoBehaviour
 	}
 	
 	public void StartTimer() {
-		pauseMenu.ResumeGame();
+		pauseMenuController.ResumeGame();
 		battleClockInitialized = true;
 		music.UnPause();
 	}

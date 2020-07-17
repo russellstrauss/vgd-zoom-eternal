@@ -12,6 +12,8 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenu;
     public static bool isPaused;
 	public GameObject[] menuItems;
+	private AudioSource music;
+	private float musicDefaultVolume;
 	
 	// Hide Win/Lose state GUI's
 	private GameObject player;
@@ -32,6 +34,8 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
 		player = GameObject.FindWithTag("Player");
 		heliBotController = player.GetComponent<HeliBotController>();
+		music = GameObject.FindWithTag("MainCamera").GetComponent<AudioSource>();
+		musicDefaultVolume = music.volume;
     }
 
     void Update()
@@ -61,6 +65,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
         isPaused = true;
 		if (heliBotController) heliBotController.hideAllLabels();
+		if (music) music.volume = musicDefaultVolume / 8;
     }
 
     public void ResumeGame()
@@ -68,6 +73,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
+		music.volume = musicDefaultVolume;
     }
 
     public void GoToMenu()

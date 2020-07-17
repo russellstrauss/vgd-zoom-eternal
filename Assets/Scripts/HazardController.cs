@@ -32,10 +32,22 @@ public class HazardController : MonoBehaviour
 	}
 	
 	
+	// Why does this method call itself? Method does not take a parameter, yet calls itself with a parameter? Commenting during merge since it seems like a mistake
+    
+	// IEnumerator Pickup()
+    // {
+    // 	Debug.Log("Hazard is being picked");
+
+    // 	if (other.gameObject.CompareTag("playerCollider")){
+    // 		// Pickup(other);
+    // 		StartCoroutine(Pickup(other));
+	// 		GetComponent<TimeStop>().StopTime(0.05f, 10, 0.1f);
+	// 	}
+    // }
 	
-    IEnumerator Pickup()
+	// Old method pre-merge; delete/change as needed
+    IEnumerator Pickup(Collider other)
     {
-    	Debug.Log("Hazard is being picked");
     	GameObject clone = Instantiate(pickupEffect, transform.position, transform.rotation);
     	
     	// TODO add more healthy to the player
