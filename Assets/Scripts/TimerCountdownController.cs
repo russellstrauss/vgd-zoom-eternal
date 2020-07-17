@@ -108,7 +108,7 @@ public class TimerCountdownController : MonoBehaviour
 	public void StartTimer() {
 		pauseMenuController.ResumeGame();
 		battleClockInitialized = true;
-		// music.UnPause();
+		music.UnPause();
 	}
 	
 	public void StopTimer() {

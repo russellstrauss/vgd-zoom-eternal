@@ -43,7 +43,6 @@ public class HazardController : MonoBehaviour
     }
     IEnumerator Pickup(Collider other)
     {
-    	// Debug.Log("Hazard is being picked");
     	GameObject clone = Instantiate(pickupEffect, transform.position, transform.rotation);
     	
     	// TODO add more healthy to the player

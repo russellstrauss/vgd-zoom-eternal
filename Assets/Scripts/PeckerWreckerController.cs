@@ -37,7 +37,7 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	void Awake() {
 		controls = new InputMaster();
-		if (controls != null) {
+		if (controls != null && gameObject.CompareTag("Player")) {
 			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
 			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
 			
@@ -135,7 +135,6 @@ public class PeckerWreckerController : MonoBehaviour
 		OrbitalCameraController cameraController = mainCamera.GetComponent<OrbitalCameraController>();
 		cameraController.distance = 10f;
 		battleClock.StopTimer();
-		// Debug.Log("timeScale=" + Time.timeScale);
 	}
 	
 	void TriggerWinState() {
@@ -143,11 +142,12 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	void Explode() {
 		// if (explodeCount < 10) explosion = Instantiate(explosionEffect, propeller.transform.position, transform.rotation);
-		if (controls != null) disableBotControls();
+		if (controls != null && player != null) disableBotControls();
 		explodeCount++;
 	}
 	
 	void disableBotControls() {
+		Debug.Log("Pecker Wrecker Controls Disabled");
 		controls.Player.Move.Disable();
 		controls.Player.Select.Disable();
 	}

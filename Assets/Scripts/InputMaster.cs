@@ -41,6 +41,14 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Drive"",
+                    ""type"": ""Button"",
+                    ""id"": ""c30f5a65-a615-4056-8f07-96897f8fb67f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -219,6 +227,39 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""Exit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""14912bdc-6770-4e55-a7c7-2c50fe397a44"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controls"",
+                    ""action"": ""Drive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c7017c4f-a7b5-4698-8703-e69347d71453"",
+                    ""path"": ""<Keyboard>/leftAlt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controls"",
+                    ""action"": ""Drive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4ed46d5-2b61-4a4e-8418-9bae74ce7160"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controls"",
+                    ""action"": ""Drive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -247,6 +288,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
         m_Player_Exit = m_Player.FindAction("Exit", throwIfNotFound: true);
+        m_Player_Drive = m_Player.FindAction("Drive", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -299,6 +341,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Select;
     private readonly InputAction m_Player_Exit;
+    private readonly InputAction m_Player_Drive;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
@@ -306,6 +349,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Select => m_Wrapper.m_Player_Select;
         public InputAction @Exit => m_Wrapper.m_Player_Exit;
+        public InputAction @Drive => m_Wrapper.m_Player_Drive;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -324,6 +368,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Exit.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExit;
                 @Exit.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExit;
                 @Exit.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExit;
+                @Drive.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrive;
+                @Drive.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrive;
+                @Drive.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrive;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -337,6 +384,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Exit.started += instance.OnExit;
                 @Exit.performed += instance.OnExit;
                 @Exit.canceled += instance.OnExit;
+                @Drive.started += instance.OnDrive;
+                @Drive.performed += instance.OnDrive;
+                @Drive.canceled += instance.OnDrive;
             }
         }
     }
@@ -355,5 +405,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnExit(InputAction.CallbackContext context);
+        void OnDrive(InputAction.CallbackContext context);
     }
 }

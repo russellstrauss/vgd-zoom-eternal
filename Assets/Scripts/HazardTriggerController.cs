@@ -27,7 +27,6 @@ public class HazardTriggerController : MonoBehaviour
 			
 			if (sawBladeController != null) {
 				sawBladeController.TriggerAttack();
-				// Debug.Log("Trigger Attack object=" + other);
 			}
 		}
 	}
@@ -39,9 +38,7 @@ public class HazardTriggerController : MonoBehaviour
 		if (hazardTrigger != null) {
 			
 			if (sawBladeController != null) {
-				
 				sawBladeController.ExitAttack();
-				// Debug.Log("Trigger Exit object=" + other);
 			}
 			count++;
 		}

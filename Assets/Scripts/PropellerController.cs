@@ -21,10 +21,7 @@ public class PropellerController : MonoBehaviour
 	}
 	
 	void OnCollisionEnter(Collision otherObjectCollision) {
-		
-		
-		Debug.Log("otherObjectCollision=" + otherObjectCollision);
-		
+
 		if (particleTimer > 1) {
 			
 			LaunchShrapnel(otherObjectCollision.gameObject.transform.position);
@@ -51,8 +48,6 @@ public class PropellerController : MonoBehaviour
 	}
 	
 	private void LaunchShrapnel(Vector3 position) {
-		
-		Debug.Log("LaunchShrapnel");
 		
 		int particleSubdivisions = 1;
 		for (int x = 0; x < particleSubdivisions; x++) {

@@ -31,6 +31,7 @@ public class HeliBotController : MonoBehaviour
 	private float propellerRotationBaseSpeed = 8f; // exponential
 	
 	// bot
+	bool driving = false;
 	private float healthDefault = 1000f;
 	public float health = 1000f;
 	private float botRotationSpeed = 200f;
@@ -62,6 +63,9 @@ public class HeliBotController : MonoBehaviour
 			
 			controls.Player.Select.performed += ctx => PropellerOn();
 			controls.Player.Select.canceled += ctx => PropellerButtonRelease();
+			
+			controls.Player.Drive.performed += ctx => Drive();
+			controls.Player.Drive.canceled += ctx => DriveRelease();
 		}
 	}
 	
@@ -118,9 +122,6 @@ public class HeliBotController : MonoBehaviour
 
 	void FixedUpdate() {
 		
-		// Debug.Log(floor.transform.position.y);
-		// Debug.Log(player.transform.position.y);
-		
 		if (player != null) {
 			UpdatePropeller();
 			UpdatePlayerMovement();
@@ -152,22 +153,18 @@ public class HeliBotController : MonoBehaviour
 		upsideDown = Vector3.Dot(transform.up, Vector3.down) > 0;
 		player.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
 		
-		if (movementInput.y < -0.5 || movementInput.y > .5) {
+		if (driving) {
 			Vector3 direction =  Vector3.Normalize(Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0))); // Get forward direction along the ground
 			if (grounded) Debug.DrawRay(transform.position, direction * 3, Color.green);
 			else {
 				Debug.DrawRay(transform.position, direction * 3, Color.red);
 			}
-			baseRB.AddForce(direction * botMovementSpeed * movementInput.y, ForceMode.Impulse);
-			if (movementInput.y > 1) ShowWheelSparks();
+			baseRB.AddForce(direction * botMovementSpeed, ForceMode.Impulse);
 		}
 		else {
 			HideWheelSparks();
 		}
-		// if (upsideDown && propellerOn && propellerRotationSpeed > (propellerMaxSpeed * .2)) {
-		// 	// initial blast, then turn off
-		// 	baseRB.AddTorque(transform.up * 1000);
-		// }
+
 		baseRB.AddForce(new Vector3(0, -1, 0) * gravityMultiplier, ForceMode.Force);
 	}
 	
@@ -215,6 +212,14 @@ public class HeliBotController : MonoBehaviour
 		// Debug.Log("propellerButtonHeld=" + propellerButtonHeld);
 		
 		if (propellerButtonHeld) PropellerOn();
+	}
+	
+	void Drive() {
+		driving = true;
+	}
+	
+	void DriveRelease() {
+		driving = false;
 	}
 	
 	void Reset() {
@@ -267,7 +272,6 @@ public class HeliBotController : MonoBehaviour
 		OrbitalCameraController cameraController = mainCamera.GetComponent<OrbitalCameraController>();
 		cameraController.distance = 10f;
 		battleClock.StopTimer();
-		// Debug.Log("timeScale=" + Time.timeScale);
 	}
 	
 	void TriggerWinState() {

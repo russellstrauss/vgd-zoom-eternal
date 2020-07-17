@@ -18,13 +18,15 @@ public class SawBladeController : MonoBehaviour {
 	GameObject player;
 	[HideInInspector]
 	
-	Vector3 displacement = new Vector3(0, 5, 0);
-	float sawSpeed = 2.5f;
+	Vector3 displacement = new Vector3(0, 4f, 0);
+	float sawSpeed = 5f;
 	Vector3[] bladeStartingPositions;
-	int count = 0;
-	// create timer for saw
 	float sawTimer = 0f;
-
+	float sawActiveTime = 8f;
+	
+	// Test vars
+	int count = 0;
+	
 	void Awake() {
 		
 	}
@@ -46,28 +48,32 @@ public class SawBladeController : MonoBehaviour {
 		
 		sawTimer += Time.deltaTime;
 
-		// Debug.Log(sawTimer);
-
 		for (int i = 0; i < blades.Length; i++) {
 			
 			blades[i].transform.Rotate(rotation * Time.deltaTime);
 			
-			Debug.DrawRay(bladeStartingPositions[i], new Vector3(0, .1f, 0), Color.yellow);
+			Debug.DrawRay(bladeStartingPositions[i], displacement, Color.green);
+			Debug.DrawRay(bladeStartingPositions[i], new Vector3(0, .2f, 0), Color.red);
+			Debug.DrawRay(bladeStartingPositions[i] + displacement, new Vector3(0, .2f, 0), Color.red);
 			
-			
-			if (sawTimer < 2) {
-				blades[i].transform.position = Vector3.MoveTowards(blades[i].transform.position, bladeStartingPositions[i] + displacement, sawSpeed * Time.deltaTime);
-				// blades[i].transform.position = Vector3.MoveTowards(blades[i].transform.position, targetPosition, sawSpeed * Time.deltaTime);
+			if (sawTimer < sawActiveTime / 2) {
+				Vector3 targetPosition = bladeStartingPositions[i] + displacement;
+				// Doesn't move up when timer is reset my player collision. Why?
+				blades[i].transform.position = Vector3.MoveTowards(blades[i].transform.position, targetPosition, sawSpeed * Time.deltaTime);
+				// Debug.Log("saw moving up, sawTimer=" + sawTimer + ", count=" + count);
+				count++;
 			}
-			if(sawTimer > 2) {
+			else if (sawTimer > sawActiveTime / 2) {
+				count = 0;
 				blades[i].transform.position = Vector3.MoveTowards(blades[i].transform.position, bladeStartingPositions[i], sawSpeed * Time.deltaTime);
 			}
+			if (sawTimer > sawActiveTime) sawTimer = 0;
 		}
-		count++;
 	}
 	
 	public void TriggerAttack() {
 		sawTimer = 0;
+		count = 0;
 		isColliding = true;
 		FindObjectOfType<AudioManager>().Play("crash");
 	}
