@@ -27,7 +27,7 @@ public class HazardController : MonoBehaviour
 			
 			playerRb.AddForce(new Vector3(0, 1, 0) * 10000, ForceMode.Impulse);
 			FindObjectOfType<AudioManager>().Play("crash");
-			StartCoroutine(Pickup());
+			// StartCoroutine(Pickup());
 		}
 	}
 	
