@@ -91,6 +91,8 @@ public class HeliBotController : MonoBehaviour
 		
 		sparks = player.GetComponentsInChildren<ParticleSystem>();
 		HideWheelSparks();
+		
+		Debug.Log(playerHealthLabel);
 	}
 	
 	void OnCollisionStay(Collision otherObjectCollision) {

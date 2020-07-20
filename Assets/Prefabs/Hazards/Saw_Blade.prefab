@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3297781244637325923}
   - component: {fileID: 9149234143685924506}
   - component: {fileID: 2688619023307468238}
-  - component: {fileID: 1577844129138053440}
   - component: {fileID: 1577844129138053311}
   m_Layer: 0
   m_Name: Saw_Blade
@@ -97,19 +96,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!65 &1577844129138053440
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7405129406946239046}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.984896, y: 0.020759005, z: 0.98246115}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1577844129138053311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,3 +108,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ee32c5a8c2947f45827fb6e16a835fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isColliding: 0

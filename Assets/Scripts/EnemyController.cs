@@ -7,21 +7,21 @@ using UnityEngine.InputSystem;
 
 public class EnemyController : MonoBehaviour {
 	
-	private int collisionCount;
-	public float particleSize = .2f;
-	public int particleSubdivisions = 10;
-	public float particleMass;
+	int collisionCount;
+	float particleSize = .2f;
+	int particleSubdivisions = 10;
+	float particleMass;
 	float particlePivotDistance;
 	Vector3 particlesPivot;
-	private float explosionForce = 250f;
-	private float explosionRadius = 2f;
-	private float explosionUpward = 1f;
+	float explosionForce = 250f;
+	float explosionRadius = 2f;
+	float explosionUpward = 1f;
 	public Material explosionParticleMaterial;
-	private Renderer particleRenderer;
-	private GameObject player;
+	Renderer particleRenderer;
+	GameObject player;
 	public float health = 1000f;
 	public TextMeshProUGUI enemyHealthLabel;
-	private int gravityMultiplier = 10000;
+	int gravityMultiplier = 10000;
 	Rigidbody enemyRB;
 	
 	void Start() {
@@ -64,7 +64,7 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 	
-	private void explode() {
+	void explode() {
 		gameObject.SetActive(false);
 		
 		for (int x = 0; x < particleSubdivisions; x++) {
@@ -86,7 +86,7 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 	
-	private void createParticle(int x, int y, int z) {
+	void createParticle(int x, int y, int z) {
 		GameObject particle = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		if (particleRenderer != null){
 			particleRenderer.material = explosionParticleMaterial;
