@@ -12,14 +12,14 @@ public class HeliBotController : MonoBehaviour
 	InputMaster controls;
 	private Vector3 playerStartPosition;
 	private Vector3 cameraStartPosition;
-	
+
 	// Win state
 	public TextMeshProUGUI winText;
 	public TextMeshProUGUI playerHealthLabel;
 	private GameObject enemyWayPoint;
 	private int explodeCount = 0;
 	private TimerCountdownController battleClock;
-	
+
 	// propeller
 	private bool propellerOn = false;
 	private Rigidbody propellerRB;
@@ -29,7 +29,7 @@ public class HeliBotController : MonoBehaviour
 	private float propellerMaxSpeed = 3000f;
 	private float propellerTimer = 0.0f;
 	private float propellerRotationBaseSpeed = 8f; // exponential
-	
+
 	// bot
 	bool driving = false;
 	private float healthDefault = 1000f;
@@ -49,29 +49,29 @@ public class HeliBotController : MonoBehaviour
 	Renderer particleRenderer;
 	private ParticleSystem[] sparks;
 	bool propellerButtonHeld = false;
-	
+
 	// test vars
 	private int count = 0;
 	EnemyController enemyController;
-	
+
 	void Awake() {
 		controls = new InputMaster();
-		
+
 		if (controls != null && gameObject.CompareTag("Player")) {
 			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
 			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
-			
+
 			controls.Player.Select.performed += ctx => PropellerOn();
 			controls.Player.Select.canceled += ctx => PropellerButtonRelease();
-			
+
 			controls.Player.Drive.performed += ctx => Drive();
 			controls.Player.Drive.canceled += ctx => DriveRelease();
 		}
 	}
-	
+
 	void OnEnable()	{ if (controls != null) controls.Player.Enable(); }
 	void OnDisable() { if (controls != null) controls.Player.Disable(); }
-	
+
 	void Start() {
 		Reset();
 		player = GameObject.FindWithTag("Player");
@@ -88,21 +88,21 @@ public class HeliBotController : MonoBehaviour
 		floor = GameObject.FindWithTag("Floor");
 		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
 		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
-		
+
 		sparks = player.GetComponentsInChildren<ParticleSystem>();
 		HideWheelSparks();
 		
 		Debug.Log(playerHealthLabel);
 	}
-	
+
 	void OnCollisionStay(Collision otherObjectCollision) {
-		
+
 	}
-	
+
 	void OnCollisionEnter(Collision otherObjectCollision) {
-		
+
 		if (otherObjectCollision.gameObject == enemy && enemy != null && enemyController != null) {
-			
+
 			float damage = (float)propellerRotationSpeed / 30;
 			enemyController.SubtractHealth(damage);
 			if (enemyController.health < .1) TriggerWinState();
@@ -113,27 +113,27 @@ public class HeliBotController : MonoBehaviour
 				propellerOn = false;
 			}
 		}
-		
+
 		if (otherObjectCollision.gameObject == floor) grounded = true;
 	}
-	
+
 	void OnCollisionExit(Collision otherObjectCollision) {
-		
+
 		if (otherObjectCollision.gameObject == floor) grounded = false;
 	}
 
 	void FixedUpdate() {
-		
+
 		if (player != null) {
 			UpdatePropeller();
 			UpdatePlayerMovement();
 		}
 	}
-	
+
 	public void hideAllLabels() {
 		if (winText != null) winText.enabled = false;
 	}
-	
+
 	void ShowWheelSparks() {
 		if (sparks != null) {
 			foreach(ParticleSystem s in sparks) {
@@ -141,7 +141,7 @@ public class HeliBotController : MonoBehaviour
 			}
 		}
 	}
-	
+
 	void HideWheelSparks() {
 		if (sparks != null) {
 			foreach(ParticleSystem s in sparks) {
@@ -149,13 +149,14 @@ public class HeliBotController : MonoBehaviour
 			}
 		}
 	}
-	
+
 	void UpdatePlayerMovement() {
-		
+
 		upsideDown = Vector3.Dot(transform.up, Vector3.down) > 0;
 		player.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
-		
+
 		if (driving) {
+			Debug.Log("Driving forward?");
 			Vector3 direction =  Vector3.Normalize(Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0))); // Get forward direction along the ground
 			if (grounded) Debug.DrawRay(transform.position, direction * 3, Color.green);
 			else {
@@ -169,7 +170,7 @@ public class HeliBotController : MonoBehaviour
 
 		baseRB.AddForce(new Vector3(0, -1, 0) * gravityMultiplier, ForceMode.Force);
 	}
-	
+
 	void UpdatePropeller() {
 		propellerTimer += Time.deltaTime;
 		if (propellerRotationSpeed < propellerMaxSpeed && propellerOn) propellerRotationSpeed = (float)Math.Pow(propellerRotationBaseSpeed, propellerTimer);
@@ -184,12 +185,12 @@ public class HeliBotController : MonoBehaviour
 			explosion.transform.position = propeller.transform.position;
 			explosion.transform.rotation = propeller.transform.rotation;
 		}
-		
+
 		if (enemyWayPoint != null) {
 			enemyWayPoint.transform.position = player.transform.position;
 		}
 	}
-	
+
 	void PropellerOn() {
 		propellerButtonHeld = true;
 		FindObjectOfType<AudioManager>().Play("propeller-on");
@@ -197,37 +198,37 @@ public class HeliBotController : MonoBehaviour
 		propellerTimer = 0;
 		count++;
 	}
-	
+
 	void PropellerButtonRelease() {
 		propellerButtonHeld = false;
 		PropellerOff();
 	}
-	
+
 	void PropellerOff(String offSound = "propeller-off") {
-		
+
 		FindObjectOfType<AudioManager>().Stop("propeller-on");
 		if (propellerRotationSpeed > propellerMaxSpeed * .6) FindObjectOfType<AudioManager>().Play(offSound);
 		propellerOn = false;
 		propellerTimer = 0;
 		count++;
-		
+
 		// Debug.Log("propellerButtonHeld=" + propellerButtonHeld);
-		
+
 		if (propellerButtonHeld) PropellerOn();
 	}
-	
+
 	void Drive() {
 		driving = true;
 	}
-	
+
 	void DriveRelease() {
 		driving = false;
 	}
-	
+
 	void Reset() {
 		health = healthDefault;
 	}
-	
+
 	public void SubtractHealth(float amount) {
 		health -= amount;
 		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
@@ -235,15 +236,15 @@ public class HeliBotController : MonoBehaviour
 			TriggerDeathState();
 		}
 	}
-	
+
 	public void SetBotSpeed(float newSpeed) {
 		botMovementSpeed = newSpeed;
 	}
-	
+
 	public void AddHealth(float amount) {
 		health += amount;
 	}
-	
+
 	void TriggerDeathState() {
 		Explode();
 		if (winText != null) {
@@ -252,7 +253,7 @@ public class HeliBotController : MonoBehaviour
 		}
 		EndState();
 	}
-	
+
 	public void TriggerTimeUpLose() {
 		if (winText != null) {
 			winText.text = "TIME UP YOU LOST";
@@ -260,7 +261,7 @@ public class HeliBotController : MonoBehaviour
 		}
 		EndState();
 	}
-	
+
 	public void TriggerTimeUpWin() {
 		if (winText != null) {
 			winText.text = "TIME UP YOU WON";
@@ -268,24 +269,24 @@ public class HeliBotController : MonoBehaviour
 		}
 		EndState();
 	}
-	
+
 	void EndState() {
 		Time.timeScale = .1f;
 		OrbitalCameraController cameraController = mainCamera.GetComponent<OrbitalCameraController>();
 		cameraController.distance = 10f;
 		battleClock.StopTimer();
 	}
-	
+
 	void TriggerWinState() {
 		if (winText != null) winText.enabled = true;
 	}
-	
+
 	void Explode() {
-		if (explodeCount < 10) explosion = Instantiate(explosionEffect, propeller.transform.position, transform.rotation);
+		if (explodeCount < 1) explosion = Instantiate(explosionEffect, propeller.transform.position, transform.rotation);
 		if (controls != null) disableBotControls();
 		explodeCount++;
 	}
-	
+
 	void disableBotControls() {
 		controls.Player.Move.Disable();
 		controls.Player.Select.Disable();
