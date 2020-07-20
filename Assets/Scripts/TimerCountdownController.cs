@@ -31,7 +31,7 @@ public class TimerCountdownController : MonoBehaviour
 		music.Play();
 		music.Pause();
 		
-		enemyController = GameObject.FindWithTag("enemy").GetComponent<EnemyController>();
+		if (enemyController != null) enemyController = GameObject.FindWithTag("enemy").GetComponent<EnemyController>();
 		playerController = GameObject.FindWithTag("Player").GetComponent<HeliBotController>();
 		
 		pauseMenuController = GameObject.FindWithTag("GameManager").GetComponent<PauseMenu>();
