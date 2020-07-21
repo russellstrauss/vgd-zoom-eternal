@@ -91,8 +91,6 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	void UpdatePlayerMovement() {
 		
-		Debug.Log(movementInput.y);
-		
 		if (movementInput.x < -.5 || movementInput.x > .5) player.transform.Rotate(new Vector3(0, 1, 0) * Time.deltaTime * botRotationSpeed * movementInput.x);
 
 		Vector3 direction =  Vector3.Normalize(Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0))); // Get forward direction along the ground
