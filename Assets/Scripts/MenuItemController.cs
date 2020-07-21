@@ -14,10 +14,11 @@ public class MenuItemController : MonoBehaviour
 	public string sceneNameToLoad;
 	
 	BotSelectorController botSelectorController;
+	Scene scene;
 	
 	void Start() {
 		
-		Scene scene = SceneManager.GetActiveScene();
+		scene = SceneManager.GetActiveScene();
 
 		if (hoverIcon != null) hoverIcon.SetActive(false);
         
@@ -49,7 +50,16 @@ public class MenuItemController : MonoBehaviour
 	}
 	
 	public void menuClick() {
-		SceneManager.LoadScene(sceneNameToLoad);
+		
+		
+		
+		if (scene.name == "ArenaSelector") {
+			
+		}
+		else if (scene.name == "BotSelector") {
+			SceneManager.LoadScene("ArenaSelector");
+		}
+		
 		if (FindObjectOfType<MusicManagerController>() != null) FindObjectOfType<MusicManagerController>().Stop();
 	}
 }

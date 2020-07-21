@@ -7,7 +7,7 @@ public class Menu : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene("ArenaSelector");
+        SceneManager.LoadScene("BotSelector");
     }
 
     public void QuitGame()
