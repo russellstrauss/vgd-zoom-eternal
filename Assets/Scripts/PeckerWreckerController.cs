@@ -35,6 +35,8 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	EnemyController enemyController;
 	
+	bool hammering = true;
+	
 	int count = 0;
 	
 	void Awake() {
@@ -50,9 +52,25 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	void HammerOn() {
 		Debug.Log("Hammer on " + count);
-		hammer.AddTorque(gameObject.transform.forward * 1000);
+		// hammer.AddTorque(gameObject.transform.forward * 1000);
 		hammer.AddForce(gameObject.transform.forward * 2000, ForceMode.Impulse);
 		count++;
+		
+		if (hammering) {
+			
+			float speed = 1.0f;
+			float singleStep = speed * Time.deltaTime;
+			Transform target = hammer.transform;
+			Vector3 targetDirection = -(target.position - transform.position).normalized;
+			Debug.DrawRay(hammer.transform.position, targetDirection * 3, Color.cyan);
+			Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+
+			// Draw a ray pointing at our target in
+			Debug.DrawRay(transform.position, newDirection, Color.white);
+
+			// Calculate a rotation a step closer to the target and applies rotation to this object
+			hammer.rotation = Quaternion.LookRotation(newDirection);
+		}
 	}
 	
 	void HammerOff() {

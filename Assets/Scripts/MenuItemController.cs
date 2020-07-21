@@ -15,10 +15,15 @@ public class MenuItemController : MonoBehaviour
 	
 	void Start() {
 		
-		background.SetActive(false);
-		// if (gameObject.GetComponentInChildren<TextMeshProUGUI>().text != "Rage in the Cage") hoverIcon.SetActive(false);
-		hoverIcon.SetActive(false);
-		activeBG = GameObject.Find("ActiveBG").GetComponent<Image>();
+		Scene scene = SceneManager.GetActiveScene();
+
+		if (hoverIcon != null) hoverIcon.SetActive(false);
+        
+		if (scene.name == "ArenaSelector") {
+			background.SetActive(false);
+			activeBG = GameObject.Find("ActiveBG").GetComponent<Image>();
+		}
+		
 	}
 	
 	void Update() {
@@ -26,17 +31,16 @@ public class MenuItemController : MonoBehaviour
 	}
 	
 	public void mouseIn() {
-		hoverIcon.SetActive(true);
-		activeBG.sprite = background.GetComponent<Image>().sprite;
+		if (hoverIcon != null) hoverIcon.SetActive(true);
+		if (background != null) activeBG.sprite = background.GetComponent<Image>().sprite;
 	}
 	
 	public void mouseOut() {
-		hoverIcon.SetActive(false);
+		if (hoverIcon != null) hoverIcon.SetActive(false);
 	}
 	
 	public void menuClick() {
-		Debug.Log("menuClick " + gameObject);
 		SceneManager.LoadScene(sceneNameToLoad);
-		FindObjectOfType<MusicManagerController>().Stop();
+		if (FindObjectOfType<MusicManagerController>() != null) FindObjectOfType<MusicManagerController>().Stop();
 	}
 }

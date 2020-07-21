@@ -16,6 +16,8 @@ TagManager:
   - hammer_trigger
   - hazard
   - background
+  - saw
+  - characterSelect
   layers:
   - Default
   - TransparentFX
@@ -29,7 +31,7 @@ TagManager:
   - Ground
   - Postprocessing
   - FireLayer
-  - 
+  - CharacterPanel
   - 
   - 
   - 
