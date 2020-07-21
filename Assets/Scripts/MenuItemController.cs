@@ -13,6 +13,8 @@ public class MenuItemController : MonoBehaviour
 	public GameObject background;
 	public string sceneNameToLoad;
 	
+	BotSelectorController botSelectorController;
+	
 	void Start() {
 		
 		Scene scene = SceneManager.GetActiveScene();
@@ -22,6 +24,9 @@ public class MenuItemController : MonoBehaviour
 		if (scene.name == "ArenaSelector") {
 			background.SetActive(false);
 			activeBG = GameObject.Find("ActiveBG").GetComponent<Image>();
+		}
+		else if (scene.name == "BotSelector") {
+			botSelectorController = FindObjectOfType<BotSelectorController>();
 		}
 		
 	}
@@ -33,6 +38,10 @@ public class MenuItemController : MonoBehaviour
 	public void mouseIn() {
 		if (hoverIcon != null) hoverIcon.SetActive(true);
 		if (background != null) activeBG.sprite = background.GetComponent<Image>().sprite;
+		
+		if (botSelectorController != null) {
+			botSelectorController.ShowBot(gameObject.GetComponentInChildren<TextMeshProUGUI>().text);
+		}
 	}
 	
 	public void mouseOut() {
