@@ -5,10 +5,11 @@ using UnityEngine;
 public class BotSelectorController : MonoBehaviour
 {
 	
-	float botRotationSpeed = 25f;
+	float botRotationSpeed = 12.5f;
+	GameObject[] characterSelections;
 	
 	void Start() {
-		
+		characterSelections = GameObject.FindGameObjectsWithTag("characterSelect");
 	}
 
 	void Update() {
@@ -16,6 +17,9 @@ public class BotSelectorController : MonoBehaviour
 	}
 	
 	void SpinCharacterSelection() {
-		GameObject.FindWithTag("characterSelect").transform.Rotate(new Vector3(0, 1, 0) * Time.deltaTime * botRotationSpeed);
+		
+		foreach (GameObject character in characterSelections) {
+			character.transform.Rotate(new Vector3(0, 1, 0) * Time.deltaTime * botRotationSpeed);
+		}
 	}
 }
