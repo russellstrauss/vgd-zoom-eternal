@@ -215,6 +215,7 @@ public class HeliBotController : MonoBehaviour
 	}
 
 	void Drive() {
+		Debug.Log("DRIVING SET TO TRUE");
 		driving = true;
 	}
 
