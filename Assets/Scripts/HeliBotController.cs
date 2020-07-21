@@ -160,7 +160,6 @@ public class HeliBotController : MonoBehaviour
 				Debug.DrawRay(transform.position, direction * 3, Color.red);
 			}
 			baseRB.AddForce(direction * botMovementSpeed, ForceMode.Impulse);
-			Debug.Log(direction * botMovementSpeed);
 		}
 		else {
 			HideWheelSparks();
