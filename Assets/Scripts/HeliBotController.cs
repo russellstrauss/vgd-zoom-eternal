@@ -91,6 +91,8 @@ public class HeliBotController : MonoBehaviour
 
 		sparks = player.GetComponentsInChildren<ParticleSystem>();
 		HideWheelSparks();
+		
+		Debug.Log(playerHealthLabel);
 	}
 
 	void OnCollisionStay(Collision otherObjectCollision) {
@@ -154,13 +156,13 @@ public class HeliBotController : MonoBehaviour
 		player.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
 
 		if (driving) {
-			Debug.Log("Driving forward?");
 			Vector3 direction =  Vector3.Normalize(Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0))); // Get forward direction along the ground
 			if (grounded) Debug.DrawRay(transform.position, direction * 3, Color.green);
 			else {
 				Debug.DrawRay(transform.position, direction * 3, Color.red);
 			}
 			baseRB.AddForce(direction * botMovementSpeed, ForceMode.Impulse);
+			Debug.Log(direction * botMovementSpeed);
 		}
 		else {
 			HideWheelSparks();

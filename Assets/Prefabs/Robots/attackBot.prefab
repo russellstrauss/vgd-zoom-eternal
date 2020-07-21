@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8901816296728448370}
   - component: {fileID: 8901816296728448374}
-  - component: {fileID: 8901816296728448375}
   - component: {fileID: 8901816296728448373}
   - component: {fileID: 8901816296728448368}
   - component: {fileID: 8901816296728448369}
@@ -56,19 +55,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &8901816296728448375
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8901816296728448372}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.05, y: 0.1, z: 0.1}
-  m_Center: {x: 0.01, y: 0.031, z: 0}
 --- !u!114 &8901816296728448373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,13 +67,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c53ddd67aae33e6488826485cdccae4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleSize: 0.2
-  particleSubdivisions: 5
-  particleMass: 0
-  explosionForce: 0
-  explosionRadius: 0
-  explosionUpward: 0
   explosionParticleMaterial: {fileID: 0}
+  health: 1000
+  enemyHealthLabel: {fileID: 0}
 --- !u!114 &8901816296728448368
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public class PropellerController : MonoBehaviour
 	
 	void Start() {
 		enemy = GameObject.FindWithTag("enemy");
-		enemyRB = enemy.GetComponent<Rigidbody>();
+		if (enemy != null) enemyRB = enemy.GetComponent<Rigidbody>();
 		
 		LaunchShrapnel(gameObject.transform.position);
 	}
