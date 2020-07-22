@@ -11,16 +11,22 @@ public class PowerUpController : MonoBehaviour
 	public float spinForce = 200.0f;
 	private GameObject player;
 	private HeliBotController heliBotController;
+	public bool moveToLeft = true;
+	public float cur_x;
 
 	void Start()
 	{
 		player = GameObject.FindWithTag("Player");
+		cur_x = transform.position.x;
 		if (player != null) heliBotController = player.GetComponent<HeliBotController>();
 	}
 	
 	void Update()
 	{
 		transform.Rotate(0, spinForce * Time.deltaTime, 0);
+		// transform.position += transform.forward * Time.deltaTime;
+		// transform.Translate(Vector3.right * Time.deltaTime, Space.Self);
+		Move();
 	}
 
     void OnTriggerEnter(Collider other)
@@ -53,4 +59,18 @@ public class PowerUpController : MonoBehaviour
 	void IncreaseSpeed(int speed) {
 		heliBotController.SetBotSpeed(heliBotController.botMovementSpeed + speed);
 	}
+
+	private void Move()
+    {
+		if (transform.position.x <= cur_x -3 && moveToLeft)
+        {
+            moveToLeft = false;
+        }
+
+        else if (transform.position.x >= cur_x+3 && !moveToLeft)
+		{
+			moveToLeft = true;
+		}
+        transform.position += (moveToLeft ? Vector3.left : Vector3.right) * Time.deltaTime ;
+    }
 }
