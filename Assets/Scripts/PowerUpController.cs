@@ -23,7 +23,7 @@ public class PowerUpController : MonoBehaviour
 	
 	void Update()
 	{
-		transform.Rotate(0, spinForce * Time.deltaTime, 0);
+		// transform.Rotate(0, spinForce * Time.deltaTime, 0);
 		// transform.position += transform.forward * Time.deltaTime;
 		// transform.Translate(Vector3.right * Time.deltaTime, Space.Self);
 		Move();
