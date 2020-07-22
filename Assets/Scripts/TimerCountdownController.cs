@@ -7,20 +7,21 @@ using TMPro;
 
 public class TimerCountdownController : MonoBehaviour
 {
-	private TextMeshProUGUI countdownClock;
-	private int countdownSecondsRemaining = 3;
-	private bool countdownDecreasing = false;
-	private bool countdownInitialized = false;
-	private TextMeshProUGUI battleClock;
-	private float battleSecondsRemaining = 180f;
-	private bool battleClockDecreasing = false;
-	private bool battleClockInitialized = false;
-	private AudioSource music;
-	private HeliBotController playerController;
-	private EnemyController enemyController;
-	private PauseMenu pauseMenuController;
+	TextMeshProUGUI countdownClock;
+	int countdownSecondsRemaining = 3;
+	bool countdownDecreasing = false;
+	bool countdownInitialized = false;
+	TextMeshProUGUI battleClock;
+	float battleSecondsRemaining = 180f;
+	bool battleClockDecreasing = false;
+	bool battleClockInitialized = false;
+	AudioSource music;
+	HeliBotController playerController;
+	EnemyController enemyController;
+	PauseMenu pauseMenuController;
+	GameObject player;
 	
-	private IEnumerator battleClockTimer;
+	IEnumerator battleClockTimer;
 	
 	InputMaster controls;
 	Vector2 movementInput;
@@ -32,7 +33,8 @@ public class TimerCountdownController : MonoBehaviour
 		music.Pause();
 		
 		if (enemyController != null) enemyController = GameObject.FindWithTag("enemy").GetComponent<EnemyController>();
-		playerController = GameObject.FindWithTag("Player").GetComponent<HeliBotController>();
+		player = GameObject.FindWithTag("Player");
+		if (player != null) playerController = player.GetComponent<HeliBotController>();
 		
 		pauseMenuController = GameObject.FindWithTag("GameManager").GetComponent<PauseMenu>();
 		pauseMenuController.PauseGame();
@@ -100,7 +102,7 @@ public class TimerCountdownController : MonoBehaviour
 		}
 	}
 	
-	private void StartCountdown() {
+	void StartCountdown() {
 		countdownInitialized = true;
 		FindObjectOfType<AudioManager>().Play("short-beep");
 	}

@@ -33,7 +33,7 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenu.SetActive(false);
 		player = GameObject.FindWithTag("Player");
-		heliBotController = player.GetComponent<HeliBotController>();
+		if (player) heliBotController = player.GetComponent<HeliBotController>();
 		music = GameObject.FindWithTag("MainCamera").GetComponent<AudioSource>();
 		musicDefaultVolume = music.volume;
     }

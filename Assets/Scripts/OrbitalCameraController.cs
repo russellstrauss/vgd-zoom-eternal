@@ -35,6 +35,7 @@ public class OrbitalCameraController : MonoBehaviour {
 	Vector3 focusPoint, previousFocusPoint;
 	public Vector2 orbitAngles = new Vector2(45f, 0f);
 	float lastManualRotationTime = 0f;
+	GameObject player;
 
 	Vector3 CameraHalfExtends {
 		get {
@@ -56,43 +57,49 @@ public class OrbitalCameraController : MonoBehaviour {
 
 	void Awake () {
 		regularCamera = GetComponent<Camera>();
-		focus = GameObject.FindWithTag("Player").transform;
-		focusPoint = focus.position;
-		transform.localRotation = Quaternion.Euler(orbitAngles);
+		player = GameObject.FindWithTag("Player");
+		if (player != null) {
+			focus = player.transform;
+			focusPoint = focus.position;
+			transform.localRotation = Quaternion.Euler(orbitAngles);
+		}
 	}
 
 	void LateUpdate () {
 		
-		UpdateFocusPoint();
-		Quaternion lookRotation;
-		//if (ManualRotation() || AutomaticRotation()) {
-		if (AutomaticRotation()) {
-			ConstrainAngles();
-			lookRotation = Quaternion.Euler(orbitAngles);
-		}
-		else {
-			lookRotation = transform.localRotation;
-		}
+		if (player != null) {
+			
+			UpdateFocusPoint();
+			Quaternion lookRotation;
+			//if (ManualRotation() || AutomaticRotation()) {
+			if (AutomaticRotation()) {
+				ConstrainAngles();
+				lookRotation = Quaternion.Euler(orbitAngles);
+			}
+			else {
+				lookRotation = transform.localRotation;
+			}
 
-		Vector3 lookDirection = lookRotation * Vector3.forward;
-		Vector3 lookPosition = focusPoint - lookDirection * distance;
+			Vector3 lookDirection = lookRotation * Vector3.forward;
+			Vector3 lookPosition = focusPoint - lookDirection * distance;
 
-		Vector3 rectOffset = lookDirection * regularCamera.nearClipPlane;
-		Vector3 rectPosition = lookPosition + rectOffset;
-		Vector3 castFrom = focus.position;
-		Vector3 castLine = rectPosition - castFrom;
-		float castDistance = castLine.magnitude;
-		Vector3 castDirection = castLine / castDistance;
+			Vector3 rectOffset = lookDirection * regularCamera.nearClipPlane;
+			Vector3 rectPosition = lookPosition + rectOffset;
+			Vector3 castFrom = focus.position;
+			Vector3 castLine = rectPosition - castFrom;
+			float castDistance = castLine.magnitude;
+			Vector3 castDirection = castLine / castDistance;
 
-		if (Physics.BoxCast(
-			castFrom, CameraHalfExtends, castDirection, out RaycastHit hit,
-			lookRotation, castDistance, obstructionMask
-		)) {
-			rectPosition = castFrom + castDirection * hit.distance;
-			lookPosition = rectPosition - rectOffset;
+			if (Physics.BoxCast(
+				castFrom, CameraHalfExtends, castDirection, out RaycastHit hit,
+				lookRotation, castDistance, obstructionMask
+			)) {
+				rectPosition = castFrom + castDirection * hit.distance;
+				lookPosition = rectPosition - rectOffset;
+			}
+			
+			transform.SetPositionAndRotation(lookPosition, lookRotation);
 		}
-		
-		transform.SetPositionAndRotation(lookPosition, lookRotation);
 	}
 
 	void UpdateFocusPoint () {

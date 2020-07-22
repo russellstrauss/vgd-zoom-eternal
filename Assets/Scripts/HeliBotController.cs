@@ -89,7 +89,7 @@ public class HeliBotController : MonoBehaviour
 		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
 		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
 
-		sparks = player.GetComponentsInChildren<ParticleSystem>();
+		sparks = gameObject.GetComponentsInChildren<ParticleSystem>();
 		HideWheelSparks();
 	}
 

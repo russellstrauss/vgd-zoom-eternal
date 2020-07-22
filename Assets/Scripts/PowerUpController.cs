@@ -15,7 +15,7 @@ public class PowerUpController : MonoBehaviour
 	void Start()
 	{
 		player = GameObject.FindWithTag("Player");
-		heliBotController = player.GetComponent<HeliBotController>();
+		if (player != null) heliBotController = player.GetComponent<HeliBotController>();
 	}
 	
 	void Update()
