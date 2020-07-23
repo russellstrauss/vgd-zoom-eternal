@@ -21,8 +21,10 @@ public class hammerRotatorController : MonoBehaviour
         originalRotationValue = transform.rotation;
         m_hammer_trigger = GameObject.FindWithTag("hammer_trigger");
         player = GameObject.FindWithTag("Player");
-		playerRb = player.GetComponent<Rigidbody>();
-        heliBotController = player.GetComponent<HeliBotController>();
+		if (player != null) {
+			playerRb = player.GetComponent<Rigidbody>();
+			heliBotController = player.GetComponent<HeliBotController>();
+		}
     }
     
     // Update is called once per frame
