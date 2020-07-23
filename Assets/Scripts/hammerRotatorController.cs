@@ -16,10 +16,10 @@ public class hammerRotatorController : MonoBehaviour
     // Use this for initialization
     public float speed = 0.1f;
     public Quaternion originalRotationValue;
-    private GameObject m_cube;
+    private GameObject m_hammer_trigger;
     void Start () {
         originalRotationValue = transform.rotation;
-        m_cube = GameObject.FindWithTag("hammer_trigger");
+        m_hammer_trigger = GameObject.FindWithTag("hammer_trigger");
         player = GameObject.FindWithTag("Player");
 		playerRb = player.GetComponent<Rigidbody>();
         heliBotController = player.GetComponent<HeliBotController>();
@@ -34,7 +34,7 @@ public class hammerRotatorController : MonoBehaviour
         // transform.RotateAround(GameObject.FindWithTag("hammer").transform.position + new Vector3(0, 0, 5) , new Vector3(0, 0, 1), 1 );
         count++;
         
-        if (m_cube.GetComponent<hammerTriggerController>().EnteredTrigger)
+        if (m_hammer_trigger.GetComponent<hammerTriggerController>().EnteredTrigger)
         {
             transform.RotateAround(GameObject.FindWithTag("hammer").transform.position , new Vector3(0, 0, 1), 1 );
             // transform.Rotate(0, 0, 2);
@@ -64,7 +64,7 @@ public class hammerRotatorController : MonoBehaviour
     	GameObject clone = Instantiate(pickupEffect, transform.position, transform.rotation);
     	
     	// TODO add more healthy to the player
-		heliBotController.SubtractHealth(100);
+		heliBotController.SubtractHealth(50);
 
     	// GetComponent<MeshRenderer>().enabled = false;
     	// GetComponent<Collider>().enabled = false;

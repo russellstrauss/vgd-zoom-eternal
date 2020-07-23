@@ -41,7 +41,7 @@ public class PowerUpController : MonoBehaviour
     IEnumerator Pickup(Collider other)
     {
 		GameObject clone = Instantiate(pickupEffect, transform.position, transform.rotation);
-		player.GetComponent<HeliBotController>().AddHealth(100);
+		player.GetComponent<HeliBotController>().AddHealth(50);
 		
 		// remove the effect from the player
 		GetComponent<MeshRenderer>().enabled = false;
