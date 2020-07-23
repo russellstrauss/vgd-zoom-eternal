@@ -87,7 +87,7 @@ namespace DigitalRuby.PyroParticles
         {
             base.Update();
 
-            LoopingAudioSource.Update();
+            if (LoopingAudioSource != null) LoopingAudioSource.Update();
         }
 
         protected override void Start()

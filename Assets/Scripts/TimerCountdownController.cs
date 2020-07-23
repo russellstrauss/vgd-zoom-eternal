@@ -29,8 +29,8 @@ public class TimerCountdownController : MonoBehaviour
 	void Start() {
 		
 		music = GameObject.FindWithTag("MainCamera").GetComponent<AudioSource>();
-		music.Play();
-		music.Pause();
+		// music.Play();
+		// music.Pause();
 		
 		if (enemyController != null) enemyController = GameObject.FindWithTag("enemy").GetComponent<EnemyController>();
 		player = GameObject.FindWithTag("Player");

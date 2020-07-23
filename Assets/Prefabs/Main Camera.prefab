@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7282719981867223064}
   - component: {fileID: 7282719981867223071}
   - component: {fileID: 7282719981867223070}
-  - component: {fileID: 7282719981867223066}
   - component: {fileID: 7282719981867223067}
   - component: {fileID: 7282719981867223060}
+  - component: {fileID: 8939124453404941371}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -86,102 +86,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7282719981867223069}
   m_Enabled: 1
---- !u!82 &7282719981867223066
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7282719981867223069}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 67145669803331d4280778a162ef38e8, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 0.1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 174
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!114 &7282719981867223067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,7 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 070be12a9b93f32459dc17e3be761264, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focus: {fileID: 0}
   distance: 25.2
   focusRadius: 10
   focusCentering: 0.19
@@ -267,3 +170,76 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   orbitAngles: {x: 45, y: 0}
+--- !u!114 &8939124453404941371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7282719981867223069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc0ad706307b33749b33a4d7a3a7c84b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicList:
+  - name: acrid-avid-jam-shred
+    clip: {fileID: 8300000, guid: f55fa615cb59c5e40acba00494aa3116, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: actium
+    clip: {fileID: 8300000, guid: 095c3a7d529dd6f4a9da61abc58a8fd4, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: change
+    clip: {fileID: 8300000, guid: 4f7e063c2ca34a142b003d4b43143ad5, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: free-falling
+    clip: {fileID: 8300000, guid: 67145669803331d4280778a162ef38e8, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: next-heap-with
+    clip: {fileID: 8300000, guid: 767cd97020a48f04cb969af7323aa57a, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: tha
+    clip: {fileID: 8300000, guid: 5dda25a68e2d1c842845f58791df82f1, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: we-are-the-music-makers
+    clip: {fileID: 8300000, guid: 50a64aa807daf3a45954adf8e66d2fc5, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: we-have-arrived
+    clip: {fileID: 8300000, guid: 19825d1b28b9460489fd329e0a75fdc3, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: wet-tip-hen-axe
+    clip: {fileID: 8300000, guid: 324189511cfa061499d723a1c0004c3f, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: xtal
+    clip: {fileID: 8300000, guid: 28ab4386c3b43d945a3b7615db738ceb, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}

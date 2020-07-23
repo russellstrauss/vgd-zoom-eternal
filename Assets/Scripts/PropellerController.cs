@@ -8,12 +8,12 @@ public class PropellerController : MonoBehaviour
 	GameObject enemy;
 	Rigidbody enemyRB;
 	float particleTimer = 0;
+	HeliBotController heliBotController;
 	
 	void Start() {
 		enemy = GameObject.FindWithTag("enemy");
 		if (enemy != null) enemyRB = enemy.GetComponent<Rigidbody>();
-		
-		LaunchShrapnel(gameObject.transform.position);
+		heliBotController = FindObjectOfType<HeliBotController>();
 	}
 
 	void Update() {
@@ -21,18 +21,19 @@ public class PropellerController : MonoBehaviour
 	}
 	
 	void OnCollisionEnter(Collision otherObjectCollision) {
-
+		
+		Rigidbody otherRB = otherObjectCollision.gameObject.GetComponent<Rigidbody>();
+		if (otherRB != null) {
+			
+			Vector3 contactNormal = otherObjectCollision.contacts[0].normal;
+			otherRB.AddForce(contactNormal * (float)heliBotController.propellerRotationSpeed * 100000f * heliBotController.botMovementSpeed, ForceMode.Impulse);
+		}
+		
 		if (particleTimer > 1) {
 			
 			// LaunchShrapnel(otherObjectCollision.gameObject.transform.position);
 			particleTimer = 0;
 		}
-		
-		// if (otherObjectCollision.gameObject.GetComponent<Rigidbody>() == enemyRB) {
-			
-		// 	ContactPoint contact = otherObjectCollision.contacts[0];
-		// 	enemyRB.AddForce(contact.normal * 100, ForceMode.Impulse);
-		// }
 	}
 	
 	private void createParticle(int x, int y, int z, int subdivisions) {

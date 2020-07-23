@@ -26,7 +26,7 @@ public class HeliBotController : MonoBehaviour
 	private Rigidbody propellerRB;
 	private Rigidbody baseRB;
 	private GameObject propeller;
-	private double propellerRotationSpeed;
+	public double propellerRotationSpeed;
 	private float propellerMaxSpeed = 3000f;
 	private float propellerTimer = 0.0f;
 	private float propellerRotationBaseSpeed = 8f; // exponential
@@ -173,9 +173,9 @@ public class HeliBotController : MonoBehaviour
 		if (propellerRotationSpeed < propellerMaxSpeed && propellerOn) propellerRotationSpeed = (float)Math.Pow(propellerRotationBaseSpeed, propellerTimer);
 		else if (!propellerOn) {
 			if (propellerRotationSpeed > 0) propellerRotationSpeed -= (propellerTimer * 5);
-			else {
-				propellerRotationSpeed = 0;
-			}
+			// else {
+			// 	propellerRotationSpeed = 0;
+			// }
 		}
 		propeller.transform.Rotate(new Vector3(0, (float)propellerRotationSpeed, 0) * Time.deltaTime);
 		if (explosion != null) {
