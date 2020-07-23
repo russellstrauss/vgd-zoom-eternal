@@ -12,7 +12,6 @@ public class hammerRotatorController : MonoBehaviour
 	private Rigidbody playerRb;
 	private HeliBotController heliBotController;
     private Quaternion targetRotation;
-    public int count = 0;
     // Use this for initialization
     public float speed = 0.1f;
     public Quaternion originalRotationValue;
@@ -25,8 +24,10 @@ public class hammerRotatorController : MonoBehaviour
         m_hammer_trigger = GameObject.FindWithTag("hammer_trigger");
         hammer = GameObject.FindWithTag("hammer");
         player = GameObject.FindWithTag("Player");
-		playerRb = player.GetComponent<Rigidbody>();
-        heliBotController = player.GetComponent<HeliBotController>();
+		if (player != null) {
+			playerRb = player.GetComponent<Rigidbody>();
+			heliBotController = player.GetComponent<HeliBotController>();
+		}
     }
     
     // Update is called once per frame
@@ -36,7 +37,6 @@ public class hammerRotatorController : MonoBehaviour
         // transform.Rotate(new Vector3(0, 0, 1));
         // targetRotation = Quaternion.Euler(0,180,RotateAngle*count+origionZ) * Quaternion.identity;
         // transform.RotateAround(GameObject.FindWithTag("hammer").transform.position + new Vector3(0, 0, 5) , new Vector3(0, 0, 1), 1 );
-        count++;
 
         // Debug.DrawRay(gameObject.transform.position, new Vector3(0, 1, 0), Color.red);
         if (m_hammer_trigger.GetComponent<hammerTriggerController>().EnteredTrigger)
