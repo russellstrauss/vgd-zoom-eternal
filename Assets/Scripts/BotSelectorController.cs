@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class BotSelectorController : MonoBehaviour
 {
-	
-	float botRotationSpeed = 12.5f;
+	static public string selectedBot;
+	float botRotationSpeed = 20f;
 	GameObject[] characterSelections;
 	
 	void Start() {
 		characterSelections = GameObject.FindGameObjectsWithTag("characterSelect");
 		HideAllBots();
+		
+		if (selectedBot != null) {
+			
+			if (selectedBot == "Stellar Propeller" && FindObjectsOfType<HeliBotController>().Length > 0) FindObjectsOfType<HeliBotController>()[0].SetPlayer();
+		}
 	}
 
 	void Update() {
@@ -27,7 +32,10 @@ public class BotSelectorController : MonoBehaviour
 	public void ShowBot(string botName) {
 		foreach (GameObject character in characterSelections) {
 			character.SetActive(false);
-			if (character.name == botName) character.SetActive(true);
+			if (character.name == botName) {
+				selectedBot = botName;
+				character.SetActive(true);
+			}
 		}
 	}
 	

@@ -8,6 +8,7 @@ using TMPro;
 public class PeckerWreckerController : MonoBehaviour
 {
 	GameObject mainCamera;
+	OrbitalCameraController cameraController;
 	Vector2 movementInput;
 	InputMaster controls;
 	Vector3 playerStartPosition;
@@ -39,16 +40,20 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	int count = 0;
 	
-	void Awake() {
+	void EnablePlayerControls() {
+		
 		controls = new InputMaster();
-		if (controls != null && gameObject.CompareTag("Player")) {
+		if (controls != null) {
 			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
 			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
-			
 			controls.Player.Select.performed += ctx => HammerOn();
 			controls.Player.Select.canceled += ctx => HammerOff();
+			controls.Player.Enable();
 		}
 	}
+	
+	void OnEnable()	{ if (controls != null) controls.Player.Enable(); }
+	void OnDisable() { if (controls != null) controls.Player.Disable(); }
 	
 	void HammerOn() {
 		Debug.Log("Hammer on " + count);
@@ -76,9 +81,6 @@ public class PeckerWreckerController : MonoBehaviour
 	void HammerOff() {
 		
 	}
-	
-	void OnEnable()	{ if (controls != null) controls.Player.Enable(); }
-	void OnDisable() { if (controls != null) controls.Player.Disable(); }
 	
 	void Start() {
 		Reset();
@@ -126,7 +128,6 @@ public class PeckerWreckerController : MonoBehaviour
 		health = healthDefault;
 	}
 
-	
 	public void SubtractHealth(float amount) {
 		health -= amount;
 		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");

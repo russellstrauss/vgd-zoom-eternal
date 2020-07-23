@@ -49,23 +49,24 @@ public class HeliBotController : MonoBehaviour
 	Renderer particleRenderer;
 	private ParticleSystem[] sparks;
 	bool propellerButtonHeld = false;
+	OrbitalCameraController cameraController;
 
 	// test vars
 	private int count = 0;
 	EnemyController enemyController;
-
-	void Awake() {
+	
+	void EnablePlayerControls() {
+		
 		controls = new InputMaster();
-
 		if (controls != null && gameObject.CompareTag("Player")) {
+			
 			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
 			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
-
 			controls.Player.Select.performed += ctx => PropellerOn();
 			controls.Player.Select.canceled += ctx => PropellerButtonRelease();
-
 			controls.Player.Drive.performed += ctx => Drive();
 			controls.Player.Drive.canceled += ctx => DriveRelease();
+			controls.Player.Enable();
 		}
 	}
 
@@ -74,15 +75,13 @@ public class HeliBotController : MonoBehaviour
 
 	void Start() {
 		Reset();
-		player = GameObject.FindWithTag("Player");
+		mainCamera = GameObject.FindWithTag("MainCamera");
+		cameraController = mainCamera.GetComponent<OrbitalCameraController>();
+		baseRB = gameObject.GetComponent<Rigidbody>();
 		propeller = GameObject.Find("Propeller");
 		propellerRB = propeller.GetComponent<Rigidbody>();
-		baseRB = gameObject.GetComponent<Rigidbody>();
-		mainCamera = GameObject.FindWithTag("MainCamera");
 		if (winText != null) winText.enabled = false;
-		if (playerHealthLabel != null) {
-			playerHealthLabel.text = health.ToString("0");
-		}
+		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
 		enemyWayPoint = GameObject.Find("wayPoint");
 		enemy = GameObject.FindWithTag("enemy");
 		floor = GameObject.FindWithTag("Floor");
@@ -215,7 +214,7 @@ public class HeliBotController : MonoBehaviour
 	}
 
 	void Drive() {
-		Debug.Log("DRIVING SET TO TRUE");
+		//Debug.Log("DRIVING SET TO TRUE");
 		driving = true;
 	}
 
@@ -270,7 +269,6 @@ public class HeliBotController : MonoBehaviour
 
 	void EndState() {
 		Time.timeScale = .1f;
-		OrbitalCameraController cameraController = mainCamera.GetComponent<OrbitalCameraController>();
 		cameraController.distance = 10f;
 		battleClock.StopTimer();
 	}
@@ -288,5 +286,13 @@ public class HeliBotController : MonoBehaviour
 	void disableBotControls() {
 		controls.Player.Move.Disable();
 		controls.Player.Select.Disable();
+	}
+	
+	public void SetPlayer() {
+		Debug.Log("player set to helibot controller");
+		gameObject.tag = "Player";
+		player = gameObject;
+		EnablePlayerControls();
+		cameraController.SetPlayerFocus();
 	}
 }
