@@ -36,7 +36,7 @@ public class get_close_to_shoot_fire : MonoBehaviour
 		Target = wayPoint.transform;
 		originalRotation = transform.localRotation;
 		player = GameObject.FindWithTag("Player");
-		heliBotController = player.GetComponent<HeliBotController>();
+		if (FindObjectsOfType<HeliBotController>().Length > 0) heliBotController = FindObjectsOfType<HeliBotController>()[0];
     }
 
     void Update ()

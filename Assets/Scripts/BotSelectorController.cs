@@ -4,13 +4,25 @@ using UnityEngine;
 
 public class BotSelectorController : MonoBehaviour
 {
-	
-	float botRotationSpeed = 12.5f;
+	static public string selectedBot;
+	float botRotationSpeed = 20f;
 	GameObject[] characterSelections;
 	
 	void Start() {
 		characterSelections = GameObject.FindGameObjectsWithTag("characterSelect");
 		HideAllBots();
+		
+		if (selectedBot != null) {
+			
+			try {
+				if (selectedBot == "Stellar Propeller" && FindObjectsOfType<HeliBotController>().Length > 0) FindObjectsOfType<HeliBotController>()[0].SetPlayer();
+				if (selectedBot == "Pecker Wrecker" && FindObjectsOfType<PeckerWreckerController>().Length > 0) FindObjectsOfType<PeckerWreckerController>()[0].SetPlayer();
+				if (selectedBot == "Hot Bot" && FindObjectsOfType<DigitalRuby.PyroParticles.FlameBotController>().Length > 0) FindObjectsOfType<DigitalRuby.PyroParticles.FlameBotController>()[0].SetPlayer();
+			}
+			catch (System.Exception error) {
+				Debug.Log("Error setting player: " + error);
+			}
+		}
 	}
 
 	void Update() {
@@ -27,7 +39,10 @@ public class BotSelectorController : MonoBehaviour
 	public void ShowBot(string botName) {
 		foreach (GameObject character in characterSelections) {
 			character.SetActive(false);
-			if (character.name == botName) character.SetActive(true);
+			if (character.name == botName) {
+				selectedBot = botName;
+				character.SetActive(true);
+			}
 		}
 	}
 	

@@ -8,6 +8,7 @@ using TMPro;
 public class PeckerWreckerController : MonoBehaviour
 {
 	GameObject mainCamera;
+	OrbitalCameraController cameraController;
 	Vector2 movementInput;
 	InputMaster controls;
 	Vector3 playerStartPosition;
@@ -39,16 +40,20 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	int count = 0;
 	
-	void Awake() {
+	void EnablePlayerControls() {
+		
 		controls = new InputMaster();
-		if (controls != null && gameObject.CompareTag("Player")) {
+		if (controls != null) {
 			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
 			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
-			
 			controls.Player.Select.performed += ctx => HammerOn();
 			controls.Player.Select.canceled += ctx => HammerOff();
+			controls.Player.Enable();
 		}
 	}
+	
+	void OnEnable()	{ if (controls != null) controls.Player.Enable(); }
+	void OnDisable() { if (controls != null) controls.Player.Disable(); }
 	
 	void HammerOn() {
 		Debug.Log("Hammer on " + count);
@@ -77,17 +82,12 @@ public class PeckerWreckerController : MonoBehaviour
 		
 	}
 	
-	void OnEnable()	{ if (controls != null) controls.Player.Enable(); }
-	void OnDisable() { if (controls != null) controls.Player.Disable(); }
-	
 	void Start() {
 		Reset();
-		if (gameObject.CompareTag("Player")) player = gameObject;
-		else {
-			player = GameObject.FindWithTag("Player");
-		}
-		baseRB = gameObject.GetComponent<Rigidbody>();
 		mainCamera = GameObject.FindWithTag("MainCamera");
+		cameraController = mainCamera.GetComponent<OrbitalCameraController>();
+		player = GameObject.FindWithTag("Player");
+		baseRB = gameObject.GetComponent<Rigidbody>();
 		if (winText != null) winText.enabled = false;
 		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
 		enemyWayPoint = GameObject.Find("wayPoint");
@@ -95,7 +95,6 @@ public class PeckerWreckerController : MonoBehaviour
 		floor = GameObject.FindWithTag("Floor");
 		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
 		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
-		HingeJoint hinge = gameObject.GetComponent<HingeJoint>();
 		hammer = GameObject.FindWithTag("hammer").GetComponent<Rigidbody>();
 	}
 	
@@ -126,7 +125,6 @@ public class PeckerWreckerController : MonoBehaviour
 		health = healthDefault;
 	}
 
-	
 	public void SubtractHealth(float amount) {
 		health -= amount;
 		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
@@ -205,5 +203,12 @@ public class PeckerWreckerController : MonoBehaviour
 		// transform.position = Vector3.MoveTowards(transform.position, target.position, 10 * Time.deltaTime);
 		
 		// baseRB.MovePosition(transform.position + targetDirection *  Time.deltaTime * 100f);
+	}
+	
+	public void SetPlayer() {
+		gameObject.tag = "Player";
+		player = gameObject;
+		EnablePlayerControls();
+		cameraController.SetPlayerFocus();
 	}
 }
