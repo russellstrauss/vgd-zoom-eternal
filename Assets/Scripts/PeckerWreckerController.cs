@@ -96,6 +96,7 @@ public class PeckerWreckerController : MonoBehaviour
 		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
 		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
 		hammer = GameObject.FindWithTag("hammer").GetComponent<Rigidbody>();
+		EnablePlayerControls();
 	}
 	
 	void Update() {
