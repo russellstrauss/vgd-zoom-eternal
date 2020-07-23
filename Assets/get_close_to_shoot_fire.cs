@@ -41,51 +41,56 @@ public class get_close_to_shoot_fire : MonoBehaviour
 
     void Update ()
     {
-
-    distance = Vector3.Distance(this.transform.position, wayPoint.transform.position);
-    //we are too close and do not want to be hit
-     wayPointPos = new Vector3(wayPoint.transform.position.x, wayPoint.transform.position.y, wayPoint.transform.position.z);
-    if (distance < trail) {
-        //Debug.Log("Should be backing up?");
-        transform.position = Vector3.MoveTowards(transform.position, wayPointPos, -1 * speed * Time.deltaTime);
-    } else {
-        transform.position = Vector3.MoveTowards(transform.position, wayPointPos, speed * Time.deltaTime);
+		if (gameObject.CompareTag("enemy")) UpdatePlayerAI();
     }
+	
+	void UpdatePlayerAI()
+	{
+		Debug.Log("update flame AI");
+		distance = Vector3.Distance(this.transform.position, wayPoint.transform.position);
+		//we are too close and do not want to be hit
+		wayPointPos = new Vector3(wayPoint.transform.position.x, wayPoint.transform.position.y, wayPoint.transform.position.z);
+		if (distance < trail) {
+			//Debug.Log("Should be backing up?");
+			transform.position = Vector3.MoveTowards(transform.position, wayPointPos, -1 * speed * Time.deltaTime);
+		} else {
+			transform.position = Vector3.MoveTowards(transform.position, wayPointPos, speed * Time.deltaTime);
+		}
 
 
-      //wayPointRotation = new Quaternion(wayPoint.transform.rotation.x, 0, wayPoint.transform.rotation.z, 0);
-      //find the vector pointing from our position to the target
-      _direction = (Target.position - transform.position).normalized;
+		//wayPointRotation = new Quaternion(wayPoint.transform.rotation.x, 0, wayPoint.transform.rotation.z, 0);
+		//find the vector pointing from our position to the target
+		_direction = (Target.position - transform.position).normalized;
 
-    //create the rotation we need to be in to look at the target
-    _lookRotation = Quaternion.LookRotation(_direction) * Quaternion.Euler(0, -90, 0);
-    //Debug.Log(_lookRotation);
+		//create the rotation we need to be in to look at the target
+		_lookRotation = Quaternion.LookRotation(_direction) * Quaternion.Euler(0, -90, 0);
+		//Debug.Log(_lookRotation);
 
-    //rotate us over time according to speed until we are in the required rotation
-    transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * RotationSpeed);
-    if (distance < trail + 4) {
-        //gonna try and shoot some fire!
+		//rotate us over time according to speed until we are in the required rotation
+		transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * RotationSpeed);
+		if (distance < trail + 4) {
+			//gonna try and shoot some fire!
 
-        if (GameObject.Find("Flamethrower(Clone)") != null) {
-            //already exists, lets update location
-            GameObject fire = GameObject.Find("Flamethrower(Clone)");
-            // Debug.Log("Game object exists");
-            fire.transform.position =  transform.position+(transform.right*2)+transform.up*2;
-            fire.transform.rotation = _lookRotation * Quaternion.Euler(0, 90, 0);
-			if (heliBotController != null && Time.timeScale == 1) heliBotController.SubtractHealth(enemyDamageRatio);
-            //Debug.Log("at pt" + fire.transform.position);
-        } else {
-            //does not exist so lets make flame
-            //Debug.Log("Making flame");
-            BeginEffect();
-        }
-    }
-    if (distance > trail + 6) {
-        //gonna try and shoot some fire!
-        //Debug.Log("I think i wana stop shooting fire?" + Prefabs.Length);
-        StopCurrent();
-    }
-    }
+			if (GameObject.Find("Flamethrower(Clone)") != null) {
+				//already exists, lets update location
+				GameObject fire = GameObject.Find("Flamethrower(Clone)");
+				// Debug.Log("Game object exists");
+				fire.transform.position =  transform.position+(transform.right*2)+transform.up*2;
+				fire.transform.rotation = _lookRotation * Quaternion.Euler(0, 90, 0);
+				if (heliBotController != null && Time.timeScale == 1) heliBotController.SubtractHealth(enemyDamageRatio);
+				//Debug.Log("at pt" + fire.transform.position);
+			} else {
+				//does not exist so lets make flame
+				//Debug.Log("Making flame");
+				BeginEffect();
+			}
+		}
+		if (distance > trail + 6) {
+			//gonna try and shoot some fire!
+			//Debug.Log("I think i wana stop shooting fire?" + Prefabs.Length);
+			StopCurrent();
+		}
+	}
 
 
     private static float ClampAngle(float angle, float min, float max)

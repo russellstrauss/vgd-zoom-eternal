@@ -23,13 +23,7 @@ public class FlameBotController : MonoBehaviour
 
 	// propeller
 	private bool fireOn = false;
-	// private Rigidbody propellerRB;
 	private Rigidbody baseRB;
-	private GameObject propeller;
-	// private double propellerRotationSpeed;
-	// private float propellerMaxSpeed = 3000f;
-	// private float propellerTimer = 0.0f;
-	// private float propellerRotationBaseSpeed = 8f; // exponential
     private Quaternion _lookRotation;
 	private Vector3 _direction;
 	private float distance;
@@ -59,11 +53,7 @@ public class FlameBotController : MonoBehaviour
 	private GameObject floor;
 	private bool upsideDown = false;
 	Renderer particleRenderer;
-	private ParticleSystem[] sparks;
-	// bool propellerButtonHeld = false;
 
-	// test vars
-	private int count = 0;
 	EnemyController enemyController;
 
 	void EnablePlayerControls() {
@@ -91,17 +81,12 @@ public class FlameBotController : MonoBehaviour
 		cameraController = mainCamera.GetComponent<OrbitalCameraController>();
 		baseRB = gameObject.GetComponent<Rigidbody>();
 		if (winText != null) winText.enabled = false;
-		if (playerHealthLabel != null) {
-			playerHealthLabel.text = health.ToString("0");
-		}
+		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
 		enemyWayPoint = GameObject.Find("wayPoint");
 		enemy = GameObject.FindWithTag("enemy");
 		floor = GameObject.FindWithTag("Floor");
 		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
 		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
-
-		sparks = player.GetComponentsInChildren<ParticleSystem>();
-		HideWheelSparks();
 	}
 
 	void OnCollisionStay(Collision otherObjectCollision) {
@@ -115,12 +100,6 @@ public class FlameBotController : MonoBehaviour
 			float damage = 5;
 			enemyController.SubtractHealth(damage);
 			if (enemyController.health < .1) TriggerWinState();
-			// if (propellerOn && propellerRotationSpeed > propellerMaxSpeed * .9f) {
-			// 	PropellerOff("propeller-off-sudden");
-			// 	FindObjectOfType<AudioManager>().Stop("propeller-on");
-			// 	baseRB.AddForce(transform.up * 2000 * movementInput.y, ForceMode.Impulse);
-			// 	propellerOn = false;
-			// }
 		}
 
 		if (otherObjectCollision.gameObject == floor) grounded = true;
@@ -139,26 +118,6 @@ public class FlameBotController : MonoBehaviour
 		}
 	}
 
-	public void hideAllLabels() {
-		if (winText != null) winText.enabled = false;
-	}
-
-	void ShowWheelSparks() {
-		if (sparks != null) {
-			foreach(ParticleSystem s in sparks) {
-				s.Play();
-			}
-		}
-	}
-
-	void HideWheelSparks() {
-		if (sparks != null) {
-			foreach(ParticleSystem s in sparks) {
-				s.Stop();
-			}
-		}
-	}
-
 	void UpdatePlayerMovement() {
 
 		upsideDown = Vector3.Dot(transform.up, Vector3.down) > 0;
@@ -167,80 +126,28 @@ public class FlameBotController : MonoBehaviour
 		if (driving) {
 			//Debug.Log("Driving forward?");
 			Vector3 direction =  Vector3.Normalize(Vector3.ProjectOnPlane(transform.right, new Vector3(0, 1, 0))); // Get forward direction along the ground
-			if (grounded) Debug.DrawRay(transform.position, direction * 3, Color.green);
-			else {
-				Debug.DrawRay(transform.position, direction * 3, Color.red);
-			}
 			baseRB.AddForce(direction * botMovementSpeed, ForceMode.Impulse);
-		}
-		else {
-			HideWheelSparks();
 		}
 
 		baseRB.AddForce(new Vector3(0, -1, 0) * gravityMultiplier, ForceMode.Force);
 	}
 
-	// void UpdatePropeller() {
-	// 	propellerTimer += Time.deltaTime;
-	// 	if (propellerRotationSpeed < propellerMaxSpeed && propellerOn) propellerRotationSpeed = (float)Math.Pow(propellerRotationBaseSpeed, propellerTimer);
-	// 	else if (!propellerOn) {
-	// 		if (propellerRotationSpeed > 0) propellerRotationSpeed -= (propellerTimer * 5);
-	// 		else {
-	// 			propellerRotationSpeed = 0;
-	// 		}
-	// 	}
-	// 	propeller.transform.Rotate(new Vector3(0, (float)propellerRotationSpeed, 0) * Time.deltaTime);
-	// 	if (explosion != null) {
-	// 		explosion.transform.position = propeller.transform.position;
-	// 		explosion.transform.rotation = propeller.transform.rotation;
-	// 	}
-    //
-	// 	if (enemyWayPoint != null) {
-	// 		enemyWayPoint.transform.position = player.transform.position;
-	// 	}
-	// }
-    //
-	// void PropellerOn() {
-	// 	propellerButtonHeld = true;
-	// 	FindObjectOfType<AudioManager>().Play("propeller-on");
-	// 	propellerOn = true;
-	// 	propellerTimer = 0;
-	// 	count++;
-	// }
-    //
-	// void PropellerButtonRelease() {
-	// 	propellerButtonHeld = false;
-	// 	PropellerOff();
-	// }
-    //
-	// void PropellerOff(String offSound = "propeller-off") {
-    //
-	// 	FindObjectOfType<AudioManager>().Stop("propeller-on");
-	// 	if (propellerRotationSpeed > propellerMaxSpeed * .6) FindObjectOfType<AudioManager>().Play(offSound);
-	// 	propellerOn = false;
-	// 	propellerTimer = 0;
-	// 	count++;
-    //
-	// 	// Debug.Log("propellerButtonHeld=" + propellerButtonHeld);
-    //
-	// 	if (propellerButtonHeld) PropellerOn();
-	// }
     void UpdateFlame() {
         if (fireOn) {
-        if (GameObject.Find("Flamethrower(Clone)") != null) {
-            //already exists, lets update location
-            GameObject fire = GameObject.Find("Flamethrower(Clone)");
-            // Debug.Log("Game object exists");
-            fire.transform.position =  transform.position+(transform.right*2)+transform.up*2;
-            fire.transform.rotation =  player.transform.rotation * Quaternion.Euler(0, 90, 0);
-			//if (heliBotController != null && Time.timeScale == 1) heliBotController.SubtractHealth(enemyDamageRatio);
-            //Debug.Log("at pt" + fire.transform.position);
-        } else {
-            //does not exist so lets make flame
-            //Debug.Log("Making flame");
-            BeginEffect();
-        }
-    }
+			if (GameObject.Find("Flamethrower(Clone)") != null) {
+				//already exists, lets update location
+				GameObject fire = GameObject.Find("Flamethrower(Clone)");
+				// Debug.Log("Game object exists");
+				fire.transform.position =  transform.position+(transform.right*2)+transform.up*2;
+				fire.transform.rotation =  player.transform.rotation * Quaternion.Euler(0, 90, 0);
+				//if (heliBotController != null && Time.timeScale == 1) heliBotController.SubtractHealth(enemyDamageRatio);
+				//Debug.Log("at pt" + fire.transform.position);
+			} else {
+				//does not exist so lets make flame
+				//Debug.Log("Making flame");
+				BeginEffect();
+			}
+		}
     }
 
 	void Drive() {

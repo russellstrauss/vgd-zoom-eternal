@@ -287,6 +287,7 @@ public class HeliBotController : MonoBehaviour
 	void disableBotControls() {
 		controls.Player.Move.Disable();
 		controls.Player.Select.Disable();
+		controls.Player.Drive.Disable();
 	}
 	
 	public void SetPlayer() {

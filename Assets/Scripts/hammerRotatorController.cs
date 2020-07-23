@@ -33,31 +33,19 @@ public class hammerRotatorController : MonoBehaviour
     // Update is called once per frame
     void Update () 
     {
-        // transform.RotateAround(GameObject.FindWithTag("hammer").transform.position, GameObject.FindWithTag("hammer").transform.right, Time.deltaTime * 1);
-        // transform.Rotate(new Vector3(0, 0, 1));
-        // targetRotation = Quaternion.Euler(0,180,RotateAngle*count+origionZ) * Quaternion.identity;
-        // transform.RotateAround(GameObject.FindWithTag("hammer").transform.position + new Vector3(0, 0, 5) , new Vector3(0, 0, 1), 1 );
 
-        // Debug.DrawRay(gameObject.transform.position, new Vector3(0, 1, 0), Color.red);
         if (m_hammer_trigger.GetComponent<hammerTriggerController>().EnteredTrigger)
         {
             Debug.Log("start to rotat1");
-            // transform.RotateAround(hammer.transform.position , new Vector3(0, 0, 1), Time.deltaTime * 2.0f);
+			target = m_hammer_trigger.transform;
             Vector3 dir = target.position - transform.position;
             Quaternion rotation = Quaternion.LookRotation(dir);
             transform.rotation = Quaternion.Lerp(hammer.transform.rotation, rotation, Time.deltaTime * 1.0f);
-
-            
-            // transform.Rotate(0, 0, 2);
-            // transform.Rotate(new Vector3(0, 0, 1));
-            // print("GameObject.FindWithTag().transform:"+GameObject.FindWithTag("hammer").transform.rotation);
         }
         else
         {
             Debug.Log("start to rotat2");
-            // transform.RotateAround(GameObject.FindWithTag("hammer").transform.position + new Vector3(2.5f, 0, 0) , new Vector3(0, 0, -1), 5 );
             transform.rotation = Quaternion.Lerp(hammer.transform.rotation, originalRotationValue, Time.deltaTime * 1.0f);
-            // print("GameObject.FindWithTag().transform::::::"+GameObject.FindWithTag("hammer").transform.rotation);
         }
 
     }
@@ -76,12 +64,8 @@ public class hammerRotatorController : MonoBehaviour
     {
         Debug.Log("start to rotat4");
     	GameObject clone = Instantiate(pickupEffect, transform.position, transform.rotation);
-    	
-    	// TODO add more healthy to the player
-		heliBotController.SubtractHealth(50);
-
-    	// GetComponent<MeshRenderer>().enabled = false;
-    	// GetComponent<Collider>().enabled = false;
+		
+		heliBotController.SubtractHealth(250);
 
     	//remove the effect from theplayer
     	yield return new WaitForSeconds(duration);
@@ -90,6 +74,5 @@ public class hammerRotatorController : MonoBehaviour
     	// remove power up object
     	ParticleSystem.MainModule particle = clone.GetComponent<ParticleSystem>().main;
     	Destroy(clone, duration);
-    	// Destroy(gameObject);
     }
 }

@@ -58,7 +58,7 @@ public class PeckerWreckerController : MonoBehaviour
 	void HammerOn() {
 		Debug.Log("Hammer on " + count);
 		// hammer.AddTorque(gameObject.transform.forward * 1000);
-		hammer.AddForce(gameObject.transform.forward * 2000, ForceMode.Impulse);
+		if (hammer != null) hammer.AddForce(gameObject.transform.forward * 2000, ForceMode.Impulse);
 		count++;
 		
 		if (hammering) {
@@ -96,8 +96,6 @@ public class PeckerWreckerController : MonoBehaviour
 		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
 		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
 		//hammer = GameObject.FindWithTag("hammer").GetComponent<Rigidbody>();
-		
-		EnablePlayerControls();
 	}
 	
 	void Update() {

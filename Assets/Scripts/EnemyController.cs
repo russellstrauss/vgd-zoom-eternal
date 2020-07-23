@@ -26,7 +26,6 @@ public class EnemyController : MonoBehaviour {
 	
 	void Start() {
 		collisionCount = 0;
-		gameObject.tag = "enemy";
 		
 		particlePivotDistance = particleSize * particleSubdivisions / 2;
 		particlesPivot = new Vector3(particlePivotDistance, particlePivotDistance, particlePivotDistance);
