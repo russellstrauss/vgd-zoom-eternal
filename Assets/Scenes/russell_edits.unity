@@ -58981,6 +58981,67 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  musicOptions:
+  - name: acrid-avid-jam-shred
+    clip: {fileID: 8300000, guid: f55fa615cb59c5e40acba00494aa3116, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: actium
+    clip: {fileID: 8300000, guid: 095c3a7d529dd6f4a9da61abc58a8fd4, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: change
+    clip: {fileID: 8300000, guid: 4f7e063c2ca34a142b003d4b43143ad5, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: free-falling
+    clip: {fileID: 8300000, guid: 67145669803331d4280778a162ef38e8, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: next-heap-with
+    clip: {fileID: 8300000, guid: 767cd97020a48f04cb969af7323aa57a, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: tha
+    clip: {fileID: 8300000, guid: 5dda25a68e2d1c842845f58791df82f1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: we-are-the-music-makers
+    clip: {fileID: 8300000, guid: 50a64aa807daf3a45954adf8e66d2fc5, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: 
+    clip: {fileID: 8300000, guid: 19825d1b28b9460489fd329e0a75fdc3, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: wet-tip-hen-axe
+    clip: {fileID: 8300000, guid: 324189511cfa061499d723a1c0004c3f, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: xtal
+    clip: {fileID: 8300000, guid: 28ab4386c3b43d945a3b7615db738ceb, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
 --- !u!4 &1419541181
 Transform:
   m_ObjectHideFlags: 0

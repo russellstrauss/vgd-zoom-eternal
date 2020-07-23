@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7900369260772079973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7592019869027960957}
+  - component: {fileID: 5562680551425631151}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7592019869027960957
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7900369260772079973}
+  m_LocalRotation: {x: 0.3541392, y: -0.24687506, z: 0.09747113, w: 0.89673716}
+  m_LocalPosition: {x: 606.7405, y: 323.0912, z: -46.899788}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5562680551425631151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7900369260772079973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 406f935ef4f89c84fb63741f0d5e2b9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: crash
+    clip: {fileID: 8300000, guid: da3422441dfbaf14bb4cc1fbb7a81271, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: ting
+    clip: {fileID: 8300000, guid: 112add87d0c603440829fa6fe770a57a, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: short-beep
+    clip: {fileID: 8300000, guid: 1a1683fb4a56f82479cfaeab9436ab84, type: 3}
+    volume: 0.8
+    pitch: 1.15
+    loop: 0
+    source: {fileID: 0}
+  - name: buzzer
+    clip: {fileID: 8300000, guid: caa929e41618fe44a984e22197ccdaf6, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: propeller-on
+    clip: {fileID: 8300000, guid: 62a397ec667ad4d45a63d473ac32aab5, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: propeller-off
+    clip: {fileID: 8300000, guid: 84bd77cf521df4c49acd68855939f756, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: propeller-off-sudden
+    clip: {fileID: 8300000, guid: 0fd9b4fde2963ce458038322dddf3660, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: robust-beep
+    clip: {fileID: 8300000, guid: af41311230c32974a837db79816b1094, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  musicOptions:
+  - name: acrid-avid-jam-shred
+    clip: {fileID: 8300000, guid: f55fa615cb59c5e40acba00494aa3116, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: actium
+    clip: {fileID: 8300000, guid: 095c3a7d529dd6f4a9da61abc58a8fd4, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
