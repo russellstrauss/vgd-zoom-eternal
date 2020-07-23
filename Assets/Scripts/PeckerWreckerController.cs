@@ -84,12 +84,10 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	void Start() {
 		Reset();
-		if (gameObject.CompareTag("Player")) player = gameObject;
-		else {
-			player = GameObject.FindWithTag("Player");
-		}
-		baseRB = gameObject.GetComponent<Rigidbody>();
 		mainCamera = GameObject.FindWithTag("MainCamera");
+		cameraController = mainCamera.GetComponent<OrbitalCameraController>();
+		player = GameObject.FindWithTag("Player");
+		baseRB = gameObject.GetComponent<Rigidbody>();
 		if (winText != null) winText.enabled = false;
 		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
 		enemyWayPoint = GameObject.Find("wayPoint");
@@ -97,7 +95,6 @@ public class PeckerWreckerController : MonoBehaviour
 		floor = GameObject.FindWithTag("Floor");
 		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
 		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
-		HingeJoint hinge = gameObject.GetComponent<HingeJoint>();
 		hammer = GameObject.FindWithTag("hammer").GetComponent<Rigidbody>();
 	}
 	
@@ -206,5 +203,12 @@ public class PeckerWreckerController : MonoBehaviour
 		// transform.position = Vector3.MoveTowards(transform.position, target.position, 10 * Time.deltaTime);
 		
 		// baseRB.MovePosition(transform.position + targetDirection *  Time.deltaTime * 100f);
+	}
+	
+	public void SetPlayer() {
+		gameObject.tag = "Player";
+		player = gameObject;
+		EnablePlayerControls();
+		cameraController.SetPlayerFocus();
 	}
 }

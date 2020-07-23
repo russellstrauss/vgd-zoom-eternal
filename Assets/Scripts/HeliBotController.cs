@@ -8,6 +8,7 @@ using TMPro;
 public class HeliBotController : MonoBehaviour
 {
 	GameObject mainCamera;
+	OrbitalCameraController cameraController;
 	Vector2 movementInput;
 	InputMaster controls;
 	private Vector3 playerStartPosition;
@@ -49,7 +50,6 @@ public class HeliBotController : MonoBehaviour
 	Renderer particleRenderer;
 	private ParticleSystem[] sparks;
 	bool propellerButtonHeld = false;
-	OrbitalCameraController cameraController;
 
 	// test vars
 	private int count = 0;
@@ -289,7 +289,6 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	public void SetPlayer() {
-		Debug.Log("player set to helibot controller");
 		gameObject.tag = "Player";
 		player = gameObject;
 		EnablePlayerControls();

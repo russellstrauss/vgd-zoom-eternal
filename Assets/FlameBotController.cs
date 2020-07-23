@@ -8,6 +8,7 @@ namespace DigitalRuby.PyroParticles {
 public class FlameBotController : MonoBehaviour
 {
     GameObject mainCamera;
+	OrbitalCameraController cameraController;
 	Vector2 movementInput;
 	InputMaster controls;
 	private Vector3 playerStartPosition;
@@ -65,18 +66,18 @@ public class FlameBotController : MonoBehaviour
 	private int count = 0;
 	EnemyController enemyController;
 
-	void Awake() {
+	void EnablePlayerControls() {
+		
 		controls = new InputMaster();
 
 		if (controls != null && gameObject.CompareTag("Player")) {
 			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
 			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
-
 			controls.Player.Select.performed += ctx => FireOn();
 			controls.Player.Select.canceled += ctx => StopCurrent();
-
 			controls.Player.Drive.performed += ctx => Drive();
 			controls.Player.Drive.canceled += ctx => DriveRelease();
+			controls.Player.Enable();
 		}
 	}
 
@@ -86,10 +87,9 @@ public class FlameBotController : MonoBehaviour
 	void Start() {
 		Reset();
 		player = GameObject.FindWithTag("Player");
-		// propeller = GameObject.Find("Propeller");
-		// propellerRB = propeller.GetComponent<Rigidbody>();
-		baseRB = gameObject.GetComponent<Rigidbody>();
 		mainCamera = GameObject.FindWithTag("MainCamera");
+		cameraController = mainCamera.GetComponent<OrbitalCameraController>();
+		baseRB = gameObject.GetComponent<Rigidbody>();
 		if (winText != null) winText.enabled = false;
 		if (playerHealthLabel != null) {
 			playerHealthLabel.text = health.ToString("0");
@@ -399,6 +399,14 @@ public class FlameBotController : MonoBehaviour
         currentPrefabObject = null;
         currentPrefabScript = null;
     }
+	
+	public void SetPlayer() {
+		gameObject.tag = "Player";
+		player = gameObject;
+		EnablePlayerControls();
+		cameraController.SetPlayerFocus();
+		Debug.Log("Init flame bot here");
+	}
 
 }
 }
