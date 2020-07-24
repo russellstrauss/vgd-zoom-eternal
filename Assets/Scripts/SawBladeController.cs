@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class SawBladeController : MonoBehaviour {
 	
+	[HideInInspector]
 	public bool isColliding = false;
 	
 	Vector3 rotation = new Vector3(0, 800, 0);
@@ -16,7 +17,7 @@ public class SawBladeController : MonoBehaviour {
 	float randomSeed;
 	GameObject[] blades;
 	GameObject player;
-	[HideInInspector]
+	Rigidbody[] sawRigidbodies;
 	
 	Vector3 displacement = new Vector3(0, 4f, 0);
 	float sawSpeed = 5f;
@@ -27,15 +28,16 @@ public class SawBladeController : MonoBehaviour {
 	// Test vars
 	int count = 0;
 	
-	void Awake() {
-		
-	}
-	
 	void Start() {
 		player = GameObject.FindWithTag("Player");
 		blades = GameObject.FindGameObjectsWithTag("hazard");
+		sawRigidbodies = new Rigidbody[blades.Length];
+		
 		bladeStartingPositions = new Vector3[blades.Length];
 		for (int i = 0; i < blades.Length; i++) {
+			
+			sawRigidbodies[i] = blades[i].GetComponent<Rigidbody>();
+			
 			bladeStartingPositions[i] = blades[i].transform.position;
 			
 			Vector3 targetPosition = bladeStartingPositions[i] + displacement;
@@ -71,11 +73,11 @@ public class SawBladeController : MonoBehaviour {
 		}
 	}
 	
-	public void TriggerAttack() {
+	public void TriggerAttack(Collider otherCollision) {
 		sawTimer = 0;
 		count = 0;
 		isColliding = true;
-		FindObjectOfType<AudioManager>().Play("crash");
+		// FindObjectOfType<AudioManager>().Play("crash");
 	}
 	
 	public void ExitAttack() {

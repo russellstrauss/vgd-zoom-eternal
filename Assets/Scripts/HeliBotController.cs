@@ -288,7 +288,6 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	public void SetPlayer() {
-		Debug.Log("SetPlayer HeliBot");
 		gameObject.tag = "Player";
 		player = gameObject;
 		EnablePlayerControls();

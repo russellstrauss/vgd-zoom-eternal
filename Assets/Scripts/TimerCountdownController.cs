@@ -94,7 +94,7 @@ public class TimerCountdownController : MonoBehaviour
 	
 	void TimeUp() {
 		
-		if (playerController.health < enemyController.health) {
+		if (playerController.health < enemyController.health && playerController != null && enemyController != null) {
 			playerController.TriggerTimeUpLose();
 		}
 		else {

@@ -18,22 +18,19 @@ public class HazardTriggerController : MonoBehaviour
 
 	void Update() {}
 	
-	void OnTriggerEnter(Collider other) {
+	void OnTriggerEnter(Collider otherCollision) {
 		
 		inTrigger = true;
-		hazardTrigger = other.GetComponent<BoxCollider>();
+		hazardTrigger = otherCollision.GetComponent<BoxCollider>();
 		
-		if (hazardTrigger != null) {
-			
-			if (sawBladeController != null) {
-				sawBladeController.TriggerAttack();
-			}
+		if (sawBladeController != null && hazardTrigger != null) {
+			sawBladeController.TriggerAttack(otherCollision);
 		}
 	}
 	
-	void OnTriggerExit(Collider other) {
+	void OnTriggerExit(Collider otherCollision) {
 		inTrigger = false;
-		hazardTrigger = other.GetComponent<BoxCollider>();
+		hazardTrigger = otherCollision.GetComponent<BoxCollider>();
 		
 		if (hazardTrigger != null) {
 			
