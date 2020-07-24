@@ -26,7 +26,7 @@ public class PeckerWreckerController : MonoBehaviour
 	float healthDefault = 1000f;
 	float health = 1000f;
 	float botRotationSpeed = 100f;
-	float botMovementSpeed = 1000f;
+	float botMovementSpeed = 750f;
 	int gravityMultiplier = 10000;
 	GameObject explosion;
 	GameObject player;
@@ -40,20 +40,28 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	int count = 0;
 	
-	void EnablePlayerControls() {
+	void Start() {
+		Reset();
+		mainCamera = GameObject.FindWithTag("MainCamera");
+		cameraController = mainCamera.GetComponent<OrbitalCameraController>();
 		
-		controls = new InputMaster();
-		if (controls != null) {
-			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
-			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
-			controls.Player.Select.performed += ctx => HammerOn();
-			controls.Player.Select.canceled += ctx => HammerOff();
-			controls.Player.Enable();
-		}
+		player = GameObject.FindWithTag("Player");
+		baseRB = gameObject.GetComponent<Rigidbody>();
+		
+		if (winText != null) winText.enabled = false;
+		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
+		
+		enemy = GameObject.FindWithTag("enemy");
+		enemyWayPoint = GameObject.Find("wayPoint");
+		floor = GameObject.FindWithTag("Floor");
+		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
+		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
+		//hammer = GameObject.FindWithTag("hammer").GetComponent<Rigidbody>();
+		
+		if (player != null && player == gameObject) SetPlayer();
+		else if (enemy != null && enemy == gameObject) SetEnemy();
+		else gameObject.SetActive(false);
 	}
-	
-	void OnEnable()	{ if (controls != null) controls.Player.Enable(); }
-	void OnDisable() { if (controls != null) controls.Player.Disable(); }
 	
 	void HammerOn() {
 		Debug.Log("Hammer on " + count);
@@ -82,21 +90,7 @@ public class PeckerWreckerController : MonoBehaviour
 		
 	}
 	
-	void Start() {
-		Reset();
-		mainCamera = GameObject.FindWithTag("MainCamera");
-		cameraController = mainCamera.GetComponent<OrbitalCameraController>();
-		player = GameObject.FindWithTag("Player");
-		baseRB = gameObject.GetComponent<Rigidbody>();
-		if (winText != null) winText.enabled = false;
-		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
-		enemyWayPoint = GameObject.Find("wayPoint");
-		enemy = GameObject.FindWithTag("enemy");
-		floor = GameObject.FindWithTag("Floor");
-		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
-		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
-		//hammer = GameObject.FindWithTag("hammer").GetComponent<Rigidbody>();
-	}
+	
 	
 	void Update() {
 		if (gameObject == player) UpdatePlayerMovement();
@@ -171,15 +165,12 @@ public class PeckerWreckerController : MonoBehaviour
 	}
 	
 	void disableBotControls() {
-		Debug.Log("Pecker Wrecker Controls Disabled");
 		controls.Player.Move.Disable();
 		controls.Player.Select.Disable();
 	}
 	
 	void updateAIBehavior() {
-		
-		Debug.Log("updateAIBehavior");
-		
+
 		Debug.DrawRay(transform.position, gameObject.transform.forward * 3, Color.white);
 		
 		Transform target = player.transform;
@@ -205,10 +196,30 @@ public class PeckerWreckerController : MonoBehaviour
 		// baseRB.MovePosition(transform.position + targetDirection *  Time.deltaTime * 100f);
 	}
 	
+	public void SetEnemy() {
+		gameObject.tag = "enemy";
+		enemy = gameObject;
+		gameObject.AddComponent<EnemyController>();
+	}
+	
 	public void SetPlayer() {
 		gameObject.tag = "Player";
 		player = gameObject;
 		EnablePlayerControls();
 		cameraController.SetPlayerFocus();
 	}
+	
+	void EnablePlayerControls() {
+		
+		controls = new InputMaster();
+		if (controls != null) {
+			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
+			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
+			controls.Player.Select.performed += ctx => HammerOn();
+			controls.Player.Select.canceled += ctx => HammerOff();
+			controls.Player.Enable();
+		}
+	}
+	void OnEnable()	{ if (controls != null) controls.Player.Enable(); }
+	void OnDisable() { if (controls != null) controls.Player.Disable(); }
 }

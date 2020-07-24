@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class EnemyController : MonoBehaviour {
 	
 	int collisionCount;
+	bool exploded = false;
 	float particleSize = .2f;
 	int particleSubdivisions = 10;
 	float particleMass;
@@ -58,7 +59,7 @@ public class EnemyController : MonoBehaviour {
 		health -= amount;
 		if (enemyHealthLabel != null) enemyHealthLabel.text = health.ToString("0");
 		
-		if (health < .1) {
+		if (health < .1 && !exploded) {
 			explode();
 		}
 	}
@@ -83,6 +84,7 @@ public class EnemyController : MonoBehaviour {
 				rb.AddExplosionForce(explosionForce, transform.position, explosionRadius, explosionUpward);
 			}
 		}
+		exploded = true;
 	}
 	
 	void createParticle(int x, int y, int z) {

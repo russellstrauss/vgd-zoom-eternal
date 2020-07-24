@@ -54,34 +54,21 @@ public class HeliBotController : MonoBehaviour
 	// test vars
 	private int count = 0;
 	EnemyController enemyController;
-	
-	void EnablePlayerControls() {
-		
-		controls = new InputMaster();
-		if (controls != null && gameObject.CompareTag("Player")) {
-			
-			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
-			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
-			controls.Player.Select.performed += ctx => PropellerOn();
-			controls.Player.Select.canceled += ctx => PropellerButtonRelease();
-			controls.Player.Drive.performed += ctx => Drive();
-			controls.Player.Drive.canceled += ctx => DriveRelease();
-			controls.Player.Enable();
-		}
-	}
-
-	void OnEnable()	{ if (controls != null) controls.Player.Enable(); }
-	void OnDisable() { if (controls != null) controls.Player.Disable(); }
 
 	void Start() {
 		Reset();
 		mainCamera = GameObject.FindWithTag("MainCamera");
 		cameraController = mainCamera.GetComponent<OrbitalCameraController>();
+		
+		player = GameObject.FindWithTag("Player");
 		baseRB = gameObject.GetComponent<Rigidbody>();
+		
 		propeller = GameObject.Find("Propeller");
 		propellerRB = propeller.GetComponent<Rigidbody>();
+		
 		if (winText != null) winText.enabled = false;
 		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
+		
 		enemyWayPoint = GameObject.Find("wayPoint");
 		enemy = GameObject.FindWithTag("enemy");
 		floor = GameObject.FindWithTag("Floor");
@@ -90,7 +77,10 @@ public class HeliBotController : MonoBehaviour
 
 		sparks = gameObject.GetComponentsInChildren<ParticleSystem>();
 		HideWheelSparks();
-		SetPlayer();
+		
+		if (player != null && player == gameObject) SetPlayer();
+		else if (enemy != null && enemy == gameObject) SetEnemy();
+		else gameObject.SetActive(false);
 	}
 
 	void OnCollisionStay(Collision otherObjectCollision) {
@@ -122,10 +112,11 @@ public class HeliBotController : MonoBehaviour
 
 	void FixedUpdate() {
 
-		if (player != null) {
+		if (player != null && gameObject == player) {
 			UpdatePropeller();
 			UpdatePlayerMovement();
 		}
+		if (enemy != null && gameObject == enemy) updateAIBehavior();
 	}
 
 	public void hideAllLabels() {
@@ -160,12 +151,17 @@ public class HeliBotController : MonoBehaviour
 				Debug.DrawRay(transform.position, direction * 3, Color.red);
 			}
 			baseRB.AddForce(direction * botMovementSpeed, ForceMode.Impulse);
+			ShowWheelSparks();
 		}
 		else {
 			HideWheelSparks();
 		}
 
 		baseRB.AddForce(new Vector3(0, -1, 0) * gravityMultiplier, ForceMode.Force);
+	}
+	
+	void updateAIBehavior() {
+		Debug.Log("updateAIBehavior on HeliBot");
 	}
 
 	void UpdatePropeller() {
@@ -208,14 +204,10 @@ public class HeliBotController : MonoBehaviour
 		propellerOn = false;
 		propellerTimer = 0;
 		count++;
-
-		// Debug.Log("propellerButtonHeld=" + propellerButtonHeld);
-
 		if (propellerButtonHeld) PropellerOn();
 	}
 
 	void Drive() {
-		//Debug.Log("DRIVING SET TO TRUE");
 		driving = true;
 	}
 
@@ -290,10 +282,33 @@ public class HeliBotController : MonoBehaviour
 		controls.Player.Drive.Disable();
 	}
 	
+	public void SetEnemy() {
+		gameObject.tag = "enemy";
+		enemy = gameObject;
+	}
+	
 	public void SetPlayer() {
+		Debug.Log("SetPlayer HeliBot");
 		gameObject.tag = "Player";
 		player = gameObject;
 		EnablePlayerControls();
 		cameraController.SetPlayerFocus();
 	}
+	
+	void EnablePlayerControls() {
+		
+		controls = new InputMaster();
+		if (controls != null && gameObject.CompareTag("Player")) {
+			
+			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
+			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
+			controls.Player.Select.performed += ctx => PropellerOn();
+			controls.Player.Select.canceled += ctx => PropellerButtonRelease();
+			controls.Player.Drive.performed += ctx => Drive();
+			controls.Player.Drive.canceled += ctx => DriveRelease();
+			controls.Player.Enable();
+		}
+	}
+	void OnEnable()	{ if (controls != null) controls.Player.Enable(); }
+	void OnDisable() { if (controls != null) controls.Player.Disable(); }
 }
