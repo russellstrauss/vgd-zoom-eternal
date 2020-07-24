@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class SpikeWallController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	
+	GameObject player;
+	
+	void Start() {
+		
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	void Update() {
+		
+	}
+	
+	void OnCollisionEnter(Collision otherCollision) {
+		Rigidbody rb = otherCollision.gameObject.GetComponent<Rigidbody>();
+		Vector3 contactNormal = otherCollision.contacts[0].normal;
+		rb.AddForce(contactNormal * 50000f, ForceMode.Impulse);
+		
+		if (otherCollision.gameObject.CompareTag("Player") || otherCollision.gameObject.CompareTag("enemy")) {
+			
+			// if (otherCollision.gameObject.GetComponent<HeliBotController>() != null) otherCollision.gameObject.GetComponent<HeliBotController>().SubtractHealth(100);
+			// if (otherCollision.gameObject.GetComponent<EnemyController>() != null) otherCollision.gameObject.GetComponent<>().SubtractHealth(100);
+			
+		}
+	}
 }

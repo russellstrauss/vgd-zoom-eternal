@@ -58,39 +58,42 @@ public class PeckerWreckerController : MonoBehaviour
 		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
 		//hammer = GameObject.FindWithTag("hammer").GetComponent<Rigidbody>();
 		
+		// Debug.Log(gameObject.CompareTag("Player") && BotSelectorController.selectedBot == null);
+		// Debug.Log(player != null && player == gameObject);
+		Debug.Log("Pecker Wrecker start fired");
+		
+		
+		
 		if (player != null && player == gameObject) SetPlayer();
 		else if (enemy != null && enemy == gameObject) SetEnemy();
-		else gameObject.SetActive(false);
 	}
 	
 	void HammerOn() {
-		Debug.Log("Hammer on " + count);
-		// hammer.AddTorque(gameObject.transform.forward * 1000);
-		if (hammer != null) hammer.AddForce(gameObject.transform.forward * 2000, ForceMode.Impulse);
-		count++;
+		// Debug.Log("Hammer on " + count);
+		// // hammer.AddTorque(gameObject.transform.forward * 1000);
+		// if (hammer != null) hammer.AddForce(gameObject.transform.forward * 2000, ForceMode.Impulse);
+		// count++;
 		
-		if (hammering) {
+		// if (hammering) {
 			
-			float speed = 1.0f;
-			float singleStep = speed * Time.deltaTime;
-			Transform target = hammer.transform;
-			Vector3 targetDirection = -(target.position - transform.position).normalized;
-			Debug.DrawRay(hammer.transform.position, targetDirection * 3, Color.cyan);
-			Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+		// 	float speed = 1.0f;
+		// 	float singleStep = speed * Time.deltaTime;
+		// 	Transform target = hammer.transform;
+		// 	Vector3 targetDirection = -(target.position - transform.position).normalized;
+		// 	Debug.DrawRay(hammer.transform.position, targetDirection * 3, Color.cyan);
+		// 	Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
 
-			// Draw a ray pointing at our target in
-			Debug.DrawRay(transform.position, newDirection, Color.white);
+		// 	// Draw a ray pointing at our target in
+		// 	Debug.DrawRay(transform.position, newDirection, Color.white);
 
-			// Calculate a rotation a step closer to the target and applies rotation to this object
-			hammer.rotation = Quaternion.LookRotation(newDirection);
-		}
+		// 	// Calculate a rotation a step closer to the target and applies rotation to this object
+		// 	hammer.rotation = Quaternion.LookRotation(newDirection);
+		// }
 	}
 	
 	void HammerOff() {
 		
 	}
-	
-	
 	
 	void Update() {
 		if (gameObject == player) UpdatePlayerMovement();
@@ -204,9 +207,13 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	public void SetPlayer() {
 		gameObject.tag = "Player";
+		gameObject.AddComponent<PlayerController>();
 		player = gameObject;
 		EnablePlayerControls();
-		cameraController.SetPlayerFocus();
+	}
+	
+	public void DeactivateBot() {
+		if (enemy != gameObject) gameObject.SetActive(false);
 	}
 	
 	void EnablePlayerControls() {

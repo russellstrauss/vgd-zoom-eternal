@@ -50,10 +50,10 @@ public class HeliBotController : MonoBehaviour
 	Renderer particleRenderer;
 	private ParticleSystem[] sparks;
 	bool propellerButtonHeld = false;
+	EnemyController enemyController;
 
 	// test vars
 	private int count = 0;
-	EnemyController enemyController;
 
 	void Start() {
 		Reset();
@@ -80,7 +80,6 @@ public class HeliBotController : MonoBehaviour
 		
 		if (player != null && player == gameObject) SetPlayer();
 		else if (enemy != null && enemy == gameObject) SetEnemy();
-		else gameObject.SetActive(false);
 	}
 
 	void OnCollisionStay(Collision otherObjectCollision) {
@@ -283,22 +282,26 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	public void SetEnemy() {
+		gameObject.AddComponent<EnemyController>();
 		gameObject.tag = "enemy";
 		enemy = gameObject;
 	}
 	
 	public void SetPlayer() {
+		Debug.Log("Helibot SetPlayer fired");
 		gameObject.tag = "Player";
+		gameObject.AddComponent<PlayerController>();
 		player = gameObject;
 		EnablePlayerControls();
-		cameraController.SetPlayerFocus();
 	}
 	
 	void EnablePlayerControls() {
 		
+		Debug.Log(gameObject.CompareTag("Player"));
+		
 		controls = new InputMaster();
 		if (controls != null && gameObject.CompareTag("Player")) {
-			
+			Debug.Log("Helibot controls set");
 			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
 			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
 			controls.Player.Select.performed += ctx => PropellerOn();

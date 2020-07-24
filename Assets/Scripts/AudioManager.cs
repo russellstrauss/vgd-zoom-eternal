@@ -30,6 +30,9 @@ public class AudioManager : MonoBehaviour
 		if (s == null) {
 			Debug.LogWarning("Sound " + name + " not found.");
 		}
+		else if (s.source == null) {
+			Debug.LogWarning("Sound source for " + name + " not found. Check sources in Audio Manager.");
+		}
 		else {
 			s.source.Play();
 		}

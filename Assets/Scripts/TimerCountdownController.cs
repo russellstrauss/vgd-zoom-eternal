@@ -28,10 +28,6 @@ public class TimerCountdownController : MonoBehaviour
 	
 	void Start() {
 		
-		music = GameObject.FindWithTag("MainCamera").GetComponent<AudioSource>();
-		// music.Play();
-		// music.Pause();
-		
 		if (enemyController != null) enemyController = GameObject.FindWithTag("enemy").GetComponent<EnemyController>();
 		player = GameObject.FindWithTag("Player");
 		if (player != null) playerController = player.GetComponent<HeliBotController>();
@@ -94,7 +90,7 @@ public class TimerCountdownController : MonoBehaviour
 	
 	void TimeUp() {
 		
-		if (playerController.health < enemyController.health && playerController != null && enemyController != null) {
+		if (playerController.health < enemyController.health) {
 			playerController.TriggerTimeUpLose();
 		}
 		else {
@@ -110,7 +106,6 @@ public class TimerCountdownController : MonoBehaviour
 	public void StartTimer() {
 		pauseMenuController.ResumeGame();
 		battleClockInitialized = true;
-		music.UnPause();
 	}
 	
 	public void StopTimer() {

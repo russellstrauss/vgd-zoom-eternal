@@ -5,8 +5,9 @@ using System.Collections;
 using TMPro;
 using UnityEngine.InputSystem;
 
-public class EnemyController : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
 	
+	OrbitalCameraController cameraController;
 	bool exploded = false;
 	float particleSize = .2f;
 	int particleSubdivisions = 10;
@@ -21,22 +22,21 @@ public class EnemyController : MonoBehaviour {
 	GameObject player;
 	public float health = 1000f;
 	public TextMeshProUGUI enemyHealthLabel;
-	int gravityMultiplier = 10000;
-	Rigidbody enemyRB;
 	
 	void Start() {
 		
+		cameraController = GameObject.FindWithTag("MainCamera").GetComponent<OrbitalCameraController>();
+		
 		particlePivotDistance = particleSize * particleSubdivisions / 2;
 		particlesPivot = new Vector3(particlePivotDistance, particlePivotDistance, particlePivotDistance);
-		
 		particleRenderer = GetComponent<Renderer>();
-		player = GameObject.FindWithTag("Player");
-		if (enemyHealthLabel != null) enemyHealthLabel.text = health.ToString("0");
-		enemyRB = gameObject.GetComponent<Rigidbody>();
+		
+		cameraController.SetPlayerFocus();
+		Debug.Log("Player set to " + gameObject.name + " in PlayerController");
 	}
 
 	void Update() {
-		if (enemyRB != null) enemyRB.AddForce(-transform.up * gravityMultiplier, ForceMode.Force);
+		
 	}
 	
 	public void SubtractHealth(float amount) {

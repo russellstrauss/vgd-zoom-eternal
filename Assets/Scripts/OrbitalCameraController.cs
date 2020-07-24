@@ -60,6 +60,7 @@ public class OrbitalCameraController : MonoBehaviour {
 	}
 	
 	public void SetPlayerFocus() {
+		Debug.Log("Camera Focus set.");
 		regularCamera = GetComponent<Camera>();
 		player = GameObject.FindWithTag("Player");
 		if (player != null) {
