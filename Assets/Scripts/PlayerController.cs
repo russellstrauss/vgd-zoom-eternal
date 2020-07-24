@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour {
 		particleRenderer = GetComponent<Renderer>();
 		
 		cameraController.SetPlayerFocus();
-		Debug.Log("Player set to " + gameObject.name + " in PlayerController");
 	}
 
 	void Update() {

@@ -144,14 +144,11 @@ public class SawBotController : MonoBehaviour
 	}
 	
 	void disableBotControls() {
-		Debug.Log("Pecker Wrecker Controls Disabled");
 		controls.Player.Move.Disable();
 		controls.Player.Select.Disable();
 	}
 	
 	void updateAIBehavior() {
-		
-		Debug.Log("updateAIBehavior");
 		
 		Debug.DrawRay(transform.position, gameObject.transform.forward * 3, Color.white);
 		

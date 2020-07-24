@@ -13,11 +13,10 @@ public class BotSelectorController : MonoBehaviour
 	
 	void Start() {
 		characterSelections = GameObject.FindGameObjectsWithTag("characterSelect");
-		HideAllBots();
+		HideAllBotIcons();
 		
 		if (selectedBot != null) {
 			
-			Debug.Log("Bot Select Fired: " + selectedBot + " Scene: " + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
 			try {
 				if (selectedBot == "Stellar Propeller" && FindObjectsOfType<HeliBotController>().Length > 0) FindObjectsOfType<HeliBotController>()[0].SetPlayer();
 				if (selectedBot == "Pecker Wrecker" && FindObjectsOfType<PeckerWreckerController>().Length > 0) FindObjectsOfType<PeckerWreckerController>()[0].SetPlayer();
@@ -50,7 +49,7 @@ public class BotSelectorController : MonoBehaviour
 		}
 	}
 	
-	void HideAllBots() {
+	void HideAllBotIcons() {
 		foreach (GameObject character in characterSelections) {
 			character.SetActive(false);
 		}

@@ -35,7 +35,7 @@ public class hammerRotatorController : MonoBehaviour
 
         if (m_hammer_trigger.GetComponent<hammerTriggerController>().EnteredTrigger)
         {
-            Debug.Log("start to rotat1");
+            // Debug.Log("start to rotat1");
 			target = m_hammer_trigger.transform;
             Vector3 dir = target.position - transform.position;
             Quaternion rotation = Quaternion.LookRotation(dir);
@@ -43,7 +43,7 @@ public class hammerRotatorController : MonoBehaviour
         }
         else
         {
-            Debug.Log("start to rotat2");
+            // Debug.Log("start to rotat2");
             transform.rotation = Quaternion.Lerp(hammer.transform.rotation, originalRotationValue, Time.deltaTime * 1.0f);
         }
 
@@ -51,7 +51,7 @@ public class hammerRotatorController : MonoBehaviour
     void OnCollisionEnter(Collision collision){
 		
 		if (collision.collider.CompareTag("playerCollider")) {
-            Debug.Log("start to rotat3");
+            // Debug.Log("start to rotat3");
 			Vector3 contactNormal = collision.contacts[0].normal;
 			playerRb.AddForce(new Vector3(0, 1, 0) * 10000, ForceMode.Impulse);
 			FindObjectOfType<AudioManager>().Play("crash");
@@ -61,7 +61,7 @@ public class hammerRotatorController : MonoBehaviour
 
     IEnumerator Damage()
     {
-        Debug.Log("start to rotat4");
+        // Debug.Log("start to rotat4");
     	GameObject clone = Instantiate(pickupEffect, transform.position, transform.rotation);
 		
 		heliBotController.SubtractHealth(250);

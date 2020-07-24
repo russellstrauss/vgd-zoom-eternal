@@ -160,7 +160,7 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	void updateAIBehavior() {
-		Debug.Log("updateAIBehavior on HeliBot");
+		
 	}
 
 	void UpdatePropeller() {
@@ -288,7 +288,6 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	public void SetPlayer() {
-		Debug.Log("Helibot SetPlayer fired");
 		gameObject.tag = "Player";
 		gameObject.AddComponent<PlayerController>();
 		player = gameObject;
@@ -297,11 +296,8 @@ public class HeliBotController : MonoBehaviour
 	
 	void EnablePlayerControls() {
 		
-		Debug.Log(gameObject.CompareTag("Player"));
-		
 		controls = new InputMaster();
 		if (controls != null && gameObject.CompareTag("Player")) {
-			Debug.Log("Helibot controls set");
 			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
 			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
 			controls.Player.Select.performed += ctx => PropellerOn();

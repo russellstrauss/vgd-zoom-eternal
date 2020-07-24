@@ -57,13 +57,7 @@ public class PeckerWreckerController : MonoBehaviour
 		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
 		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
 		//hammer = GameObject.FindWithTag("hammer").GetComponent<Rigidbody>();
-		
-		// Debug.Log(gameObject.CompareTag("Player") && BotSelectorController.selectedBot == null);
-		// Debug.Log(player != null && player == gameObject);
-		Debug.Log("Pecker Wrecker start fired");
-		
-		
-		
+
 		if (player != null && player == gameObject) SetPlayer();
 		else if (enemy != null && enemy == gameObject) SetEnemy();
 	}
