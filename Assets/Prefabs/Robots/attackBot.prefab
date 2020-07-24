@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8901816296728448373}
   - component: {fileID: 8901816296728448368}
   - component: {fileID: 8901816296728448369}
+  - component: {fileID: 2312033754035782378}
   m_Layer: 0
   m_Name: attackBot
   m_TagString: enemy
@@ -100,6 +101,26 @@ MonoBehaviour:
   Prefabs:
   - {fileID: 8901816298123669344}
   CurrentItemText: {fileID: 0}
+--- !u!114 &2312033754035782378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8901816296728448372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00db841282500e548adbdec19610146c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  winText: {fileID: 0}
+  playerHealthLabel: {fileID: 0}
+  Prefabs: []
+  CurrentItemText: {fileID: 0}
+  health: 1000
+  botMovementSpeed: 2000
+  explosionEffect: {fileID: 0}
+  sparkEffect: {fileID: 0}
 --- !u!1 &8901816296986709847
 GameObject:
   m_ObjectHideFlags: 0

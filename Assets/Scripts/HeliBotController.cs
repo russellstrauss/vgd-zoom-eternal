@@ -17,7 +17,7 @@ public class HeliBotController : MonoBehaviour
 	// Win state
 	public TextMeshProUGUI winText;
 	public TextMeshProUGUI playerHealthLabel;
-	private GameObject enemyWayPoint;
+	private GameObject wayPoint;
 	private int explodeCount = 0;
 	private TimerCountdownController battleClock;
 
@@ -69,7 +69,7 @@ public class HeliBotController : MonoBehaviour
 		if (winText != null) winText.enabled = false;
 		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
 		
-		enemyWayPoint = GameObject.Find("wayPoint");
+		wayPoint = GameObject.Find("wayPoint");
 		enemy = GameObject.FindWithTag("enemy");
 		floor = GameObject.FindWithTag("Floor");
 		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
@@ -178,8 +178,8 @@ public class HeliBotController : MonoBehaviour
 			explosion.transform.rotation = propeller.transform.rotation;
 		}
 
-		if (enemyWayPoint != null) {
-			enemyWayPoint.transform.position = player.transform.position;
+		if (wayPoint != null) {
+			wayPoint.transform.position = player.transform.position;
 		}
 	}
 
@@ -283,6 +283,7 @@ public class HeliBotController : MonoBehaviour
 	
 	public void SetEnemy() {
 		gameObject.AddComponent<EnemyController>();
+		gameObject.AddComponent<Helicopter_AI>();
 		gameObject.tag = "enemy";
 		enemy = gameObject;
 	}

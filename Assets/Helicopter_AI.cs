@@ -57,7 +57,7 @@ public class Helicopter_AI : MonoBehaviour
 		player = GameObject.FindWithTag("Player");
 		propeller = GameObject.Find("Propeller");
         wayPoint = GameObject.Find("wayPoint");
-        if (wayPoint != null) {
+        if (wayPoint != null && player != null) {
 			wayPoint.transform.position = player.transform.position;
 		}
 		Target = wayPoint.transform;
@@ -66,7 +66,7 @@ public class Helicopter_AI : MonoBehaviour
 		enemy = GameObject.FindWithTag("enemy");
 		floor = GameObject.FindWithTag("Floor");
 
-		sparks = player.GetComponentsInChildren<ParticleSystem>();
+		sparks = gameObject.GetComponentsInChildren<ParticleSystem>();
 		HideWheelSparks();
 	}
 
@@ -250,13 +250,10 @@ public class Helicopter_AI : MonoBehaviour
             PropellerOn();
         }
 		propellerTimer += Time.deltaTime;
-        Debug.Log(propellerTimer);
+        // Debug.Log(propellerTimer);
 		if (propellerRotationSpeed < propellerMaxSpeed && propellerOn) propellerRotationSpeed = (float)Math.Pow(propellerRotationBaseSpeed, propellerTimer);
 		else if (!propellerOn) {
 			if (propellerRotationSpeed > 0) propellerRotationSpeed -= (propellerTimer * 5);
-			// else {
-			// 	propellerRotationSpeed = 0;
-			// }
 		}
 		propeller.transform.Rotate(new Vector3(0, (float)propellerRotationSpeed, 0) * Time.deltaTime);
 		if (explosion != null) {
