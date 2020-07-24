@@ -18,6 +18,7 @@ TagManager:
   - background
   - saw
   - characterSelect
+  - barrier
   layers:
   - Default
   - TransparentFX

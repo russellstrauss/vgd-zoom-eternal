@@ -138,7 +138,7 @@ public class PlayerController : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision otherObjectCollision) {
 		
-		if (otherObjectCollision.gameObject != GameObject.FindWithTag("Floor")) {
+		if (!otherObjectCollision.gameObject.CompareTag("Floor") && !otherObjectCollision.gameObject.CompareTag("barrier")) {
 			FindObjectOfType<AudioManager>().PlayRandomCrashShort();
 		}
 	}
