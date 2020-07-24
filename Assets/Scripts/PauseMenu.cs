@@ -12,12 +12,12 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenu;
     public static bool isPaused;
 	public GameObject[] menuItems;
-	private AudioSource music;
-	private float musicDefaultVolume;
+	AudioSource music;
 	
 	// Hide Win/Lose state GUI's
-	private GameObject player;
-	private HeliBotController heliBotController;
+	GameObject player;
+	PlayerController playerController;
+	HeliBotController heliBotController;
     
 	void Awake() {
 		controls = new InputMaster();
@@ -33,9 +33,7 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenu.SetActive(false);
 		player = GameObject.FindWithTag("Player");
-		if (player) heliBotController = player.GetComponent<HeliBotController>();
-		music = GameObject.FindWithTag("MainCamera").GetComponent<AudioSource>();
-		musicDefaultVolume = music.volume;
+		if (player) playerController = player.GetComponent<PlayerController>();
     }
 
     void Update()
@@ -64,8 +62,8 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
-		if (heliBotController) heliBotController.hideAllLabels();
-		if (music) music.volume = musicDefaultVolume / 8;
+		if (playerController) playerController.hideAllLabels();
+		FindObjectOfType<MusicManagerController>().LowerVolume();
     }
 
     public void ResumeGame()
@@ -73,7 +71,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
-		music.volume = musicDefaultVolume;
+		FindObjectOfType<MusicManagerController>().ResetVolume();
     }
 
     public void GoToMenu()

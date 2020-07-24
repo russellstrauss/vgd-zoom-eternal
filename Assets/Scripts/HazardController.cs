@@ -51,7 +51,7 @@ public class HazardController : MonoBehaviour
     	GameObject clone = Instantiate(pickupEffect, transform.position, transform.rotation);
     	
     	// TODO add more healthy to the player
-		heliBotController.SubtractHealth(100);
+		// heliBotController.SubtractHealth(100);
 
     	// GetComponent<MeshRenderer>().enabled = false;
     	// GetComponent<Collider>().enabled = false;

@@ -64,7 +64,7 @@ public class hammerRotatorController : MonoBehaviour
         // Debug.Log("start to rotat4");
     	GameObject clone = Instantiate(pickupEffect, transform.position, transform.rotation);
 		
-		heliBotController.SubtractHealth(250);
+		FindObjectOfType<PlayerController>().SubtractHealth(250);
 
     	//remove the effect from theplayer
     	yield return new WaitForSeconds(duration);

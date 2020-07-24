@@ -158,11 +158,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 070be12a9b93f32459dc17e3be761264, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 25.2
+  distance: 15.3
   focusRadius: 10
   focusCentering: 0.19
   rotationSpeed: 121
-  minVerticalAngle: 5
+  minVerticalAngle: 28
   maxVerticalAngle: 35
   alignDelay: 0
   alignSmoothRange: 33.9
