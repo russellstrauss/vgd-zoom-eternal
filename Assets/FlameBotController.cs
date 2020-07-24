@@ -70,8 +70,6 @@ public class FlameBotController : MonoBehaviour
 		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
 		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
 		
-		Debug.Log("FlameBot start fired");
-		
 		if (player != null && player == gameObject) SetPlayer();
 		else if (enemy != null && enemy == gameObject) SetEnemy();
 	}

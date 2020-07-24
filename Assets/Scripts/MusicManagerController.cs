@@ -2,10 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MusicManagerController : MonoBehaviour
 {
 	public Sound[] musicList;
+	public Sound selectedMusic;
 	
 	void Awake() {
 		
@@ -13,6 +15,7 @@ public class MusicManagerController : MonoBehaviour
 			s.source = gameObject.AddComponent<AudioSource>();
 			s.source.clip = s.clip;
 			s.source.volume = s.volume;
+			s.defaultVolume = s.volume;
 			s.source.pitch = s.pitch;
 			s.source.loop = s.loop;
 		}
@@ -20,8 +23,6 @@ public class MusicManagerController : MonoBehaviour
 	
 	void Start() {
 		DontDestroyOnLoad(gameObject);
-		
-		if (musicList.Length > 0) PlayRandomSong();
 	}
 
 	void Update() {
@@ -32,8 +33,21 @@ public class MusicManagerController : MonoBehaviour
 		gameObject.GetComponent<AudioSource>().Stop();
 	}
 	
-	void PlayRandomSong() {
+	public void PlayRandomSong() {
 		System.Random random = new System.Random();
-		musicList[random.Next(0, musicList.Length - 1)].source.Play();
+		selectedMusic = musicList[random.Next(0, musicList.Length - 1)];
+		selectedMusic.source.Play();
+	}
+	
+	public void SetVolume(float volume) {
+		if (selectedMusic != null && selectedMusic.source != null) selectedMusic.source.volume = volume;
+	}
+	
+	public void LowerVolume() {
+		SetVolume(selectedMusic.defaultVolume / 8);
+	}
+	
+	public void ResetVolume() {
+		SetVolume(selectedMusic.defaultVolume);
 	}
 }

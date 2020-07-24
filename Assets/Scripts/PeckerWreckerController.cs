@@ -26,7 +26,7 @@ public class PeckerWreckerController : MonoBehaviour
 	float healthDefault = 1000f;
 	float health = 1000f;
 	float botRotationSpeed = 100f;
-	float botMovementSpeed = 750f;
+	float botMovementSpeed = 500f;
 	int gravityMultiplier = 10000;
 	GameObject explosion;
 	GameObject player;
@@ -63,7 +63,7 @@ public class PeckerWreckerController : MonoBehaviour
 	}
 	
 	void HammerOn() {
-		// Debug.Log("Hammer on " + count);
+		Debug.Log("Hammer on " + count);
 		// // hammer.AddTorque(gameObject.transform.forward * 1000);
 		// if (hammer != null) hammer.AddForce(gameObject.transform.forward * 2000, ForceMode.Impulse);
 		// count++;
@@ -83,6 +83,7 @@ public class PeckerWreckerController : MonoBehaviour
 		// 	// Calculate a rotation a step closer to the target and applies rotation to this object
 		// 	hammer.rotation = Quaternion.LookRotation(newDirection);
 		// }
+		count++;
 	}
 	
 	void HammerOff() {
@@ -103,7 +104,6 @@ public class PeckerWreckerController : MonoBehaviour
 	}
 	
 	void UpdatePlayerMovement() {
-		
 		if (movementInput.x < -.5 || movementInput.x > .5) player.transform.Rotate(new Vector3(0, 1, 0) * Time.deltaTime * botRotationSpeed * movementInput.x);
 
 		Vector3 direction =  Vector3.Normalize(Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0))); // Get forward direction along the ground
@@ -189,7 +189,6 @@ public class PeckerWreckerController : MonoBehaviour
 	}
 	
 	void EnablePlayerControls() {
-		
 		controls = new InputMaster();
 		if (controls != null) {
 			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();

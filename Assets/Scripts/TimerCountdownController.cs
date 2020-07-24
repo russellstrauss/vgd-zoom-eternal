@@ -16,10 +16,11 @@ public class TimerCountdownController : MonoBehaviour
 	bool battleClockDecreasing = false;
 	bool battleClockInitialized = false;
 	AudioSource music;
-	HeliBotController playerController;
+	PlayerController playerController;
 	EnemyController enemyController;
 	PauseMenu pauseMenuController;
 	GameObject player;
+	bool started = false;
 	
 	IEnumerator battleClockTimer;
 	
@@ -30,7 +31,7 @@ public class TimerCountdownController : MonoBehaviour
 		
 		if (enemyController != null) enemyController = GameObject.FindWithTag("enemy").GetComponent<EnemyController>();
 		player = GameObject.FindWithTag("Player");
-		if (player != null) playerController = player.GetComponent<HeliBotController>();
+		if (player != null) playerController = player.GetComponent<PlayerController>();
 		
 		pauseMenuController = GameObject.FindWithTag("GameManager").GetComponent<PauseMenu>();
 		pauseMenuController.PauseGame();
@@ -52,7 +53,7 @@ public class TimerCountdownController : MonoBehaviour
 			StartCoroutine(DecreaseCountdown());
 		}
 		else if (countdownSecondsRemaining < 1 && !battleClockInitialized) {
-			StartTimer();
+			if (!started) StartTimer();
 		}
 	}
 	
@@ -71,7 +72,7 @@ public class TimerCountdownController : MonoBehaviour
 			FindObjectOfType<AudioManager>().Play("buzzer");
 			yield return new WaitForSecondsRealtime(1);
 			countdownClock.enabled = false;
-			StartTimer();
+			if (!started) StartTimer();
 		}
 		countdownDecreasing = false;
 	}
@@ -104,8 +105,10 @@ public class TimerCountdownController : MonoBehaviour
 	}
 	
 	public void StartTimer() {
+		FindObjectOfType<MusicManagerController>().PlayRandomSong();
 		pauseMenuController.ResumeGame();
 		battleClockInitialized = true;
+		started = true;
 	}
 	
 	public void StopTimer() {

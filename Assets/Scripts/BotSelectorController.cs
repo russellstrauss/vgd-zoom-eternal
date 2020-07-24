@@ -18,7 +18,6 @@ public class BotSelectorController : MonoBehaviour
 		if (selectedBot != null) {
 			
 			try {
-				Debug.Log(FindObjectsOfType<DigitalRuby.PyroParticles.FlameBotController>().Length > 0);
 				
 				if (selectedBot == "Stellar Propeller" && FindObjectsOfType<HeliBotController>().Length > 0) FindObjectsOfType<HeliBotController>()[0].SetPlayer();
 				if (selectedBot == "Pecker Wrecker" && FindObjectsOfType<PeckerWreckerController>().Length > 0) FindObjectsOfType<PeckerWreckerController>()[0].SetPlayer();
