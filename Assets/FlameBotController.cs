@@ -87,6 +87,10 @@ public class FlameBotController : MonoBehaviour
 		floor = GameObject.FindWithTag("Floor");
 		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
 		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
+		
+		if (player != null && player == gameObject) SetPlayer();
+		else if (enemy != null && enemy == gameObject) SetEnemy();
+		else gameObject.SetActive(false);
 	}
 
 	void OnCollisionStay(Collision otherObjectCollision) {
@@ -307,13 +311,18 @@ public class FlameBotController : MonoBehaviour
         currentPrefabScript = null;
     }
 	
-	public void SetPlayer() {
+	public void SetPlayer()
+	{
 		gameObject.tag = "Player";
 		player = gameObject;
 		EnablePlayerControls();
 		cameraController.SetPlayerFocus();
 		Debug.Log("Init flame bot here");
 	}
-
+	
+	public void SetEnemy()
+	{
+		
+	}
 }
 }
