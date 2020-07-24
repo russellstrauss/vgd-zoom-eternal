@@ -18,6 +18,7 @@ TagManager:
   - background
   - saw
   - characterSelect
+  - spikeTrigger
   layers:
   - Default
   - TransparentFX
