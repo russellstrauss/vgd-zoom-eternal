@@ -14,12 +14,7 @@ public class PeckerWreckerController : MonoBehaviour
 	Vector3 playerStartPosition;
 	Vector3 cameraStartPosition;
 	
-	// Win state
-	public TextMeshProUGUI winText;
-	public TextMeshProUGUI playerHealthLabel;
 	GameObject enemyWayPoint;
-	int explodeCount = 0;
-	TimerCountdownController battleClock;
 	
 	// bot
 	Rigidbody baseRB;
@@ -41,21 +36,16 @@ public class PeckerWreckerController : MonoBehaviour
 	int count = 0;
 	
 	void Start() {
-		Reset();
 		mainCamera = GameObject.FindWithTag("MainCamera");
 		cameraController = mainCamera.GetComponent<OrbitalCameraController>();
 		
 		player = GameObject.FindWithTag("Player");
 		baseRB = gameObject.GetComponent<Rigidbody>();
 		
-		if (winText != null) winText.enabled = false;
-		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
-		
 		enemy = GameObject.FindWithTag("enemy");
 		enemyWayPoint = GameObject.Find("wayPoint");
 		floor = GameObject.FindWithTag("Floor");
-		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
-		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
+		enemyController = FindObjectOfType<EnemyController>();
 		//hammer = GameObject.FindWithTag("hammer").GetComponent<Rigidbody>();
 
 		if (player != null && player == gameObject) SetPlayer();
@@ -99,10 +89,6 @@ public class PeckerWreckerController : MonoBehaviour
 	void OnCollisionEnter(Collision otherObjectCollision) {}
 	void OnCollisionExit(Collision otherObjectCollision) {}
 	
-	public void hideAllLabels() {
-		if (winText != null) winText.enabled = false;
-	}
-	
 	void UpdatePlayerMovement() {
 		if (movementInput.x < -.5 || movementInput.x > .5) player.transform.Rotate(new Vector3(0, 1, 0) * Time.deltaTime * botRotationSpeed * movementInput.x);
 
@@ -112,53 +98,8 @@ public class PeckerWreckerController : MonoBehaviour
 		baseRB.AddForce(new Vector3(0, -1, 0) * gravityMultiplier, ForceMode.Force);
 	}
 	
-	void Reset() {
-		health = healthDefault;
-	}
-
-	public void SubtractHealth(float amount) {
-		health -= amount;
-		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
-		if (health < .1) {
-			TriggerDeathState();
-		}
-	}
-	
 	public void SetBotSpeed(float newSpeed) {
 		botMovementSpeed = newSpeed;
-	}
-	
-	public void AddHealth(float amount) {
-		health += amount;
-	}
-	
-	void TriggerDeathState() {
-		Explode();
-		EndState();
-	}
-	
-	public void TriggerTimeUpLose() {
-		EndState();
-	}
-	
-	public void TriggerTimeUpWin() {
-		EndState();
-	}
-	
-	void EndState() {
-		Time.timeScale = .1f;
-		OrbitalCameraController cameraController = mainCamera.GetComponent<OrbitalCameraController>();
-		cameraController.distance = 10f;
-		battleClock.StopTimer();
-	}
-	
-	void TriggerWinState() {
-	}
-	
-	void Explode() {
-		// if (explodeCount < 10) explosion = Instantiate(explosionEffect, propeller.transform.position, transform.rotation);
-		if (controls != null && player != null) disableBotControls();
-		explodeCount++;
 	}
 	
 	void disableBotControls() {
@@ -167,7 +108,6 @@ public class PeckerWreckerController : MonoBehaviour
 	}
 	
 	void updateAIBehavior() {
-
 		
 	}
 	

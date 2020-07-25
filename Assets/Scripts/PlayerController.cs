@@ -21,9 +21,8 @@ public class PlayerController : MonoBehaviour {
 	Renderer particleRenderer;
 	GameObject player;
 	public float health = 1000f;
-	public TextMeshProUGUI winText;
+	public TextMeshProUGUI endStateText;
 	public TextMeshProUGUI playerHealthLabel;
-	public TextMeshProUGUI enemyHealthLabel;
 	TimerCountdownController battleClock;
 	
 	void Start() {
@@ -34,7 +33,7 @@ public class PlayerController : MonoBehaviour {
 		cameraController.SetPlayerFocus();
 		
 		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
-		if (winText != null) winText.enabled = false;
+		if (endStateText != null) endStateText.enabled = false;
 		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
 	}
 
@@ -98,34 +97,34 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	void TriggerWinState() {
-		if (winText != null) winText.enabled = true;
+		if (endStateText != null) endStateText.enabled = true;
 	}
 	
 	public void hideAllLabels() {
-		if (winText != null) winText.enabled = false;
+		if (endStateText != null) endStateText.enabled = false;
 	}
 	
 	void TriggerDeathState() {
 		Explode();
-		if (winText != null) {
-			winText.text = "YOUR BATTLE BOT HAS BEEN DESTROYED";
-			winText.enabled = true;
+		if (endStateText != null) {
+			endStateText.text = "YOUR BATTLE BOT HAS BEEN DESTROYED";
+			endStateText.enabled = true;
 		}
 		EndState();
 	}
 	
 	public void TriggerTimeUpLose() {
-		if (winText != null) {
-			winText.text = "TIME UP YOU LOST";
-			winText.enabled = true;
+		if (endStateText != null) {
+			endStateText.text = "TIME UP YOU LOST";
+			endStateText.enabled = true;
 		}
 		EndState();
 	}
 
 	public void TriggerTimeUpWin() {
-		if (winText != null) {
-			winText.text = "TIME UP YOU WON";
-			winText.enabled = true;
+		if (endStateText != null) {
+			endStateText.text = "TIME UP YOU WON";
+			endStateText.enabled = true;
 		}
 		EndState();
 	}
