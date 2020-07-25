@@ -16,7 +16,6 @@ public class SawBotController : MonoBehaviour
 	// Win state
 	public TextMeshProUGUI playerHealthLabel;
 	GameObject enemyWayPoint;
-	int explodeCount = 0;
 	TimerCountdownController battleClock;
 	
 	// bot

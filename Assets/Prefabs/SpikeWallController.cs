@@ -7,8 +7,8 @@ public class SpikeWallController : MonoBehaviour
 	
 	GameObject player;
 	int spikeDamage = 100;
-	// float playerCollisionTimer = 0;
-	// float enemyCollisionTimer = 0;
+	float playerCollisionTimer = 0;
+	float enemyCollisionTimer = 0;
 	
 	void Start() {
 		

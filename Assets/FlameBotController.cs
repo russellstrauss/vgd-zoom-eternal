@@ -85,7 +85,6 @@ public class FlameBotController : MonoBehaviour
 
 			float damage = 5;
 			enemyController.SubtractHealth(damage);
-			if (enemyController.health < .1) TriggerWinState();
 		}
 
 		if (otherObjectCollision.gameObject == floor) grounded = true;
@@ -148,21 +147,10 @@ public class FlameBotController : MonoBehaviour
 		health = healthDefault;
 	}
 
-	public void SubtractHealth(float amount) {
-		health -= amount;
-		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
-		if (health < .1) {
-			TriggerDeathState();
-		}
-	}
-
 	public void SetBotSpeed(float newSpeed) {
 		botMovementSpeed = newSpeed;
 	}
 
-	public void AddHealth(float amount) {
-		health += amount;
-	}
 
 	void disableBotControls() {
 		controls.Player.Move.Disable();
