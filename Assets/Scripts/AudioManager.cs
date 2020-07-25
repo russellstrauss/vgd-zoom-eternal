@@ -42,7 +42,7 @@ public class AudioManager : MonoBehaviour
 			Debug.LogWarning("Sound " + name + " not found.");
 		}
 		else if (s.source == null) {
-			Debug.LogWarning("Sound source for " + name + " not found. Check sources in Audio Manager.");
+			// Debug.LogWarning("Sound source for " + name + " not found. Check sources in Audio Manager.");
 		}
 		else {
 			s.source.Play();
