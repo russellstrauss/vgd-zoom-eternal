@@ -7,9 +7,7 @@ using UnityEngine.SceneManagement;
 public class MusicManagerController : MonoBehaviour
 {
 	public Sound[] musicList;
-	[HideInInspector]
 	public Sound selectedMusic;
-	public Sound mainMenuMusic;
 	
 	void Awake() {
 		

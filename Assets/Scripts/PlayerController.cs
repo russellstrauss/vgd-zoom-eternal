@@ -43,30 +43,27 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	void Explode() {
-		
-		if (!exploded) {
-			gameObject.SetActive(false);
-				
-			for (int x = 0; x < particleSubdivisions; x++) {
-				for (int y = 0; y < particleSubdivisions; y++) {
-					for (int z = 0; z < particleSubdivisions; z++) {
-						createParticle(x, y, z);
-					}
-				}
-			}
+		gameObject.SetActive(false);
 			
-			Vector3 explosionPos = transform.position;
-			Collider[] colliders = Physics.OverlapSphere(explosionPos, explosionRadius);
-			foreach (Collider collision in colliders) {
-				
-				Rigidbody rb = collision.GetComponent<Rigidbody>();
-				if (rb != null) {
-					rb.AddExplosionForce(explosionForce, transform.position, explosionRadius, explosionUpward);
+		for (int x = 0; x < particleSubdivisions; x++) {
+			for (int y = 0; y < particleSubdivisions; y++) {
+				for (int z = 0; z < particleSubdivisions; z++) {
+					createParticle(x, y, z);
 				}
 			}
-			exploded = true;
 		}
-	} 
+		
+		Vector3 explosionPos = transform.position;
+		Collider[] colliders = Physics.OverlapSphere(explosionPos, explosionRadius);
+		foreach (Collider collision in colliders) {
+			
+			Rigidbody rb = collision.GetComponent<Rigidbody>();
+			if (rb != null) {
+				rb.AddExplosionForce(explosionForce, transform.position, explosionRadius, explosionUpward);
+			}
+		}
+		exploded = true;
+	}
 	
 	void createParticle(int x, int y, int z) {
 		GameObject particle = GameObject.CreatePrimitive(PrimitiveType.Cube);

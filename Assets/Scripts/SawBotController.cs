@@ -16,6 +16,7 @@ public class SawBotController : MonoBehaviour
 	// Win state
 	public TextMeshProUGUI playerHealthLabel;
 	GameObject enemyWayPoint;
+	int explodeCount = 0;
 	TimerCountdownController battleClock;
 	
 	// bot
@@ -67,13 +68,13 @@ public class SawBotController : MonoBehaviour
 		enemyWayPoint = GameObject.Find("wayPoint");
 		enemy = GameObject.FindWithTag("enemy");
 		floor = GameObject.FindWithTag("Floor");
-		battleClock = FindObjectOfType<TimerCountdownController>();
-		enemyController = FindObjectOfType<EnemyController>();
+		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
+		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
 	}
 	
 	void Update() {
 		if (gameObject == player) UpdatePlayerMovement();
-		// if (gameObject == enemy) updateAIBehavior();
+		if (gameObject == enemy) updateAIBehavior();
 	}
 	
 	void OnCollisionStay(Collision otherObjectCollision) {}
@@ -95,13 +96,82 @@ public class SawBotController : MonoBehaviour
 	void Reset() {
 		health = healthDefault;
 	}
+
+	
+	public void SubtractHealth(float amount) {
+		health -= amount;
+		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
+		if (health < .1) {
+			TriggerDeathState();
+		}
+	}
 	
 	public void SetBotSpeed(float newSpeed) {
 		botMovementSpeed = newSpeed;
 	}
 	
+	public void AddHealth(float amount) {
+		health += amount;
+	}
+	
+	void TriggerDeathState() {
+		Explode();
+		EndState();
+	}
+	
+	public void TriggerTimeUpLose() {
+		EndState();
+	}
+	
+	public void TriggerTimeUpWin() {
+		EndState();
+	}
+	
+	void EndState() {
+		Time.timeScale = .1f;
+		OrbitalCameraController cameraController = mainCamera.GetComponent<OrbitalCameraController>();
+		cameraController.distance = 10f;
+		battleClock.StopTimer();
+	}
+	
+	void TriggerWinState() {
+	}
+	
+	void Explode() {
+		// if (explodeCount < 10) explosion = Instantiate(explosionEffect, propeller.transform.position, transform.rotation);
+		if (controls != null && player != null) disableBotControls();
+		explodeCount++;
+	}
+	
 	void disableBotControls() {
 		controls.Player.Move.Disable();
 		controls.Player.Select.Disable();
+	}
+	
+	void updateAIBehavior() {
+		
+		Debug.DrawRay(transform.position, gameObject.transform.forward * 3, Color.white);
+		
+		Transform target = player.transform;
+		float speed = 1.0f;
+
+
+		Vector3 targetDirection = (target.position - transform.position).normalized;
+		// Debug.DrawRay(gameObject.transform.position, targetDirection * 3, Color.cyan);
+		// The step size is equal to speed times frame time.
+		float singleStep = speed * Time.deltaTime;
+
+		// Rotate the forward vector towards the target direction by one step
+		Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+
+		// Draw a ray pointing at our target in
+		// Debug.DrawRay(transform.position, newDirection, Color.red);
+
+		// Calculate a rotation a step closer to the target and applies rotation to this object
+		transform.rotation = Quaternion.LookRotation(newDirection);
+		
+		// transform.position = Vector3.MoveTowards(transform.position, target.position, 10 * Time.deltaTime);
+		
+		// baseRB.MovePosition(transform.position + targetDirection *  Time.deltaTime * 100f);
 	}
 }

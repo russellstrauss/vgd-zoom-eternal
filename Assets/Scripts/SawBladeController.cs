@@ -11,6 +11,10 @@ public class SawBladeController : MonoBehaviour {
 	public bool isColliding = false;
 	
 	Vector3 rotation = new Vector3(0, 800, 0);
+	float sawOscillationDistance = .01f;
+	Vector3 oscillationDirection;
+	Vector3 oscillation;
+	float randomSeed;
 	GameObject[] blades;
 	GameObject player;
 	Rigidbody[] sawRigidbodies;
@@ -37,6 +41,8 @@ public class SawBladeController : MonoBehaviour {
 			bladeStartingPositions[i] = blades[i].transform.position;
 			
 			Vector3 targetPosition = bladeStartingPositions[i] + displacement;
+			// blades[i].transform.position = targetPosition;
+			Debug.DrawLine(bladeStartingPositions[i], targetPosition, Color.red);
 		}
 	}
 
@@ -48,10 +54,15 @@ public class SawBladeController : MonoBehaviour {
 			
 			blades[i].transform.Rotate(rotation * Time.deltaTime);
 			
+			Debug.DrawRay(bladeStartingPositions[i], displacement, Color.green);
+			Debug.DrawRay(bladeStartingPositions[i], new Vector3(0, .2f, 0), Color.red);
+			Debug.DrawRay(bladeStartingPositions[i] + displacement, new Vector3(0, .2f, 0), Color.red);
+			
 			if (sawTimer < sawActiveTime / 2) {
 				Vector3 targetPosition = bladeStartingPositions[i] + displacement;
 				// Doesn't move up when timer is reset my player collision. Why?
 				blades[i].transform.position = Vector3.MoveTowards(blades[i].transform.position, targetPosition, sawSpeed * Time.deltaTime);
+				// Debug.Log("saw moving up, sawTimer=" + sawTimer + ", count=" + count);
 				count++;
 			}
 			else if (sawTimer > sawActiveTime / 2) {
@@ -66,6 +77,7 @@ public class SawBladeController : MonoBehaviour {
 		sawTimer = 0;
 		count = 0;
 		isColliding = true;
+		// FindObjectOfType<AudioManager>().Play("crash");
 	}
 	
 	public void ExitAttack() {

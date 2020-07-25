@@ -18,6 +18,7 @@ public class FlameBotController : MonoBehaviour
 	public TextMeshProUGUI winText;
 	public TextMeshProUGUI playerHealthLabel;
 	private GameObject enemyWayPoint;
+	private int explodeCount = 0;
 	private TimerCountdownController battleClock;
 
 	// propeller
@@ -54,7 +55,6 @@ public class FlameBotController : MonoBehaviour
 	Renderer particleRenderer;
 
 	EnemyController enemyController;
-	PlayerController playerController;
 
 	void Start() {
 		Reset();
@@ -67,9 +67,8 @@ public class FlameBotController : MonoBehaviour
 		enemyWayPoint = GameObject.Find("wayPoint");
 		enemy = GameObject.FindWithTag("enemy");
 		floor = GameObject.FindWithTag("Floor");
-		battleClock = FindObjectOfType<TimerCountdownController>();
-		enemyController = FindObjectOfType<EnemyController>();
-		playerController = FindObjectOfType<PlayerController>();
+		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
+		if (FindObjectsOfType<EnemyController>().Length > 0) enemyController = FindObjectsOfType<EnemyController>()[0];
 		
 		if (player != null && player == gameObject) SetPlayer();
 		else if (enemy != null && enemy == gameObject) SetEnemy();
@@ -85,6 +84,7 @@ public class FlameBotController : MonoBehaviour
 
 			float damage = 5;
 			enemyController.SubtractHealth(damage);
+			if (enemyController.health < .1) TriggerWinState();
 		}
 
 		if (otherObjectCollision.gameObject == floor) grounded = true;
@@ -125,7 +125,7 @@ public class FlameBotController : MonoBehaviour
 				// Debug.Log("Game object exists");
 				fire.transform.position =  transform.position+(transform.right*2)+transform.up*2;
 				fire.transform.rotation =  player.transform.rotation * Quaternion.Euler(0, 90, 0);
-				// if (playerController != null && Time.timeScale == 1 && player != gameObject) playerController.SubtractHealth(enemyDamageRatio);
+				//if (heliBotController != null && Time.timeScale == 1) heliBotController.SubtractHealth(enemyDamageRatio);
 				//Debug.Log("at pt" + fire.transform.position);
 			} else {
 				//does not exist so lets make flame
@@ -147,10 +147,63 @@ public class FlameBotController : MonoBehaviour
 		health = healthDefault;
 	}
 
+	public void SubtractHealth(float amount) {
+		health -= amount;
+		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
+		if (health < .1) {
+			TriggerDeathState();
+		}
+	}
+
 	public void SetBotSpeed(float newSpeed) {
 		botMovementSpeed = newSpeed;
 	}
 
+	public void AddHealth(float amount) {
+		health += amount;
+	}
+
+	void TriggerDeathState() {
+		Explode();
+		if (winText != null) {
+			winText.text = "YOUR BATTLE BOT HAS BEEN DESTROYED";
+			winText.enabled = true;
+		}
+		EndState();
+	}
+
+	public void TriggerTimeUpLose() {
+		if (winText != null) {
+			winText.text = "TIME UP YOU LOST";
+			winText.enabled = true;
+		}
+		EndState();
+	}
+
+	public void TriggerTimeUpWin() {
+		if (winText != null) {
+			winText.text = "TIME UP YOU WON";
+			winText.enabled = true;
+		}
+		EndState();
+	}
+
+	void EndState() {
+		Time.timeScale = .1f;
+		OrbitalCameraController cameraController = mainCamera.GetComponent<OrbitalCameraController>();
+		cameraController.distance = 10f;
+		battleClock.StopTimer();
+	}
+
+	void TriggerWinState() {
+		if (winText != null) winText.enabled = true;
+	}
+
+	void Explode() {
+		if (explodeCount < 1) explosion = Instantiate(explosionEffect, player.transform.position, transform.rotation);
+		if (controls != null) disableBotControls();
+		explodeCount++;
+	}
 
 	void disableBotControls() {
 		controls.Player.Move.Disable();
@@ -165,7 +218,7 @@ public class FlameBotController : MonoBehaviour
             // Debug.Log("Game object exists");
             fire.transform.position =  transform.position+(transform.right*2)+transform.up*2;
             fire.transform.rotation =  player.transform.rotation * Quaternion.Euler(0, 90, 0);
-			// if (playerController != null && Time.timeScale == 1 && player != gameObject) playerController.SubtractHealth(enemyDamageRatio);
+			//if (heliBotController != null && Time.timeScale == 1) heliBotController.SubtractHealth(enemyDamageRatio);
             //Debug.Log("at pt" + fire.transform.position);
         } else {
             //does not exist so lets make flame
