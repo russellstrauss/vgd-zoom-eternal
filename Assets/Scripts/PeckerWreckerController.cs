@@ -64,25 +64,6 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	void HammerOn() {
 		Debug.Log("Hammer on " + count);
-		// // hammer.AddTorque(gameObject.transform.forward * 1000);
-		// if (hammer != null) hammer.AddForce(gameObject.transform.forward * 2000, ForceMode.Impulse);
-		// count++;
-		
-		// if (hammering) {
-			
-		// 	float speed = 1.0f;
-		// 	float singleStep = speed * Time.deltaTime;
-		// 	Transform target = hammer.transform;
-		// 	Vector3 targetDirection = -(target.position - transform.position).normalized;
-		// 	Debug.DrawRay(hammer.transform.position, targetDirection * 3, Color.cyan);
-		// 	Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
-
-		// 	// Draw a ray pointing at our target in
-		// 	Debug.DrawRay(transform.position, newDirection, Color.white);
-
-		// 	// Calculate a rotation a step closer to the target and applies rotation to this object
-		// 	hammer.rotation = Quaternion.LookRotation(newDirection);
-		// }
 		count++;
 	}
 	
@@ -116,49 +97,8 @@ public class PeckerWreckerController : MonoBehaviour
 		health = healthDefault;
 	}
 
-	public void SubtractHealth(float amount) {
-		health -= amount;
-		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
-		if (health < .1) {
-			TriggerDeathState();
-		}
-	}
-	
 	public void SetBotSpeed(float newSpeed) {
 		botMovementSpeed = newSpeed;
-	}
-	
-	public void AddHealth(float amount) {
-		health += amount;
-	}
-	
-	void TriggerDeathState() {
-		Explode();
-		EndState();
-	}
-	
-	public void TriggerTimeUpLose() {
-		EndState();
-	}
-	
-	public void TriggerTimeUpWin() {
-		EndState();
-	}
-	
-	void EndState() {
-		Time.timeScale = .1f;
-		OrbitalCameraController cameraController = mainCamera.GetComponent<OrbitalCameraController>();
-		cameraController.distance = 10f;
-		battleClock.StopTimer();
-	}
-	
-	void TriggerWinState() {
-	}
-	
-	void Explode() {
-		// if (explodeCount < 10) explosion = Instantiate(explosionEffect, propeller.transform.position, transform.rotation);
-		if (controls != null && player != null) disableBotControls();
-		explodeCount++;
 	}
 	
 	void disableBotControls() {
@@ -168,7 +108,6 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	void updateAIBehavior() {
 
-		
 	}
 	
 	public void SetEnemy() {
