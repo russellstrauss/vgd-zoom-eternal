@@ -106,10 +106,6 @@ public class Helicopter_AI : MonoBehaviour
 		}
 	}
 
-	// public void hideAllLabels() {
-	// 	if (winText != null) winText.enabled = false;
-	// }
-
 	void ShowWheelSparks() {
 		if (sparks != null) {
 			foreach(ParticleSystem s in sparks) {
@@ -260,8 +256,6 @@ public class Helicopter_AI : MonoBehaviour
 			explosion.transform.position = propeller.transform.position;
 			explosion.transform.rotation = propeller.transform.rotation;
 		}
-
-
 	}
 
 	void PropellerOn() {
@@ -294,66 +288,7 @@ public class Helicopter_AI : MonoBehaviour
 		health = healthDefault;
 	}
 
-	// public void SubtractHealth(float amount) {
-	// 	health -= amount;
-	// 	if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
-	// 	if (health < .1) {
-	// 		TriggerDeathState();
-	// 	}
-	// }
-
-	// public void SetBotSpeed(float newSpeed) {
-	// 	botMovementSpeed = newSpeed;
-	// }
-
 	public void AddHealth(float amount) {
 		health += amount;
 	}
-
-	// void TriggerDeathState() {
-	// 	Explode();
-	// 	if (winText != null) {
-	// 		winText.text = "YOUR BATTLE BOT HAS BEEN DESTROYED";
-	// 		winText.enabled = true;
-	// 	}
-	// 	EndState();
-	// }
-
-	// public void TriggerTimeUpLose() {
-	// 	if (winText != null) {
-	// 		winText.text = "TIME UP YOU LOST";
-	// 		winText.enabled = true;
-	// 	}
-	// 	EndState();
-	// }
-
-	// public void TriggerTimeUpWin() {
-	// 	if (winText != null) {
-	// 		winText.text = "TIME UP YOU WON";
-	// 		winText.enabled = true;
-	// 	}
-	// 	EndState();
-	// }
-    //
-	// void EndState() {
-	// 	Time.timeScale = .1f;
-	// 	OrbitalCameraController cameraController = mainCamera.GetComponent<OrbitalCameraController>();
-	// 	cameraController.distance = 10f;
-	// 	battleClock.StopTimer();
-	// }
-
-	// void TriggerWinState() {
-	// 	if (winText != null) winText.enabled = true;
-	// }
-
-	void Explode() {
-		if (explodeCount < 1) explosion = Instantiate(explosionEffect, propeller.transform.position, transform.rotation);
-		// if (controls != null) disableBotControls();
-		explodeCount++;
-	}
-
-	// void disableBotControls() {
-	// 	controls.Player.Move.Disable();
-	// 	controls.Player.Select.Disable();
-	// }
 }
