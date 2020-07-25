@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 
 public class EnemyController : MonoBehaviour {
 	
-	int collisionCount;
 	bool exploded = false;
 	float particleSize = .2f;
 	int particleSubdivisions = 10;
@@ -26,7 +25,6 @@ public class EnemyController : MonoBehaviour {
 	Rigidbody enemyRB;
 	
 	void Start() {
-		collisionCount = 0;
 		
 		particlePivotDistance = particleSize * particleSubdivisions / 2;
 		particlesPivot = new Vector3(particlePivotDistance, particlePivotDistance, particlePivotDistance);
@@ -35,24 +33,10 @@ public class EnemyController : MonoBehaviour {
 		player = GameObject.FindWithTag("Player");
 		if (enemyHealthLabel != null) enemyHealthLabel.text = health.ToString("0");
 		enemyRB = gameObject.GetComponent<Rigidbody>();
-		
-		InputMaster controls = new InputMaster();
-		if (controls != null) {
-			//controls.Player.Select.performed += ctx => explode();
-		}
 	}
 
 	void Update() {
 		if (enemyRB != null) enemyRB.AddForce(-transform.up * gravityMultiplier, ForceMode.Force);
-	}
-	
-	void OnCollisionEnter(Collision collision) 
-	{
-		
-		// if (collision.gameObject == player) {
-		// 	collisionCount++;
-		// 	FindObjectOfType<AudioManager>().Play("crash");
-		// }
 	}
 	
 	public void SubtractHealth(float amount) {

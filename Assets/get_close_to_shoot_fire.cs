@@ -77,7 +77,7 @@ public class get_close_to_shoot_fire : MonoBehaviour
 				// Debug.Log("Game object exists");
 				fire.transform.position =  transform.position+(transform.right*2)+transform.up*2;
 				fire.transform.rotation = _lookRotation * Quaternion.Euler(0, 90, 0);
-				if (heliBotController != null && Time.timeScale == 1) heliBotController.SubtractHealth(enemyDamageRatio);
+				// if (heliBotController != null && Time.timeScale == 1) heliBotController.SubtractHealth(enemyDamageRatio);
 				//Debug.Log("at pt" + fire.transform.position);
 			} else {
 				//does not exist so lets make flame

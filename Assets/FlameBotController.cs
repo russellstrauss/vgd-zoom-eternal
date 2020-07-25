@@ -44,7 +44,7 @@ public class FlameBotController : MonoBehaviour
 	public float botMovementSpeed = 2000f;
 	// private float botMovementSpeedDefault = 2000f;
 	private bool grounded = true;
-	private int gravityMultiplier = 40000;
+	private int gravityMultiplier = 4000;
 	public GameObject explosionEffect;
 	public GameObject sparkEffect;
 	private GameObject explosion;
@@ -55,24 +55,6 @@ public class FlameBotController : MonoBehaviour
 	Renderer particleRenderer;
 
 	EnemyController enemyController;
-
-	void EnablePlayerControls() {
-		
-		controls = new InputMaster();
-
-		if (controls != null && gameObject.CompareTag("Player")) {
-			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
-			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
-			controls.Player.Select.performed += ctx => FireOn();
-			controls.Player.Select.canceled += ctx => StopCurrent();
-			controls.Player.Drive.performed += ctx => Drive();
-			controls.Player.Drive.canceled += ctx => DriveRelease();
-			controls.Player.Enable();
-		}
-	}
-
-	void OnEnable()	{ if (controls != null) controls.Player.Enable(); }
-	void OnDisable() { if (controls != null) controls.Player.Disable(); }
 
 	void Start() {
 		Reset();
@@ -90,7 +72,6 @@ public class FlameBotController : MonoBehaviour
 		
 		if (player != null && player == gameObject) SetPlayer();
 		else if (enemy != null && enemy == gameObject) SetEnemy();
-		else gameObject.SetActive(false);
 	}
 
 	void OnCollisionStay(Collision otherObjectCollision) {
@@ -314,15 +295,34 @@ public class FlameBotController : MonoBehaviour
 	public void SetPlayer()
 	{
 		gameObject.tag = "Player";
+		gameObject.AddComponent<PlayerController>();
 		player = gameObject;
 		EnablePlayerControls();
-		cameraController.SetPlayerFocus();
 		Debug.Log("Init flame bot here");
 	}
 	
 	public void SetEnemy()
 	{
-		
+		gameObject.AddComponent<EnemyController>();
+		gameObject.tag = "enemy";
+		enemy = gameObject;
 	}
+	
+	void EnablePlayerControls() {
+		
+		controls = new InputMaster();
+
+		if (controls != null && gameObject.CompareTag("Player")) {
+			controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
+			controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
+			controls.Player.Select.performed += ctx => FireOn();
+			controls.Player.Select.canceled += ctx => StopCurrent();
+			controls.Player.Drive.performed += ctx => Drive();
+			controls.Player.Drive.canceled += ctx => DriveRelease();
+			controls.Player.Enable();
+		}
+	}
+	void OnEnable()	{ if (controls != null) controls.Player.Enable(); }
+	void OnDisable() { if (controls != null) controls.Player.Disable(); }
 }
 }
