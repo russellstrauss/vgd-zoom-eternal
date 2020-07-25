@@ -20,6 +20,7 @@ TagManager:
   - characterSelect
   - spikeTrigger
   - barrier
+  - spikeCone
   layers:
   - Default
   - TransparentFX
