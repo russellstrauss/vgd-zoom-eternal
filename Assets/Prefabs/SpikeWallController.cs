@@ -7,8 +7,8 @@ public class SpikeWallController : MonoBehaviour
 	
 	GameObject player;
 	int spikeDamage = 100;
-	float playerCollisionTimer = 0;
-	float enemyCollisionTimer = 0;
+	// float playerCollisionTimer = 0;
+	// float enemyCollisionTimer = 0;
 	
 	void Start() {
 		
@@ -25,14 +25,8 @@ public class SpikeWallController : MonoBehaviour
 		rb.AddForce(contactNormal * 50000f, ForceMode.Impulse);
 		
 		if (otherCollision.gameObject.CompareTag("Player") || otherCollision.gameObject.CompareTag("enemy")) {
-			if (otherCollision.gameObject.GetComponent<PlayerController>() != null && playerCollisionTimer < .1) {
-				otherCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(spikeDamage);
-				playerCollisionTimer = 0;
-			}
-			if (otherCollision.gameObject.GetComponent<EnemyController>() != null && enemyCollisionTimer < .1) {
-				otherCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(spikeDamage);
-				enemyCollisionTimer = 0;
-			}
+			otherCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(spikeDamage);
+			otherCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(spikeDamage);
 		}
 	}
 }
