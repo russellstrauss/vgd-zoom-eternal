@@ -25,8 +25,8 @@ public class SpikeWallController : MonoBehaviour
 		rb.AddForce(contactNormal * 50000f, ForceMode.Impulse);
 		
 		if (otherCollision.gameObject.CompareTag("Player") || otherCollision.gameObject.CompareTag("enemy")) {
-			otherCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(spikeDamage);
-			otherCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(spikeDamage);
+			// otherCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(spikeDamage);
+			// otherCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(spikeDamage);
 		}
 	}
 }
