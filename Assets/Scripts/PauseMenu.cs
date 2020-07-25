@@ -76,8 +76,10 @@ public class PauseMenu : MonoBehaviour
 
     public void GoToMenu()
     {
+		FindObjectOfType<MusicManagerController>().StopAllMusic();
         Time.timeScale = 1f;
         SceneManager.LoadScene("StartMenu");
+		FindObjectOfType<MusicManagerController>().PlayMainMenuMusic();
     }
 
     public void QuitGame()

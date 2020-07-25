@@ -1307,26 +1307,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 508660743714676842, guid: e3540158b76b03944a3ce13289147312,
-        type: 3}
-      propertyPath: mainMenuMusic.clip
-      value: 
-      objectReference: {fileID: 8300000, guid: c899957cd44e6cd4bbac6f538ceea9b5, type: 3}
-    - target: {fileID: 508660743714676842, guid: e3540158b76b03944a3ce13289147312,
-        type: 3}
-      propertyPath: mainMenuMusic.name
-      value: zeroes-and-ones
-      objectReference: {fileID: 0}
-    - target: {fileID: 508660743714676842, guid: e3540158b76b03944a3ce13289147312,
-        type: 3}
-      propertyPath: mainMenuMusic.pitch
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 508660743714676842, guid: e3540158b76b03944a3ce13289147312,
-        type: 3}
-      propertyPath: mainMenuMusic.loop
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4790556384248926610, guid: e3540158b76b03944a3ce13289147312,
         type: 3}
       propertyPath: m_Name

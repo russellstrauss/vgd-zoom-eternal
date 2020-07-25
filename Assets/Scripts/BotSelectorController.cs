@@ -29,7 +29,8 @@ public class BotSelectorController : MonoBehaviour
 				while (!enemySet) {
 					
 					System.Random random = new System.Random();
-					int value = random.Next(0, 2);
+					int value = random.Next(0, 3);
+					Debug.Log(value);
 					if (value == 0 && selectedBot != "Pecker Wrecker") {
 						selectedEnemyBot = "Pecker Wrecker";
 						FindObjectOfType<HeliBotController>().SetEnemy();

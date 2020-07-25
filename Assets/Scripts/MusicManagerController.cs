@@ -10,8 +10,12 @@ public class MusicManagerController : MonoBehaviour
 	[HideInInspector]
 	public Sound selectedMusic;
 	public Sound mainMenuMusic;
+	Scene scene;
 	
 	void Awake() {
+		
+		Array.Resize(ref musicList, musicList.Length + 1);
+		musicList[musicList.Length - 1] = mainMenuMusic;
 		
 		foreach(Sound s in musicList) {
 			s.source = gameObject.AddComponent<AudioSource>();
@@ -25,6 +29,8 @@ public class MusicManagerController : MonoBehaviour
 	
 	void Start() {
 		DontDestroyOnLoad(gameObject);
+		scene = SceneManager.GetActiveScene();
+		if (scene.name == "StartMenu") mainMenuMusic.source.Play();
 	}
 
 	void Update() {
@@ -36,6 +42,7 @@ public class MusicManagerController : MonoBehaviour
 	}
 	
 	public void PlayRandomSong() {
+		mainMenuMusic.source.Stop();
 		System.Random random = new System.Random();
 		selectedMusic = musicList[random.Next(0, musicList.Length - 1)];
 		selectedMusic.source.Play();
@@ -51,5 +58,15 @@ public class MusicManagerController : MonoBehaviour
 	
 	public void ResetVolume() {
 		SetVolume(selectedMusic.defaultVolume);
+	}
+	
+	public void StopAllMusic() {
+		foreach(Sound s in musicList) {
+			s.source.Stop();
+		}
+	}
+	
+	public void PlayMainMenuMusic() {
+		mainMenuMusic.source.Play();
 	}
 }
