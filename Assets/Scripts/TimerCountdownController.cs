@@ -91,12 +91,12 @@ public class TimerCountdownController : MonoBehaviour
 	
 	void TimeUp() {
 		
-		if (playerController.health < enemyController.health) {
-			playerController.TriggerTimeUpLose();
-		}
-		else {
-			playerController.TriggerTimeUpWin();
-		}
+		// if (playerController.health < enemyController.health) {
+		// 	playerController.TriggerTimeUpLose();
+		// }
+		// else {
+		// 	playerController.TriggerTimeUpWin();
+		// }
 	}
 	
 	void StartCountdown() {

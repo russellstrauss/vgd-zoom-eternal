@@ -9,12 +9,9 @@ public class SawBladeController : MonoBehaviour {
 	
 	[HideInInspector]
 	public bool isColliding = false;
+	float sawDamage = 250;
 	
 	Vector3 rotation = new Vector3(0, 800, 0);
-	float sawOscillationDistance = .01f;
-	Vector3 oscillationDirection;
-	Vector3 oscillation;
-	float randomSeed;
 	GameObject[] blades;
 	GameObject player;
 	Rigidbody[] sawRigidbodies;
@@ -62,7 +59,6 @@ public class SawBladeController : MonoBehaviour {
 				Vector3 targetPosition = bladeStartingPositions[i] + displacement;
 				// Doesn't move up when timer is reset my player collision. Why?
 				blades[i].transform.position = Vector3.MoveTowards(blades[i].transform.position, targetPosition, sawSpeed * Time.deltaTime);
-				// Debug.Log("saw moving up, sawTimer=" + sawTimer + ", count=" + count);
 				count++;
 			}
 			else if (sawTimer > sawActiveTime / 2) {
@@ -73,11 +69,10 @@ public class SawBladeController : MonoBehaviour {
 		}
 	}
 	
-	public void TriggerAttack(Collider otherCollision) {
+	public void TriggerSawMoveUp(Collider otherCollision) {
 		sawTimer = 0;
 		count = 0;
 		isColliding = true;
-		// FindObjectOfType<AudioManager>().Play("crash");
 	}
 	
 	public void ExitAttack() {

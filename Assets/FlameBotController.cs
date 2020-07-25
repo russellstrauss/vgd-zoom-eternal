@@ -46,7 +46,6 @@ public class FlameBotController : MonoBehaviour
 	private GameObject enemy;
 	private GameObject floor;
 	private bool upsideDown = false;
-	Renderer particleRenderer;
 
 	EnemyController enemyController;
 
@@ -226,7 +225,7 @@ public class FlameBotController : MonoBehaviour
 	public void SetPlayer()
 	{
 		gameObject.tag = "Player";
-		gameObject.AddComponent<PlayerController>();
+		// gameObject.AddComponent<PlayerController>();
 		player = gameObject;
 		EnablePlayerControls();
 		Debug.Log("Init flame bot here");

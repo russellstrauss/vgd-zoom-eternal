@@ -6378,6 +6378,7 @@ GameObject:
   - component: {fileID: 6451579419253728752}
   - component: {fileID: 6451579419253728753}
   - component: {fileID: 337044407327637404}
+  - component: {fileID: 4914463432575533984}
   m_Layer: 0
   m_Name: HelicopterBot
   m_TagString: Player
@@ -6425,9 +6426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3ae9af93bd9c3740b4299755dcd266b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  winText: {fileID: 578633418842625830, guid: b7d3919bf0ccb1f4e88fe14571a4688e, type: 3}
-  playerHealthLabel: {fileID: 8045037812668582150, guid: adbf732c9c59b5540aad9752f3b829ce,
-    type: 3}
+  propellerRotationSpeed: 0
   health: 1000
   botMovementSpeed: 2000
   explosionEffect: {fileID: 118616, guid: 8c51d7df2d29ba8449f85eb74c672555, type: 3}
@@ -6464,6 +6463,22 @@ MonoBehaviour:
   centerOfMassMarker: {fileID: 5209156974692074966}
   m_centerOfMass: {x: 0, y: 0, z: 0}
   continuousUpdating: 0
+--- !u!114 &4914463432575533984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6451579419253728754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fe4a41ab657fa14d92773a89ac4d8f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionParticleMaterial: {fileID: 2100000, guid: 978db213586642e4db4b574a2ffd00fc,
+    type: 2}
+  endStateText: {fileID: 0}
+  playerHealthLabel: {fileID: 0}
 --- !u!1 &6451579420218103993
 GameObject:
   m_ObjectHideFlags: 0

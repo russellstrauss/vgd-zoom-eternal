@@ -20,21 +20,27 @@ public class PlayerController : MonoBehaviour {
 	public Material explosionParticleMaterial;
 	Renderer particleRenderer;
 	GameObject player;
-	public float health = 1000f;
+	float health = 1000f;
 	public TextMeshProUGUI endStateText;
-	public TextMeshProUGUI playerHealthLabel;
 	TimerCountdownController battleClock;
+	PlayerScoreController playerScoreController;
+	GameObject endState;
+	
+	int count = 0;
 	
 	void Start() {
 		
-		cameraController = GameObject.FindWithTag("MainCamera").GetComponent<OrbitalCameraController>();
-		
+		cameraController = FindObjectOfType<OrbitalCameraController>();
+		endState = GameObject.FindWithTag("endState");
+		if (endState != null) endState.SetActive(false);
 		SetParticles();
-		cameraController.SetPlayerFocus();
-		
-		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
+		if (cameraController != null) cameraController.SetPlayerFocus();
+		playerScoreController = FindObjectOfType<PlayerScoreController>();
+
 		if (endStateText != null) endStateText.enabled = false;
-		if (FindObjectsOfType<TimerCountdownController>().Length > 0) battleClock = FindObjectsOfType<TimerCountdownController>()[0];
+		battleClock = FindObjectOfType<TimerCountdownController>();
+		
+		count++;
 	}
 
 	void Update() {
@@ -66,7 +72,7 @@ public class PlayerController : MonoBehaviour {
 	
 	void createParticle(int x, int y, int z) {
 		GameObject particle = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		if (particleRenderer != null){
+		if (particleRenderer != null) {
 			particleRenderer.material = explosionParticleMaterial;
 		}
 		
@@ -83,7 +89,7 @@ public class PlayerController : MonoBehaviour {
 	
 	public void SubtractHealth(float amount) {
 		health -= amount;
-		if (playerHealthLabel != null) playerHealthLabel.text = health.ToString("0");
+		playerScoreController.SetScore(health);
 		if (health < .1) {
 			Explode();
 			TriggerDeathState();
@@ -97,7 +103,8 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	void TriggerWinState() {
-		if (endStateText != null) endStateText.enabled = true;
+		if (endStateText != null) endStateText.text = "YOU WIN!";
+		EndState();
 	}
 	
 	public void hideAllLabels() {
@@ -106,33 +113,29 @@ public class PlayerController : MonoBehaviour {
 	
 	void TriggerDeathState() {
 		Explode();
-		if (endStateText != null) {
-			endStateText.text = "YOUR BATTLE BOT HAS BEEN DESTROYED";
-			endStateText.enabled = true;
-		}
+		if (endStateText != null) endStateText.text = "YOU COULDN'T HANDLE THE HEAT!";
 		EndState();
 	}
 	
 	public void TriggerTimeUpLose() {
-		if (endStateText != null) {
-			endStateText.text = "TIME UP YOU LOST";
-			endStateText.enabled = true;
-		}
+		if (endStateText != null) endStateText.text = "TIME UP YOU LOST!";
 		EndState();
 	}
 
 	public void TriggerTimeUpWin() {
-		if (endStateText != null) {
-			endStateText.text = "TIME UP YOU WON";
-			endStateText.enabled = true;
-		}
+		if (endStateText != null) endStateText.text = "TIME UP YOU WON!";
 		EndState();
 	}
 
 	void EndState() {
-		// Time.timeScale = .1f;
+		
+		endState.SetActive(true);
+		
+		if (endStateText != null) endStateText.enabled = true;
 		cameraController.distance = 10f;
 		battleClock.StopTimer();
+		
+		
 	}
 	
 	void OnCollisionEnter(Collision otherObjectCollision) {

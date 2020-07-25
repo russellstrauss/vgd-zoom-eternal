@@ -24,7 +24,7 @@ public class HazardTriggerController : MonoBehaviour
 		hazardTrigger = otherCollision.GetComponent<BoxCollider>();
 		
 		if (sawBladeController != null && hazardTrigger != null) {
-			sawBladeController.TriggerAttack(otherCollision);
+			sawBladeController.TriggerSawMoveUp(otherCollision);
 		}
 	}
 	

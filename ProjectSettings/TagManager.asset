@@ -21,6 +21,7 @@ TagManager:
   - spikeTrigger
   - barrier
   - spikeCone
+  - endState
   layers:
   - Default
   - TransparentFX
