@@ -28,7 +28,7 @@ public class Helicopter_AI : MonoBehaviour
 
 	// boteck
 	private float botRotationSpeed = 200f;
-	public float botMovementSpeed = 1500f;
+	float botMovementSpeed = 1500f;
 	// private float botMovementSpeedDefault = 2000f;
 	private bool grounded = true;
 	private int gravityMultiplier = 40000;
