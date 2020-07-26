@@ -26,10 +26,7 @@ public class Helicopter_AI : MonoBehaviour
 	private float propellerTimer = 0.0f;
 	private float propellerRotationBaseSpeed = 8f; // exponential
 
-	// bot
-	bool driving = false;
-	private float healthDefault = 1000f;
-	public float health = 1000f;
+	// boteck
 	private float botRotationSpeed = 200f;
 	public float botMovementSpeed = 1500f;
 	// private float botMovementSpeedDefault = 2000f;

@@ -49,29 +49,33 @@ public class PlayerController : MonoBehaviour {
 	
 	void Explode() {
 		gameObject.SetActive(false);
+		
+		if (exploded) {
 			
-		for (int x = 0; x < particleSubdivisions; x++) {
-			for (int y = 0; y < particleSubdivisions; y++) {
-				for (int z = 0; z < particleSubdivisions; z++) {
-					createParticle(x, y, z);
+			for (int x = 0; x < particleSubdivisions; x++) {
+				for (int y = 0; y < particleSubdivisions; y++) {
+					for (int z = 0; z < particleSubdivisions; z++) {
+						createParticle(x, y, z);
+					}
 				}
 			}
-		}
-		
-		Vector3 explosionPos = transform.position;
-		Collider[] colliders = Physics.OverlapSphere(explosionPos, explosionRadius);
-		foreach (Collider collision in colliders) {
 			
-			Rigidbody rb = collision.GetComponent<Rigidbody>();
-			if (rb != null) {
-				rb.AddExplosionForce(explosionForce, transform.position, explosionRadius, explosionUpward);
+			Vector3 explosionPos = transform.position;
+			Collider[] colliders = Physics.OverlapSphere(explosionPos, explosionRadius);
+			foreach (Collider collision in colliders) {
+				
+				Rigidbody rb = collision.GetComponent<Rigidbody>();
+				if (rb != null) {
+					rb.AddExplosionForce(explosionForce, transform.position, explosionRadius, explosionUpward);
+				}
 			}
+			exploded = true;
 		}
-		exploded = true;
 	}
 	
 	void createParticle(int x, int y, int z) {
 		GameObject particle = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		particle.tag = "noSound";
 		if (particleRenderer != null) {
 			particleRenderer.material = explosionParticleMaterial;
 		}
@@ -140,7 +144,7 @@ public class PlayerController : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision otherObjectCollision) {
 		
-		if (!otherObjectCollision.gameObject.CompareTag("Floor") && !otherObjectCollision.gameObject.CompareTag("barrier")) {
+		if (!otherObjectCollision.gameObject.CompareTag("Floor") && !otherObjectCollision.gameObject.CompareTag("barrier") && !otherObjectCollision.gameObject.CompareTag("noSound")) {
 			FindObjectOfType<AudioManager>().PlayRandomCrashShort();
 		}
 	}

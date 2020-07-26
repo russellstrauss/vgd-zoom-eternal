@@ -64,6 +64,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = true;
 		if (playerController) playerController.hideAllLabels();
 		FindObjectOfType<MusicManagerController>().LowerVolume();
+		// FindObjectOfType<AudioMananger>().StopAllSounds();
     }
 
     public void ResumeGame()

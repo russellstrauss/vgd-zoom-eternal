@@ -18,8 +18,6 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	// bot
 	Rigidbody baseRB;
-	float healthDefault = 1000f;
-	float health = 1000f;
 	float botRotationSpeed = 100f;
 	float botMovementSpeed = 500f;
 	int gravityMultiplier = 10000;

@@ -22,6 +22,7 @@ TagManager:
   - barrier
   - spikeCone
   - endState
+  - noSound
   layers:
   - Default
   - TransparentFX

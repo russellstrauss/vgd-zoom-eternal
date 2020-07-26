@@ -86,4 +86,10 @@ public class AudioManager : MonoBehaviour
 			s.source.volume = crashSoundVolume;
 		}
 	}
+	
+	void StopAllSounds() {
+		foreach(Sound s in sounds) {
+			s.source.Stop();
+		}
+	} 
 }
