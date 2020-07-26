@@ -116,11 +116,11 @@ public class PeckerWreckerController : MonoBehaviour
 	}
 	
 	public void SetPlayer() {
-		cameraController.SetPlayerFocus();
 		gameObject.tag = "Player";
 		gameObject.AddComponent<PlayerController>();
 		player = gameObject;
 		EnablePlayerControls();
+		cameraController.SetPlayerFocus();
 	}
 	
 	public void DeactivateBot() {

@@ -49,12 +49,12 @@ public class PlayerController : MonoBehaviour {
 	void Explode() {
 		gameObject.SetActive(false);
 		
-		if (exploded) {
+		if (!exploded) {
 			
 			for (int x = 0; x < particleSubdivisions; x++) {
 				for (int y = 0; y < particleSubdivisions; y++) {
 					for (int z = 0; z < particleSubdivisions; z++) {
-						createParticle(x, y, z);
+						CreateParticle(x, y, z);
 					}
 				}
 			}
@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 	
-	void createParticle(int x, int y, int z) {
+	void CreateParticle(int x, int y, int z) {
 		GameObject particle = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		particle.tag = "noSound";
 		if (particleRenderer != null) {
@@ -137,11 +137,13 @@ public class PlayerController : MonoBehaviour {
 		if (endStateText != null) endStateText.enabled = true;
 		cameraController.distance = 10f;
 		battleClock.StopTimer();
-		
-		
 	}
 	
 	void OnCollisionEnter(Collision otherObjectCollision) {
+		
+		if (otherObjectCollision.gameObject.GetComponent<EnemyController>() != null) {
+			// gameObject.GetComponent<EnemyController>().SubtractHealth(15); // get rb to deal damage based on speed
+		}
 		
 		if (!otherObjectCollision.gameObject.CompareTag("Floor") && !otherObjectCollision.gameObject.CompareTag("barrier") && !otherObjectCollision.gameObject.CompareTag("noSound")) {
 			FindObjectOfType<AudioManager>().PlayRandomCrashShort();

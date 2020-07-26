@@ -53,7 +53,5 @@ public class MenuItemController : MonoBehaviour
 		
 		if (scene.name == "ArenaSelector") SceneManager.LoadScene(sceneNameToLoad);
 		else if (scene.name == "BotSelector") SceneManager.LoadScene("ArenaSelector");
-		
-		if (FindObjectOfType<MusicManagerController>() != null) FindObjectOfType<MusicManagerController>().Stop();
 	}
 }

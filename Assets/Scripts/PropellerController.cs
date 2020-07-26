@@ -7,7 +7,9 @@ public class PropellerController : MonoBehaviour
 {	
 	GameObject enemy;
 	Rigidbody enemyRB;
+	float propellerBaseDamage = .5f;
 	float particleTimer = 0;
+	float particleThrottle = 1f; // how long until trying to shoot a new one
 	HeliBotController heliBotController;
 	
 	void Start() {
@@ -20,24 +22,31 @@ public class PropellerController : MonoBehaviour
 		particleTimer += Time.deltaTime;
 	}
 	
-	void OnCollisionEnter(Collision otherObjectCollision) {
+	void OnCollisionEnter(Collision otherCollision) {
 		
-		Rigidbody otherRB = otherObjectCollision.gameObject.GetComponent<Rigidbody>();
+		Rigidbody otherRB = otherCollision.gameObject.GetComponent<Rigidbody>();
 		if (otherRB != null) {
 			
-			Vector3 contactNormal = otherObjectCollision.contacts[0].normal;
+			Vector3 contactNormal = otherCollision.contacts[0].normal;
 			otherRB.AddForce(contactNormal * (float)heliBotController.propellerRotationSpeed * 100000f * heliBotController.botMovementSpeed, ForceMode.Impulse);
 		}
+		if (otherCollision.gameObject.GetComponent<PlayerController>() != null) {
+			otherCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(propellerBaseDamage * (float)heliBotController.propellerRotationSpeed);
+		}
+		if (otherCollision.gameObject.GetComponent<EnemyController>() != null) {
+			otherCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(propellerBaseDamage * (float)heliBotController.propellerRotationSpeed);
+		}
 		
-		if (particleTimer > 1) {
+		if (particleTimer > particleThrottle) {
 			
-			// LaunchShrapnel(otherObjectCollision.gameObject.transform.position);
+			LaunchShrapnel(otherCollision.gameObject.transform.position);
 			particleTimer = 0;
 		}
 	}
 	
-	private void createParticle(int x, int y, int z, int subdivisions) {
+	private void CreateParticle(int x, int y, int z, int subdivisions) {
 		GameObject particle = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		particle.tag = "noSound";
 		float particleSize = .2f;
 		float particlePivotDistance = particleSize * subdivisions / 2;
 		Vector3 particlesPivot = new Vector3(particlePivotDistance, particlePivotDistance, particlePivotDistance);
@@ -54,7 +63,7 @@ public class PropellerController : MonoBehaviour
 		for (int x = 0; x < particleSubdivisions; x++) {
 			for (int y = 0; y < particleSubdivisions; y++) {
 				for (int z = 0; z < particleSubdivisions; z++) {
-					createParticle(x, y, z, particleSubdivisions);
+					CreateParticle(x, y, z, particleSubdivisions);
 				}
 			}
 		}

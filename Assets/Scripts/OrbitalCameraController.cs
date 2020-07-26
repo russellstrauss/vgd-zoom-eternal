@@ -60,9 +60,9 @@ public class OrbitalCameraController : MonoBehaviour {
 	}
 	
 	public void SetPlayerFocus() {
+		Debug.Log("SetPlayerFocus fired");
 		regularCamera = GetComponent<Camera>();
 		player = GameObject.FindWithTag("Player");
-		Debug.Log("SetPlayerFocus");
 		if (player != null) {
 			focus = player.transform;
 			focusPoint = focus.position;

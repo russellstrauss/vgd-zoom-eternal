@@ -23,6 +23,7 @@ public class EnemyController : MonoBehaviour {
 	public TextMeshProUGUI enemyHealthLabel;
 	int gravityMultiplier = 10000;
 	Rigidbody enemyRB;
+	EnemyScoreController enemyScoreController;
 	
 	void Start() {
 		
@@ -33,6 +34,7 @@ public class EnemyController : MonoBehaviour {
 		player = GameObject.FindWithTag("Player");
 		if (enemyHealthLabel != null) enemyHealthLabel.text = health.ToString("0");
 		enemyRB = gameObject.GetComponent<Rigidbody>();
+		enemyScoreController = FindObjectOfType<EnemyScoreController>();
 	}
 
 	void Update() {
@@ -41,38 +43,41 @@ public class EnemyController : MonoBehaviour {
 	
 	public void SubtractHealth(float amount) {
 		health -= amount;
-		if (enemyHealthLabel != null) enemyHealthLabel.text = health.ToString("0");
-		
+		enemyScoreController.SetScore(health);
 		if (health < .1 && !exploded) {
-			explode();
+			Explode();
 		}
 	}
 	
-	void explode() {
+	void Explode() {
 		gameObject.SetActive(false);
 		
-		for (int x = 0; x < particleSubdivisions; x++) {
-			for (int y = 0; y < particleSubdivisions; y++) {
-				for (int z = 0; z < particleSubdivisions; z++) {
-					createParticle(x, y, z);
+		if (!exploded) {
+			
+			for (int x = 0; x < particleSubdivisions; x++) {
+				for (int y = 0; y < particleSubdivisions; y++) {
+					for (int z = 0; z < particleSubdivisions; z++) {
+						CreateParticle(x, y, z);
+					}
 				}
 			}
-		}
-		
-		Vector3 explosionPos = transform.position;
-		Collider[] colliders = Physics.OverlapSphere(explosionPos, explosionRadius);
-		foreach (Collider collision in colliders) {
 			
-			Rigidbody rb = collision.GetComponent<Rigidbody>();
-			if (rb != null) {
-				rb.AddExplosionForce(explosionForce, transform.position, explosionRadius, explosionUpward);
+			Vector3 explosionPos = transform.position;
+			Collider[] colliders = Physics.OverlapSphere(explosionPos, explosionRadius);
+			foreach (Collider collision in colliders) {
+				
+				Rigidbody rb = collision.GetComponent<Rigidbody>();
+				if (rb != null) {
+					rb.AddExplosionForce(explosionForce, transform.position, explosionRadius, explosionUpward);
+				}
 			}
+			exploded = true;
 		}
-		exploded = true;
 	}
 	
-	void createParticle(int x, int y, int z) {
+	void CreateParticle(int x, int y, int z) {
 		GameObject particle = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		particle.tag = "noSound";
 		if (particleRenderer != null){
 			particleRenderer.material = explosionParticleMaterial;
 		}
