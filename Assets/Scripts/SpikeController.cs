@@ -9,6 +9,9 @@ public class SpikeController : MonoBehaviour {
 	
 	[HideInInspector]
 	public bool isColliding = false;
+	public float duration = 2;
+	public GameObject sparkEffect;
+	private Rigidbody playerRb;
 	
 	Vector3 oscillationDirection;
 	Vector3 oscillation;
@@ -29,6 +32,10 @@ public class SpikeController : MonoBehaviour {
 	
 	void Start() {
 		player = GameObject.FindWithTag("Player");
+		if (player != null) {
+			playerRb = player.GetComponent<Rigidbody>();
+			// heliBotController = player.GetComponent<HeliBotController>();
+		}
 		spikesCone = GameObject.FindGameObjectsWithTag("spikeCone");
 		m_spike_trigger = GameObject.FindWithTag("spikeTrigger");
 		sawRigidbodies = new Rigidbody[spikesCone.Length];
@@ -87,4 +94,31 @@ public class SpikeController : MonoBehaviour {
 	public void ExitAttack() {
 		isColliding = false;
 	}
+
+	void OnCollisionEnter(Collision collision){
+		
+		if (collision.collider.CompareTag("playerCollider")) {
+            // Debug.Log("start to rotat3");
+			Vector3 contactNormal = collision.contacts[0].normal;
+			playerRb.AddForce(new Vector3(0, 1, 0) * 10000, ForceMode.Impulse);
+			// FindObjectOfType<AudioManager>().Play("crash");
+			StartCoroutine(Damage());
+		}
+	}
+
+	IEnumerator Damage()
+    {
+        // Debug.Log("start to rotat4");
+    	GameObject clone = Instantiate(sparkEffect, transform.position, transform.rotation);
+		
+		FindObjectOfType<PlayerController>().SubtractHealth(100);
+
+    	//remove the effect from theplayer
+    	yield return new WaitForSeconds(duration);
+    	//wait x amount of seconds
+
+    	// remove power up object
+    	ParticleSystem.MainModule particle = clone.GetComponent<ParticleSystem>().main;
+    	Destroy(clone, duration);
+    }
 }

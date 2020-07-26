@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.043393537, g: 0.044554476, b: 0.059299786, a: 1}
+  m_IndirectSpecularColor: {r: 0.043311067, g: 0.04445677, b: 0.059203453, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5542,6 +5542,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1423649860}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1458257949 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6452269366533336841, guid: ee8eb1c39de05d3419d9e5b2c4efcb34,
+    type: 3}
+  m_PrefabInstance: {fileID: 735145827}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1474738240 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6451579420147986099, guid: ee8eb1c39de05d3419d9e5b2c4efcb34,
@@ -6520,7 +6526,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh162436
+  m_Name: pb_Mesh-27068
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7270,11 +7276,21 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1014909077}
+    - target: {fileID: 882162261325265578, guid: a323c3ab2525deb4683f65a351236956,
+        type: 3}
+      propertyPath: sparkEffect
+      value: 
+      objectReference: {fileID: 1458257949}
     - target: {fileID: 882162261325265591, guid: a323c3ab2525deb4683f65a351236956,
         type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1014909077}
+    - target: {fileID: 882162261619724056, guid: a323c3ab2525deb4683f65a351236956,
+        type: 3}
+      propertyPath: sparkEffect
+      value: 
+      objectReference: {fileID: 1458257949}
     - target: {fileID: 882162261619724133, guid: a323c3ab2525deb4683f65a351236956,
         type: 3}
       propertyPath: m_Mesh
@@ -7295,6 +7311,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 660222646}
+    - target: {fileID: 882162262008307212, guid: a323c3ab2525deb4683f65a351236956,
+        type: 3}
+      propertyPath: sparkEffect
+      value: 
+      objectReference: {fileID: 1458257949}
     - target: {fileID: 882162262935191730, guid: a323c3ab2525deb4683f65a351236956,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7360,6 +7381,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 198813361}
+    - target: {fileID: 882162262941731605, guid: a323c3ab2525deb4683f65a351236956,
+        type: 3}
+      propertyPath: sparkEffect
+      value: 
+      objectReference: {fileID: 1458257949}
     - target: {fileID: 882162262941731614, guid: a323c3ab2525deb4683f65a351236956,
         type: 3}
       propertyPath: m_Mesh
