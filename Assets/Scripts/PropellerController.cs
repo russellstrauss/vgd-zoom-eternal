@@ -21,31 +21,6 @@ public class PropellerController : MonoBehaviour
 		particleTimer += Time.deltaTime;
 	}
 	
-	void OnCollisionEnter(Collision otherObjectCollision) {
-		
-		if (otherObjectCollision.gameObject.GetComponent<HeliBotController>() == null) {
-			
-			Rigidbody otherRB = otherObjectCollision.gameObject.GetComponent<Rigidbody>();
-			if (otherRB != null) {
-				
-				Vector3 contactNormal = otherObjectCollision.contacts[0].normal;
-				otherRB.AddForce(contactNormal * (float)heliBotController.propellerRotationSpeed * 100000f * heliBotController.botMovementSpeed, ForceMode.Impulse);
-			}
-			if (otherObjectCollision.gameObject.GetComponent<PlayerController>() != null) {
-				otherObjectCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(propellerBaseDamage * heliBotController.GetPropellerSpeed());
-			}
-			if (otherObjectCollision.gameObject.GetComponent<EnemyController>() != null) {
-				otherObjectCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(propellerBaseDamage * heliBotController.GetPropellerSpeed());
-			}
-			
-			if (particleTimer > particleThrottle) {
-				
-				LaunchShrapnel(otherObjectCollision.gameObject.transform.position);
-				particleTimer = 0;
-			}
-		}
-	}
-	
 	private void CreateParticle(int x, int y, int z, int subdivisions) {
 		GameObject particle = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		particle.tag = "noSound";

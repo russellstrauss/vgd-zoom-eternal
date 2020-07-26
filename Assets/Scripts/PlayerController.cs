@@ -34,11 +34,11 @@ public class PlayerController : MonoBehaviour {
 		
 		cameraController = FindObjectOfType<OrbitalCameraController>();
 		endState = GameObject.FindWithTag("endState");
-		if (endState != null) endState.SetActive(false);
+		endStateText = endState.GetComponentInChildren<TextMeshProUGUI>();
+		endState.SetActive(false);
 		SetParticles();
 		playerScoreController = FindObjectOfType<PlayerScoreController>();
 
-		if (endStateText != null) endStateText.enabled = false;
 		battleClock = FindObjectOfType<TimerCountdownController>();
 		
 		count++;
@@ -94,14 +94,10 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	public void SubtractHealth(float amount) {
-		
-		Debug.Log("SubtractHealth(" + amount + ") " + gameObject.name);
-		
 		health -= amount;
 		if (health < 0) health = 0;
 		playerScoreController.SetScore(health);
 		if (health < .1) {
-			Explode();
 			TriggerDeathState();
 		}
 	}
@@ -112,8 +108,8 @@ public class PlayerController : MonoBehaviour {
 		particleRenderer = GetComponent<Renderer>();
 	}
 	
-	void TriggerWinState() {
-		if (endStateText != null) endStateText.text = "YOU WIN!";
+	public void TriggerWinState() {
+		if (endStateText != null) endStateText.text = "YOU WON THE MATCH!";
 		EndState();
 	}
 	
@@ -140,7 +136,6 @@ public class PlayerController : MonoBehaviour {
 	void EndState() {
 		
 		if (endState != null) endState.SetActive(true);
-		
 		if (endStateText != null) endStateText.enabled = true;
 		cameraController.distance = 10f;
 		battleClock.StopTimer();
@@ -158,6 +153,21 @@ public class PlayerController : MonoBehaviour {
 				FindObjectOfType<AudioManager>().PlayRandomCrashMed();
 				soundThrottleTimer = 0;
 			}
+		}
+	}
+	
+	void SetExplosionForces() {
+		
+		if (BotSelectorController.selectedBot == "Pecker Wrecker") {
+			explosionForce = .00001f;
+			explosionRadius = .5f;
+		}
+		if (BotSelectorController.selectedBot == "Stellar Propeller") {
+			explosionForce = .002f;
+			explosionRadius = .5f;
+		}
+		if (BotSelectorController.selectedBot == "Hot Bot") {
+			
 		}
 	}
 }

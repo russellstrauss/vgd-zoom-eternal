@@ -11,45 +11,50 @@ public class HeliBotController : MonoBehaviour
 	OrbitalCameraController cameraController;
 	Vector2 movementInput;
 	InputMaster controls;
-	private Vector3 playerStartPosition;
-	private Vector3 cameraStartPosition;
+	Vector3 playerStartPosition;
+	Vector3 cameraStartPosition;
 
 	// Win state
-	private GameObject wayPoint;
+	GameObject wayPoint;
 
 	// propeller
-	private bool propellerOn = false;
-	private Rigidbody propellerRB;
-	private Rigidbody baseRB;
-	private GameObject propeller;
+	bool propellerOn = false;
+	Rigidbody propellerRB;
+	Rigidbody baseRB;
+	GameObject propeller;
 	public float propellerRotationSpeed;
-	private float propellerMaxSpeed = 3000f;
-	private float propellerTimer = 0.0f;
-	private float propellerRotationBaseSpeed = 8f; // exponential
+	float propellerMaxSpeed = 3000f;
+	float propellerTimer = 0.0f;
+	float propellerRotationBaseSpeed = 8f; // exponential
+	float propellerBaseDamage = .05f;
+	float propellerForceTimer = 0;
+	float propellerForceThrottle = 3;
 
 	// bot
 	bool driving = false;
-	private float healthDefault = 1000f;
+	Vector3 direction;
+	float healthDefault = 1000f;
 	public float health = 1000f;
-	private float botRotationSpeed = 200f;
+	float botRotationSpeed = 200f;
+	[HideInInspector]
 	public float botMovementSpeed = 2000f;
-	// private float botMovementSpeedDefault = 2000f;
-	private bool grounded = true;
-	private int gravityMultiplier = 40000;
+	// float botMovementSpeedDefault = 2000f;
+	bool grounded = true;
+	int gravityMultiplier = 40000;
 	public GameObject explosionEffect;
 	public GameObject sparkEffect;
-	private GameObject explosion;
-	private GameObject player;
-	private GameObject enemy;
-	private GameObject floor;
-	private bool upsideDown = false;
+	GameObject explosion;
+	GameObject player;
+	GameObject enemy;
+	GameObject floor;
+	bool upsideDown = false;
 	Renderer particleRenderer;
-	private ParticleSystem[] sparks;
+	ParticleSystem[] sparks;
 	bool propellerButtonHeld = false;
 	EnemyController enemyController;
 
 	// test vars
-	private int count = 0;
+	int count = 0;
 
 	void Start() {
 		Reset();
@@ -90,17 +95,19 @@ public class HeliBotController : MonoBehaviour
 
 	void OnCollisionEnter(Collision otherObjectCollision) {
 
-		if (otherObjectCollision.gameObject == enemy && enemy != null && enemyController != null) {
-
-			float damage = propellerRotationSpeed / 30;
-			enemyController.SubtractHealth(damage);
-			// if (enemyController.health < .1) TriggerWinState();
-			if (propellerOn && propellerRotationSpeed > propellerMaxSpeed * .9f) {
-				PropellerOff("propeller-off-sudden");
-				FindObjectOfType<AudioManager>().Stop("propeller-on");
-				baseRB.AddForce(transform.up * 2000 * movementInput.y, ForceMode.Impulse);
-				propellerOn = false;
-			}
+		Rigidbody otherRB = otherObjectCollision.gameObject.GetComponent<Rigidbody>();
+		if (otherObjectCollision.gameObject.GetComponent<PlayerController>() != null) {
+			otherObjectCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(propellerRotationSpeed * propellerBaseDamage);
+		}
+		if (otherObjectCollision.gameObject.GetComponent<EnemyController>() != null) {
+			Debug.Log(propellerRotationSpeed * propellerBaseDamage);
+			otherObjectCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(propellerRotationSpeed * propellerBaseDamage);
+		}
+		if (otherRB != null) {
+			
+			if (propellerForceTimer > propellerForceThrottle) otherRB.AddForce(transform.right * (propellerRotationSpeed + botMovementSpeed) * 2, ForceMode.Impulse);
+			propellerRotationSpeed = 0;
+			PropellerOff();
 		}
 
 		if (otherObjectCollision.gameObject == floor) {
@@ -117,6 +124,7 @@ public class HeliBotController : MonoBehaviour
 	}
 
 	void FixedUpdate() {
+		propellerForceTimer += Time.deltaTime;
 		
 		if (player != null && gameObject == player) {
 			UpdatePropeller();
@@ -146,7 +154,7 @@ public class HeliBotController : MonoBehaviour
 		player.transform.Rotate(new Vector3(0, botRotationSpeed * movementInput.x, 0) * Time.deltaTime);
 
 		if (driving) {
-			Vector3 direction =  Vector3.Normalize(Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0))); // Get forward direction along the ground
+			direction =  Vector3.Normalize(Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0))); // Get forward direction along the ground
 			if (grounded) Debug.DrawRay(transform.position, direction * 3, Color.green);
 			else {
 				Debug.DrawRay(transform.position, direction * 3, Color.red);
@@ -162,8 +170,6 @@ public class HeliBotController : MonoBehaviour
 	}
 
 	void UpdatePropeller() {
-		
-		Debug.Log(propellerRotationSpeed);
 		
 		propellerTimer += Time.deltaTime;
 		if (propellerRotationSpeed < propellerMaxSpeed && propellerOn) propellerRotationSpeed = (float)Math.Pow(propellerRotationBaseSpeed, propellerTimer);
