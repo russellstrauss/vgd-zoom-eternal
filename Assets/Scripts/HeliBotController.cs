@@ -100,7 +100,6 @@ public class HeliBotController : MonoBehaviour
 			otherObjectCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(propellerRotationSpeed * propellerBaseDamage);
 		}
 		if (otherObjectCollision.gameObject.GetComponent<EnemyController>() != null) {
-			Debug.Log(propellerRotationSpeed * propellerBaseDamage);
 			otherObjectCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(propellerRotationSpeed * propellerBaseDamage);
 		}
 		if (otherRB != null) {

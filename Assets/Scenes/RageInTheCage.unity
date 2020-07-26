@@ -6415,7 +6415,7 @@ PrefabInstance:
     - target: {fileID: 169898239898309876, guid: d715bece0242c3f46bd92488fccc62d8,
         type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d715bece0242c3f46bd92488fccc62d8, type: 3}
@@ -30263,7 +30263,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-454896
+  m_Name: pb_Mesh-1107484
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -64024,7 +64024,7 @@ PrefabInstance:
     - target: {fileID: 7597387909954913852, guid: 538791c95eef56649a773d4a59a3bd51,
         type: 3}
       propertyPath: m_TagString
-      value: enemy
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 7597387910096333033, guid: 538791c95eef56649a773d4a59a3bd51,
         type: 3}
