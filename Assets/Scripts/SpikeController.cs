@@ -9,7 +9,7 @@ public class SpikeController : MonoBehaviour {
 	
 	[HideInInspector]
 	public bool isColliding = false;
-	public float duration = 2;
+	float duration = .15f;
 	public GameObject sparkEffect;
 	private Rigidbody playerRb;
 	
