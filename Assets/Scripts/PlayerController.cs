@@ -91,6 +91,7 @@ public class PlayerController : MonoBehaviour {
 	
 	public void AddHealth(float amount) {
 		health += amount;
+		playerScoreController.SetScore(health);
 	}
 	
 	public void SubtractHealth(float amount) {

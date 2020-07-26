@@ -34,8 +34,12 @@ public class PowerUpController : MonoBehaviour
     	if (other.gameObject.CompareTag("playerCollider")) {
     		StartCoroutine(Pickup(other));
 			FindObjectOfType<AudioManager>().Play("robust-beep");
-			IncreaseSpeed(500);
+			IncreaseSpeed(100);
     	}
+		Debug.Log(gameObject.name == "PowerUpCube");
+		if (gameObject.name == "PowerUpCube" && other.gameObject.CompareTag("playerCollider")) {
+			FindObjectOfType<PlayerController>().AddHealth(250);
+		}
     }
 	
     IEnumerator Pickup(Collider other)
@@ -57,7 +61,7 @@ public class PowerUpController : MonoBehaviour
     }
 	
 	void IncreaseSpeed(int speed) {
-		heliBotController.SetBotSpeed(heliBotController.botMovementSpeed + speed);
+		if (heliBotController != null) heliBotController.SetBotSpeed(heliBotController.botMovementSpeed + speed);
 	}
 
 	private void Move()

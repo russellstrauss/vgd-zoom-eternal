@@ -9,8 +9,10 @@ public class AudioManager : MonoBehaviour
 	public Sound[] crashSoundsShort;
 	public Sound[] crashSoundsMed;
 	public Sound[] crashSoundsLong;
-	float crashSoundVolume = .25f;
+	float crashSoundVolume = .1f;
 	public static AudioManager instance;
+	float crashSoundThrottle = .25f;
+	float crashSoundThrottleTimer = 0;
 	
 	void Awake()
 	{
@@ -34,6 +36,10 @@ public class AudioManager : MonoBehaviour
 		}
 		
 		SetCrashVolume();
+	}
+	
+	void Update() {
+		crashSoundThrottleTimer += Time.deltaTime;
 	}
 	
 	public void Play(string name) {
@@ -66,7 +72,10 @@ public class AudioManager : MonoBehaviour
 	
 	public void PlayRandomCrashMed() {
 		System.Random random = new System.Random();
-		crashSoundsMed[random.Next(0, crashSoundsMed.Length - 1)].source.Play();
+		if (crashSoundThrottleTimer > crashSoundThrottle) {
+			crashSoundsMed[random.Next(0, crashSoundsMed.Length - 1)].source.Play();
+			crashSoundThrottleTimer = 0;
+		}
 	}
 	
 	public void PlayRandomCrashLong() {
