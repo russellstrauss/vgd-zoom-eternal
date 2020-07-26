@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour {
 	TimerCountdownController battleClock;
 	PlayerScoreController playerScoreController;
 	GameObject endState;
-	float soundThrottle = 10f;
+	float soundThrottle = .1f;
 	float soundThrottleTimer = 0;
 	
 	int count = 0;
@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour {
 
 	void EndState() {
 		
-		endState.SetActive(true);
+		if (endState != null) endState.SetActive(true);
 		
 		if (endStateText != null) endStateText.enabled = true;
 		cameraController.distance = 10f;
@@ -150,7 +150,10 @@ public class PlayerController : MonoBehaviour {
 		}
 		
 		if (!otherObjectCollision.gameObject.CompareTag("Floor") && !otherObjectCollision.gameObject.CompareTag("barrier") && !otherObjectCollision.gameObject.CompareTag("noSound")) {
-			if (soundThrottleTimer > soundThrottle) FindObjectOfType<AudioManager>().PlayRandomCrashShort();
+			if (soundThrottleTimer > soundThrottle) {
+				FindObjectOfType<AudioManager>().PlayRandomCrashMed();
+				soundThrottleTimer = 0;
+			}
 		}
 	}
 }

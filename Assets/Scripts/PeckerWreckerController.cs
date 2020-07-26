@@ -68,6 +68,7 @@ public class PeckerWreckerController : MonoBehaviour
 		
 		GameObject RobotHammerPivot = gameObject.GetComponentInChildren<RobotHammerPivot>().gameObject;
 		// Spin the object around the target at 20 degrees/second.
+		Debug.DrawRay(RobotHammerPivot.transform.position, new Vector3(0, 1, 0), Color.blue);
 		transform.RotateAround(RobotHammerPivot.transform.position, Vector3.down, 20 * Time.deltaTime);
 	}
 	
