@@ -26,11 +26,12 @@ public class PeckerWreckerController : MonoBehaviour
 	GameObject enemy;
 	GameObject floor;
 	Rigidbody hammer;
-	public GameObject hammerPivot;
+	GameObject RobotHammerPivot;
+	GameObject robotHammer;
 	
 	EnemyController enemyController;
 	
-	bool hammering = true;
+	bool hammering = false;
 	
 	int count = 0;
 	
@@ -45,7 +46,8 @@ public class PeckerWreckerController : MonoBehaviour
 		enemyWayPoint = GameObject.Find("wayPoint");
 		floor = GameObject.FindWithTag("Floor");
 		enemyController = FindObjectOfType<EnemyController>();
-		//hammer = GameObject.FindWithTag("hammer").GetComponent<Rigidbody>();
+		RobotHammerPivot = gameObject.GetComponentInChildren<RobotHammerPivot>().gameObject;
+		robotHammer = gameObject.GetComponentInChildren<RobotHammer>().gameObject;
 
 		if (player != null && player == gameObject) SetPlayer();
 		else if (enemy != null && enemy == gameObject) SetEnemy();
@@ -53,11 +55,23 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	void HammerOn() {
 		Debug.Log("Hammer on " + count);
-		
+		hammering = true;
 		count++;
 	}
 	
 	void HammerOff() {
+		hammering = false;
+	}
+	
+	void _hammering() {
+		Debug.DrawRay(RobotHammerPivot.transform.position, new Vector3(0, 3, 0), Color.blue);
+		Debug.DrawRay(RobotHammerPivot.transform.position, transform.right, Color.green);
+		if (robotHammer.transform.rotation.x < Math.PI / 6)  robotHammer.transform.RotateAround(RobotHammerPivot.transform.position, transform.right, 750 * Time.deltaTime);
+	}
+	
+	void _unhammering() {
+		if (robotHammer.transform.rotation.x > 0) robotHammer.transform.RotateAround(RobotHammerPivot.transform.position, transform.right, -1000 * Time.deltaTime);
+		if (robotHammer.transform.rotation.x > Math.PI / 6) robotHammer.transform.RotateAround(RobotHammerPivot.transform.position, transform.right, -1000 * Time.deltaTime);
 		
 	}
 	
@@ -66,10 +80,10 @@ public class PeckerWreckerController : MonoBehaviour
 		if (gameObject == enemy) updateAIBehavior();
 		
 		
-		GameObject RobotHammerPivot = gameObject.GetComponentInChildren<RobotHammerPivot>().gameObject;
+		
 		// Spin the object around the target at 20 degrees/second.
-		Debug.DrawRay(RobotHammerPivot.transform.position, new Vector3(0, 1, 0), Color.blue);
-		transform.RotateAround(RobotHammerPivot.transform.position, Vector3.down, 20 * Time.deltaTime);
+		if (hammering) _hammering();
+		else _unhammering();
 	}
 	
 	void OnCollisionStay(Collision otherObjectCollision) {}
@@ -80,7 +94,7 @@ public class PeckerWreckerController : MonoBehaviour
 		if (movementInput.x < -.5 || movementInput.x > .5) player.transform.Rotate(new Vector3(0, 1, 0) * Time.deltaTime * botRotationSpeed * movementInput.x);
 
 		Vector3 direction =  Vector3.Normalize(Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0))); // Get forward direction along the ground
-		Debug.DrawRay(transform.position, direction * 3, Color.red);
+		// Debug.DrawRay(transform.position, direction * 3, Color.red);
 		baseRB.AddForce(direction * botMovementSpeed * movementInput.y, ForceMode.Impulse);
 		baseRB.AddForce(new Vector3(0, -1, 0) * gravityMultiplier, ForceMode.Force);
 	}

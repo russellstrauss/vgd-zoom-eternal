@@ -32160,12 +32160,12 @@ PrefabInstance:
     - target: {fileID: 6451579419253728754, guid: ee8eb1c39de05d3419d9e5b2c4efcb34,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6451579419253728754, guid: ee8eb1c39de05d3419d9e5b2c4efcb34,
         type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: enemy
       objectReference: {fileID: 0}
     - target: {fileID: 6451579420147986099, guid: ee8eb1c39de05d3419d9e5b2c4efcb34,
         type: 3}
@@ -64236,7 +64236,7 @@ PrefabInstance:
     - target: {fileID: 7597387910157957560, guid: 538791c95eef56649a773d4a59a3bd51,
         type: 3}
       propertyPath: m_TagString
-      value: enemy
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7597387910157957560, guid: 538791c95eef56649a773d4a59a3bd51,
         type: 3}
