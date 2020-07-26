@@ -27,15 +27,15 @@ public class PeckerWreckerController : MonoBehaviour
 	GameObject floor;
 	
 	GameObject robotHammer;
+	GameObject robotHammerHead;
 	GameObject RobotHammerPivot;
+	Rigidbody robotHammerHeadRB;
 	float hammerSpeed = 2000;
 	float currentRotation = 0;
 	
 	EnemyController enemyController;
 	
 	bool hammering = false;
-	
-	int count = 0;
 	
 	void Start() {
 		mainCamera = GameObject.FindWithTag("MainCamera");
@@ -50,6 +50,8 @@ public class PeckerWreckerController : MonoBehaviour
 		enemyController = FindObjectOfType<EnemyController>();
 		RobotHammerPivot = gameObject.GetComponentInChildren<RobotHammerPivot>().gameObject;
 		robotHammer = gameObject.GetComponentInChildren<RobotHammer>().gameObject;
+		// robotHammerHead = gameObject.GetComponentInChildren<RobotHammerHead>().gameObject;
+		// robotHammerHeadRB = robotHammerHead.GetComponent<Rigidbody>();
 
 		if (BotSelectorController.selectedBot == "Pecker Wrecker") SetPlayer();
 		else if (BotSelectorController.selectedEnemyBot == "Pecker Wrecker") {
@@ -65,9 +67,7 @@ public class PeckerWreckerController : MonoBehaviour
 	}
 	
 	void HammerOn() {
-		Debug.Log("Hammer on " + count);
 		hammering = true;
-		count++;
 	}
 	
 	void HammerOff() {
@@ -102,7 +102,18 @@ public class PeckerWreckerController : MonoBehaviour
 	}
 	
 	void OnCollisionStay(Collision otherObjectCollision) {}
-	void OnCollisionEnter(Collision otherObjectCollision) {}
+	void OnCollisionEnter(Collision otherObjectCollision) {
+		float hammerHeadDamage = 5f;
+		if (otherObjectCollision.gameObject.GetComponent<EnemyController>() != null) {
+			// otherObjectCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(hammerHeadDamage);
+			Debug.Log("Hammerhead enemy collision: " + otherObjectCollision.gameObject.name);
+		}
+		
+		if (otherObjectCollision.gameObject.GetComponent<PlayerController>() != null) {
+			// otherObjectCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(hammerHeadDamage);
+			Debug.Log("Hammerhead player collision " + otherObjectCollision.gameObject.name);
+		}
+	}
 	void OnCollisionExit(Collision otherObjectCollision) {}
 	
 	void UpdatePlayerMovement() {

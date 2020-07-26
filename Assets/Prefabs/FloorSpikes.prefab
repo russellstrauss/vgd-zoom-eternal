@@ -882,7 +882,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isColliding: 0
-  sparkEffect: {fileID: 0}
+  sparkEffect: {fileID: 2180325737029286889, guid: 1cb6c4061edd21b448532133aff47468,
+    type: 3}
 --- !u!65 &882162261325265581
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1817,7 +1818,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isColliding: 0
-  sparkEffect: {fileID: 0}
+  sparkEffect: {fileID: 2180325737029286889, guid: 1cb6c4061edd21b448532133aff47468,
+    type: 3}
 --- !u!65 &882162261619724059
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2526,7 +2528,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isColliding: 0
-  sparkEffect: {fileID: 0}
+  sparkEffect: {fileID: 2180325737029286889, guid: 1cb6c4061edd21b448532133aff47468,
+    type: 3}
 --- !u!65 &882162262008307215
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3513,7 +3516,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isColliding: 0
-  sparkEffect: {fileID: 0}
+  sparkEffect: {fileID: 2180325737029286889, guid: 1cb6c4061edd21b448532133aff47468,
+    type: 3}
 --- !u!65 &882162262941731604
 BoxCollider:
   m_ObjectHideFlags: 0

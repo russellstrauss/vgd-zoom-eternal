@@ -145,8 +145,9 @@ public class PlayerController : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision otherObjectCollision) {
 		
+		float bumpDamage = .25f;
 		if (otherObjectCollision.gameObject.GetComponent<EnemyController>() != null) {
-			// gameObject.GetComponent<EnemyController>().SubtractHealth(15); // get rb to deal damage based on speed
+			otherObjectCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(bumpDamage); // get rb to deal damage based on speed
 		}
 		
 		if (!otherObjectCollision.gameObject.CompareTag("Floor") && !otherObjectCollision.gameObject.CompareTag("barrier") && !otherObjectCollision.gameObject.CompareTag("noSound")) {

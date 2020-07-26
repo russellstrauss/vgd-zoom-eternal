@@ -51,9 +51,9 @@ public class SawBladeController : MonoBehaviour {
 			
 			blades[i].transform.Rotate(rotation * Time.deltaTime);
 			
-			Debug.DrawRay(bladeStartingPositions[i], displacement, Color.green);
-			Debug.DrawRay(bladeStartingPositions[i], new Vector3(0, .2f, 0), Color.red);
-			Debug.DrawRay(bladeStartingPositions[i] + displacement, new Vector3(0, .2f, 0), Color.red);
+			// Debug.DrawRay(bladeStartingPositions[i], displacement, Color.green);
+			// Debug.DrawRay(bladeStartingPositions[i], new Vector3(0, .2f, 0), Color.red);
+			// Debug.DrawRay(bladeStartingPositions[i] + displacement, new Vector3(0, .2f, 0), Color.red);
 			
 			if (sawTimer < sawActiveTime / 2) {
 				Vector3 targetPosition = bladeStartingPositions[i] + displacement;
