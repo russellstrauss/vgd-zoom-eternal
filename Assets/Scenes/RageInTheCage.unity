@@ -49465,7 +49465,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 2.9287e-41, z: 0, w: -2.5625}
+  m_BoundingSphereOverride: {x: 1.902e-42, y: 1.01e-43, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -95735,13 +95735,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
-    - target: {fileID: 8939124453404941371, guid: f5fa99462da06394b954d1e29e581e10,
-        type: 3}
-      propertyPath: musicList.Array.data[7].volume
-      value: 0.025
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8939124453404941371, guid: f5fa99462da06394b954d1e29e581e10, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5fa99462da06394b954d1e29e581e10, type: 3}
 --- !u!1001 &7659349557344437094
 PrefabInstance:

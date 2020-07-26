@@ -34,7 +34,6 @@ public class PlayerController : MonoBehaviour {
 		endState = GameObject.FindWithTag("endState");
 		if (endState != null) endState.SetActive(false);
 		SetParticles();
-		if (cameraController != null) cameraController.SetPlayerFocus();
 		playerScoreController = FindObjectOfType<PlayerScoreController>();
 
 		if (endStateText != null) endStateText.enabled = false;

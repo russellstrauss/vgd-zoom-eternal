@@ -5,18 +5,18 @@ using UnityEngine;
 public class SpikeWallController : MonoBehaviour
 {
 	
-	GameObject player;
-	int spikeDamage = 100;
-	float playerCollisionTimer = 0;
-	float enemyCollisionTimer = 0;
+	float spikeDamage = 100;
+	float playerDamageTimer = 0f;
+	float enemyDamageTimer = 0f;
+	float damageThrottle = 1f; // To prevent many health subtractions from fire repeatedly and instantly killing
 	
 	void Start() {
 		
 	}
 
 	void Update() {
-		playerCollisionTimer += Time.deltaTime;
-		enemyCollisionTimer += Time.deltaTime;
+		playerDamageTimer += Time.deltaTime;
+		enemyDamageTimer += Time.deltaTime;
 	}
 	
 	void OnCollisionEnter(Collision otherCollision) {
@@ -24,9 +24,13 @@ public class SpikeWallController : MonoBehaviour
 		Vector3 contactNormal = otherCollision.contacts[0].normal;
 		rb.AddForce(contactNormal * 50000f, ForceMode.Impulse);
 		
-		if (otherCollision.gameObject.CompareTag("Player") || otherCollision.gameObject.CompareTag("enemy")) {
-			// otherCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(spikeDamage);
-			// otherCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(spikeDamage);
+		if (otherCollision.gameObject.GetComponent<PlayerController>() != null && playerDamageTimer > damageThrottle) {
+			otherCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(spikeDamage);
+			playerDamageTimer = 0f;
+		}
+		if (otherCollision.gameObject.GetComponent<EnemyController>() != null && enemyDamageTimer > damageThrottle) {
+			otherCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(spikeDamage);
+			enemyDamageTimer = 0f;
 		}
 	}
 }

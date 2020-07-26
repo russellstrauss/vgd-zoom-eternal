@@ -216,12 +216,6 @@ public class HeliBotController : MonoBehaviour
 		botMovementSpeed = newSpeed;
 	}
 
-	void Explode() {
-		// if (explodeCount < 1) explosion = Instantiate(explosionEffect, propeller.transform.position, transform.rotation);
-		if (controls != null) disableBotControls();
-		// explodeCount++;
-	}
-
 	void disableBotControls() {
 		if (controls != null) {
 			controls.Player.Move.Disable();
@@ -238,6 +232,7 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	public void SetPlayer() {
+		cameraController.SetPlayerFocus();
 		gameObject.tag = "Player";
 		gameObject.AddComponent<PlayerController>();
 		player = gameObject;

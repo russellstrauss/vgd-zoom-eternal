@@ -224,8 +224,9 @@ public class FlameBotController : MonoBehaviour
 	
 	public void SetPlayer()
 	{
+		cameraController.SetPlayerFocus();
 		gameObject.tag = "Player";
-		// gameObject.AddComponent<PlayerController>();
+		gameObject.AddComponent<PlayerController>();
 		player = gameObject;
 		EnablePlayerControls();
 		Debug.Log("Init flame bot here");
