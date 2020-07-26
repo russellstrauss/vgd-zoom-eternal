@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class PropellerController : MonoBehaviour
 {	
 	GameObject enemy;
 	Rigidbody enemyRB;
-	float propellerBaseDamage = .5f;
+	float propellerBaseDamage = .001f;
 	float particleTimer = 0;
 	float particleThrottle = 1f; // how long until trying to shoot a new one
 	HeliBotController heliBotController;
@@ -22,25 +21,28 @@ public class PropellerController : MonoBehaviour
 		particleTimer += Time.deltaTime;
 	}
 	
-	void OnCollisionEnter(Collision otherCollision) {
+	void OnCollisionEnter(Collision otherObjectCollision) {
 		
-		Rigidbody otherRB = otherCollision.gameObject.GetComponent<Rigidbody>();
-		if (otherRB != null) {
+		if (otherObjectCollision.gameObject.GetComponent<HeliBotController>() == null) {
 			
-			Vector3 contactNormal = otherCollision.contacts[0].normal;
-			otherRB.AddForce(contactNormal * (float)heliBotController.propellerRotationSpeed * 100000f * heliBotController.botMovementSpeed, ForceMode.Impulse);
-		}
-		if (otherCollision.gameObject.GetComponent<PlayerController>() != null) {
-			otherCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(propellerBaseDamage * (float)heliBotController.propellerRotationSpeed);
-		}
-		if (otherCollision.gameObject.GetComponent<EnemyController>() != null) {
-			otherCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(propellerBaseDamage * (float)heliBotController.propellerRotationSpeed);
-		}
-		
-		if (particleTimer > particleThrottle) {
+			Rigidbody otherRB = otherObjectCollision.gameObject.GetComponent<Rigidbody>();
+			if (otherRB != null) {
+				
+				Vector3 contactNormal = otherObjectCollision.contacts[0].normal;
+				otherRB.AddForce(contactNormal * (float)heliBotController.propellerRotationSpeed * 100000f * heliBotController.botMovementSpeed, ForceMode.Impulse);
+			}
+			if (otherObjectCollision.gameObject.GetComponent<PlayerController>() != null) {
+				otherObjectCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(propellerBaseDamage * heliBotController.GetPropellerSpeed());
+			}
+			if (otherObjectCollision.gameObject.GetComponent<EnemyController>() != null) {
+				otherObjectCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(propellerBaseDamage * heliBotController.GetPropellerSpeed());
+			}
 			
-			LaunchShrapnel(otherCollision.gameObject.transform.position);
-			particleTimer = 0;
+			if (particleTimer > particleThrottle) {
+				
+				LaunchShrapnel(otherObjectCollision.gameObject.transform.position);
+				particleTimer = 0;
+			}
 		}
 	}
 	

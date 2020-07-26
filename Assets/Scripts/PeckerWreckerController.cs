@@ -103,15 +103,13 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	void OnCollisionStay(Collision otherObjectCollision) {}
 	void OnCollisionEnter(Collision otherObjectCollision) {
-		float hammerHeadDamage = 5f;
+		float hammerHeadDamage = 2f;
 		if (otherObjectCollision.gameObject.GetComponent<EnemyController>() != null) {
-			// otherObjectCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(hammerHeadDamage);
-			Debug.Log("Hammerhead enemy collision: " + otherObjectCollision.gameObject.name);
+			otherObjectCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(hammerHeadDamage);
 		}
 		
 		if (otherObjectCollision.gameObject.GetComponent<PlayerController>() != null) {
-			// otherObjectCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(hammerHeadDamage);
-			Debug.Log("Hammerhead player collision " + otherObjectCollision.gameObject.name);
+			otherObjectCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(hammerHeadDamage);
 		}
 	}
 	void OnCollisionExit(Collision otherObjectCollision) {}

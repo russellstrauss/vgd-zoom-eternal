@@ -94,6 +94,9 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	public void SubtractHealth(float amount) {
+		
+		Debug.Log("SubtractHealth(" + amount + ") " + gameObject.name);
+		
 		health -= amount;
 		if (health < 0) health = 0;
 		playerScoreController.SetScore(health);

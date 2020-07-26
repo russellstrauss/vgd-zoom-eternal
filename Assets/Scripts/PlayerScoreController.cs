@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -16,6 +17,6 @@ public class PlayerScoreController : MonoBehaviour
 	}
 	
 	public void SetScore(float score) {
-		playerScoreLabel.text = score.ToString();
+		playerScoreLabel.text = Math.Floor(score).ToString();
 	}
 }

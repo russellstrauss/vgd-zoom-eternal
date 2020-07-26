@@ -108,7 +108,6 @@ public class TimerCountdownController : MonoBehaviour
 	}
 	
 	void StartCountdown() {
-		Debug.Log("StartCountdown");
 		FindObjectOfType<MusicManagerController>().StopMainMenuMusic();
 		countdownInitialized = true;
 		FindObjectOfType<AudioManager>().Play("short-beep");

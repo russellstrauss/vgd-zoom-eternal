@@ -21,7 +21,7 @@ public class Helicopter_AI : MonoBehaviour
 	private Rigidbody propellerRB;
 	private Rigidbody baseRB;
 	private GameObject propeller;
-	private double propellerRotationSpeed;
+	public float propellerRotationSpeed;
 	private float propellerMaxSpeed = 3000f;
 	private float propellerTimer = 0.0f;
 	private float propellerRotationBaseSpeed = 8f; // exponential
@@ -73,7 +73,7 @@ public class Helicopter_AI : MonoBehaviour
 
 		if (otherObjectCollision.gameObject == player && player != null) {
 
-			float damage = (float)propellerRotationSpeed / 30;
+			float damage = propellerRotationSpeed / 30;
             //add line to subtract player health here
 			//enemyController.SubtractHealth(damage);
 			//if (enemyController.health < .1) TriggerWinState();
@@ -246,7 +246,7 @@ public class Helicopter_AI : MonoBehaviour
 		else if (!propellerOn) {
 			if (propellerRotationSpeed > 0) propellerRotationSpeed -= (propellerTimer * 5);
 		}
-		propeller.transform.Rotate(new Vector3(0, (float)propellerRotationSpeed, 0) * Time.deltaTime);
+		propeller.transform.Rotate(new Vector3(0, propellerRotationSpeed, 0) * Time.deltaTime);
 		if (explosion != null) {
 			explosion.transform.position = propeller.transform.position;
 			explosion.transform.rotation = propeller.transform.rotation;

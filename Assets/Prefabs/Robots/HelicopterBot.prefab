@@ -3131,7 +3131,7 @@ GameObject:
   - component: {fileID: 257591678272485735}
   - component: {fileID: 257591678272485728}
   - component: {fileID: 257591678272485727}
-  - component: {fileID: 6387489707160082726}
+  - component: {fileID: 5015279606430713970}
   m_Layer: 0
   m_Name: Propeller
   m_TagString: Untagged
@@ -3432,7 +3432,7 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!114 &6387489707160082726
+--- !u!114 &5015279606430713970
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

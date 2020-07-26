@@ -22,7 +22,7 @@ public class HeliBotController : MonoBehaviour
 	private Rigidbody propellerRB;
 	private Rigidbody baseRB;
 	private GameObject propeller;
-	public double propellerRotationSpeed;
+	public float propellerRotationSpeed;
 	private float propellerMaxSpeed = 3000f;
 	private float propellerTimer = 0.0f;
 	private float propellerRotationBaseSpeed = 8f; // exponential
@@ -92,7 +92,7 @@ public class HeliBotController : MonoBehaviour
 
 		if (otherObjectCollision.gameObject == enemy && enemy != null && enemyController != null) {
 
-			float damage = (float)propellerRotationSpeed / 30;
+			float damage = propellerRotationSpeed / 30;
 			enemyController.SubtractHealth(damage);
 			// if (enemyController.health < .1) TriggerWinState();
 			if (propellerOn && propellerRotationSpeed > propellerMaxSpeed * .9f) {
@@ -117,12 +117,11 @@ public class HeliBotController : MonoBehaviour
 	}
 
 	void FixedUpdate() {
-
+		
 		if (player != null && gameObject == player) {
 			UpdatePropeller();
 			UpdatePlayerMovement();
 		}
-		if (enemy != null && gameObject == enemy) updateAIBehavior();
 	}
 
 	void ShowWheelSparks() {
@@ -161,12 +160,11 @@ public class HeliBotController : MonoBehaviour
 
 		baseRB.AddForce(new Vector3(0, -1, 0) * gravityMultiplier, ForceMode.Force);
 	}
-	
-	void updateAIBehavior() {
-		
-	}
 
 	void UpdatePropeller() {
+		
+		Debug.Log(propellerRotationSpeed);
+		
 		propellerTimer += Time.deltaTime;
 		if (propellerRotationSpeed < propellerMaxSpeed && propellerOn) propellerRotationSpeed = (float)Math.Pow(propellerRotationBaseSpeed, propellerTimer);
 		else if (!propellerOn) {
@@ -175,7 +173,7 @@ public class HeliBotController : MonoBehaviour
 			// 	propellerRotationSpeed = 0;
 			// }
 		}
-		propeller.transform.Rotate(new Vector3(0, (float)propellerRotationSpeed, 0) * Time.deltaTime);
+		propeller.transform.Rotate(new Vector3(0, propellerRotationSpeed, 0) * Time.deltaTime);
 		if (explosion != null) {
 			explosion.transform.position = propeller.transform.position;
 			explosion.transform.rotation = propeller.transform.rotation;
@@ -235,6 +233,11 @@ public class HeliBotController : MonoBehaviour
 	
 	public void DeactivateBot() {
 		gameObject.SetActive(false);
+	}
+	
+	public float GetPropellerSpeed() {
+		if (gameObject.GetComponent<Helicopter_AI>() != null) return gameObject.GetComponent<Helicopter_AI>().propellerRotationSpeed;
+		else return propellerRotationSpeed;
 	}
 	
 	public void SetEnemy() {
