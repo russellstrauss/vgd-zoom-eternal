@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class TimerCountdownController : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class TimerCountdownController : MonoBehaviour
 	
 	InputMaster controls;
 	Vector2 movementInput;
+	Scene scene;
 	
 	void Start() {
 		
@@ -39,6 +41,9 @@ public class TimerCountdownController : MonoBehaviour
 			pauseMenuController.PauseGame();
 			pauseMenuController.pauseMenu.SetActive(false);
 		}
+		
+		scene = SceneManager.GetActiveScene();
+		
 		battleClock = gameObject.transform.Find("Game Timer").GetComponent<TextMeshProUGUI>();
 		countdownClock = gameObject.transform.Find("Match Start Countdown").GetComponent<TextMeshProUGUI>();
 		countdownClock.text = countdownSecondsRemaining.ToString("0");
@@ -103,6 +108,8 @@ public class TimerCountdownController : MonoBehaviour
 	}
 	
 	void StartCountdown() {
+		Debug.Log("StartCountdown");
+		FindObjectOfType<MusicManagerController>().StopMainMenuMusic();
 		countdownInitialized = true;
 		FindObjectOfType<AudioManager>().Play("short-beep");
 	}

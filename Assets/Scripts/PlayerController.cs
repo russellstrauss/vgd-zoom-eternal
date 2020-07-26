@@ -14,8 +14,8 @@ public class PlayerController : MonoBehaviour {
 	float particleMass;
 	float particlePivotDistance;
 	Vector3 particlesPivot;
-	float explosionForce = 250f;
-	float explosionRadius = 1.75f;
+	float explosionForce = .002f;
+	float explosionRadius = .5f;
 	float explosionUpward = .5f;
 	public Material explosionParticleMaterial;
 	Renderer particleRenderer;
@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour {
 		particle.transform.localScale = new Vector3(particleSize, particleSize, particleSize);
 		
 		Rigidbody particleRB = particle.AddComponent<Rigidbody>();
-		particleRB.mass = particleSize;
+		particleRB.mass = 1;
 	}
 	
 	public void AddHealth(float amount) {

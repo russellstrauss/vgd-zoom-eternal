@@ -69,4 +69,8 @@ public class MusicManagerController : MonoBehaviour
 	public void PlayMainMenuMusic() {
 		mainMenuMusic.source.Play();
 	}
+	
+	public void StopMainMenuMusic() {
+		mainMenuMusic.source.Stop();
+	}
 }

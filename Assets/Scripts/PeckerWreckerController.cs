@@ -25,9 +25,10 @@ public class PeckerWreckerController : MonoBehaviour
 	GameObject player;
 	GameObject enemy;
 	GameObject floor;
-	Rigidbody hammer;
-	GameObject RobotHammerPivot;
+	
 	GameObject robotHammer;
+	GameObject RobotHammerPivot;
+	float hammerSpeed = 2000;
 	float currentRotation = 0;
 	
 	EnemyController enemyController;
@@ -73,23 +74,23 @@ public class PeckerWreckerController : MonoBehaviour
 		hammering = false;
 	}
 	
+	
 	void _hammering() {
-		Debug.DrawRay(RobotHammerPivot.transform.position, new Vector3(0, 3, 0), Color.blue);
-		Debug.DrawRay(RobotHammerPivot.transform.position, transform.right, Color.green);
-		if (currentRotation < (2000 * Time.deltaTime * 12)) {
-			robotHammer.transform.RotateAround(RobotHammerPivot.transform.position, transform.right, 2000 * Time.deltaTime);
-			currentRotation += 2000 * Time.deltaTime;
+		
+		float hammerRotationLimit = 90f;
+		
+		if (currentRotation < hammerRotationLimit) {
+			robotHammer.transform.RotateAround(RobotHammerPivot.transform.position, transform.right, hammerSpeed * Time.deltaTime);
+			currentRotation += hammerSpeed * Time.deltaTime;
 		}
 	}
 	
 	void _unhammering() {
-		if (currentRotation > 0) {
-			
-			robotHammer.transform.RotateAround(RobotHammerPivot.transform.position, transform.right, -2000 * Time.deltaTime);
-			currentRotation -= 2000 * Time.deltaTime;
-		}
-		// if (robotHammer.transform.rotation.x > Math.PI / 6) robotHammer.transform.RotateAround(RobotHammerPivot.transform.position, transform.right, -1000 * Time.deltaTime);
 		
+		if (currentRotation > 0) {	
+			robotHammer.transform.RotateAround(RobotHammerPivot.transform.position, transform.right, -hammerSpeed * Time.deltaTime);
+			currentRotation -= hammerSpeed * Time.deltaTime;
+		}
 	}
 	
 	void Update() {
