@@ -66,7 +66,7 @@ public class PeckerWreckerController : MonoBehaviour
 	void _hammering() {
 		Debug.DrawRay(RobotHammerPivot.transform.position, new Vector3(0, 3, 0), Color.blue);
 		Debug.DrawRay(RobotHammerPivot.transform.position, transform.right, Color.green);
-		if (robotHammer.transform.rotation.x < Math.PI / 6)  robotHammer.transform.RotateAround(RobotHammerPivot.transform.position, transform.right, 750 * Time.deltaTime);
+		if (robotHammer.transform.rotation.x < Math.PI / 6)  robotHammer.transform.RotateAround(RobotHammerPivot.transform.position, transform.right, 1000 * Time.deltaTime);
 	}
 	
 	void _unhammering() {
