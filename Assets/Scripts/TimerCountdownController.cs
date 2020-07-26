@@ -33,12 +33,12 @@ public class TimerCountdownController : MonoBehaviour
 		player = GameObject.FindWithTag("Player");
 		if (player != null) playerController = player.GetComponent<PlayerController>();
 		
-		// if (pauseMenuController) {
+		if (pauseMenuController) {
 			
-		// }
-		// pauseMenuController = GameObject.FindWithTag("GameManager").GetComponent<PauseMenu>();
-		// pauseMenuController.PauseGame();
-		// pauseMenuController.pauseMenu.SetActive(false);
+			pauseMenuController = GameObject.FindWithTag("GameManager").GetComponent<PauseMenu>();
+			pauseMenuController.PauseGame();
+			pauseMenuController.pauseMenu.SetActive(false);
+		}
 		battleClock = gameObject.transform.Find("Game Timer").GetComponent<TextMeshProUGUI>();
 		countdownClock = gameObject.transform.Find("Match Start Countdown").GetComponent<TextMeshProUGUI>();
 		countdownClock.text = countdownSecondsRemaining.ToString("0");
@@ -109,7 +109,7 @@ public class TimerCountdownController : MonoBehaviour
 	
 	public void StartTimer() {
 		FindObjectOfType<MusicManagerController>().PlayRandomSong();
-		// pauseMenuController.ResumeGame();
+		if (pauseMenuController != null) pauseMenuController.ResumeGame();
 		battleClockInitialized = true;
 		started = true;
 	}

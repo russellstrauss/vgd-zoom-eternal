@@ -66,7 +66,6 @@ public class AudioManager : MonoBehaviour
 	
 	public void PlayRandomCrashMed() {
 		System.Random random = new System.Random();
-		Debug.Log(crashSoundsMed.Length);
 		crashSoundsMed[random.Next(0, crashSoundsMed.Length - 1)].source.Play();
 	}
 	
