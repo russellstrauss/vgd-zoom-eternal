@@ -28,6 +28,7 @@ public class PeckerWreckerController : MonoBehaviour
 	Rigidbody hammer;
 	GameObject RobotHammerPivot;
 	GameObject robotHammer;
+	float currentRotation = 0;
 	
 	EnemyController enemyController;
 	
@@ -49,8 +50,14 @@ public class PeckerWreckerController : MonoBehaviour
 		RobotHammerPivot = gameObject.GetComponentInChildren<RobotHammerPivot>().gameObject;
 		robotHammer = gameObject.GetComponentInChildren<RobotHammer>().gameObject;
 
-		if (player != null && player == gameObject) SetPlayer();
-		else if (enemy != null && enemy == gameObject) SetEnemy();
+		if (BotSelectorController.selectedBot == "Pecker Wrecker") SetPlayer();
+		else if (BotSelectorController.selectedEnemyBot == "Pecker Wrecker") {
+			SetEnemy();
+		}
+		else {
+			if (player != null && player == gameObject) SetPlayer();
+			else if (enemy != null && enemy == gameObject) SetEnemy();
+		}
 	}
 	
 	void HammerOn() {
@@ -66,12 +73,19 @@ public class PeckerWreckerController : MonoBehaviour
 	void _hammering() {
 		Debug.DrawRay(RobotHammerPivot.transform.position, new Vector3(0, 3, 0), Color.blue);
 		Debug.DrawRay(RobotHammerPivot.transform.position, transform.right, Color.green);
-		if (robotHammer.transform.rotation.x < Math.PI / 6)  robotHammer.transform.RotateAround(RobotHammerPivot.transform.position, transform.right, 1000 * Time.deltaTime);
+		if (currentRotation < (2000 * Time.deltaTime * 12)) {
+			robotHammer.transform.RotateAround(RobotHammerPivot.transform.position, transform.right, 2000 * Time.deltaTime);
+			currentRotation += 2000 * Time.deltaTime;
+		}
 	}
 	
 	void _unhammering() {
-		if (robotHammer.transform.rotation.x > 0) robotHammer.transform.RotateAround(RobotHammerPivot.transform.position, transform.right, -1000 * Time.deltaTime);
-		if (robotHammer.transform.rotation.x > Math.PI / 6) robotHammer.transform.RotateAround(RobotHammerPivot.transform.position, transform.right, -1000 * Time.deltaTime);
+		if (currentRotation > 0) {
+			
+			robotHammer.transform.RotateAround(RobotHammerPivot.transform.position, transform.right, -2000 * Time.deltaTime);
+			currentRotation -= 2000 * Time.deltaTime;
+		}
+		// if (robotHammer.transform.rotation.x > Math.PI / 6) robotHammer.transform.RotateAround(RobotHammerPivot.transform.position, transform.right, -1000 * Time.deltaTime);
 		
 	}
 	

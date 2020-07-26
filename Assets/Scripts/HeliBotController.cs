@@ -71,8 +71,14 @@ public class HeliBotController : MonoBehaviour
 		sparks = gameObject.GetComponentsInChildren<ParticleSystem>();
 		HideWheelSparks();
 		
-		if (player != null && player == gameObject) SetPlayer();
-		else if (enemy != null && enemy == gameObject) SetEnemy();
+		if (BotSelectorController.selectedBot == "Stellar Propeller") SetPlayer();
+		else if (BotSelectorController.selectedEnemyBot == "Stellar Propeller") {
+			SetEnemy();
+		}
+		else {
+			if (player != null && player == gameObject) SetPlayer();
+			else if (enemy != null && enemy == gameObject) SetEnemy();
+		}
 	}
 
 	void OnCollisionStay(Collision otherObjectCollision) {

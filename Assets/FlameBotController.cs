@@ -60,8 +60,14 @@ public class FlameBotController : MonoBehaviour
 		floor = GameObject.FindWithTag("Floor");
 		enemyController = FindObjectOfType<EnemyController>();
 		
-		if (player != null && player == gameObject) SetPlayer();
-		else if (enemy != null && enemy == gameObject) SetEnemy();
+		if (BotSelectorController.selectedBot == "Hot Bot") SetPlayer();
+		else if (BotSelectorController.selectedEnemyBot == "Hot Bot") {
+			SetEnemy();
+		}
+		else {
+			if (player != null && player == gameObject) SetPlayer();
+			else if (enemy != null && enemy == gameObject) SetEnemy();
+		}
 	}
 
 	void OnCollisionStay(Collision otherObjectCollision) {
@@ -224,11 +230,11 @@ public class FlameBotController : MonoBehaviour
 	
 	public void SetPlayer()
 	{
-		cameraController.SetPlayerFocus();
 		gameObject.tag = "Player";
 		gameObject.AddComponent<PlayerController>();
 		player = gameObject;
 		EnablePlayerControls();
+		cameraController.SetPlayerFocus();
 		Debug.Log("Init flame bot here");
 	}
 	
