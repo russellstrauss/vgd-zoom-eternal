@@ -78,6 +78,9 @@ public class HeliBotController : MonoBehaviour
 		else {
 			if (player != null && player == gameObject) SetPlayer();
 			else if (enemy != null && enemy == gameObject) SetEnemy();
+			else {
+				DeactivateBot();
+			}
 		}
 	}
 
@@ -228,6 +231,10 @@ public class HeliBotController : MonoBehaviour
 			controls.Player.Select.Disable();
 			controls.Player.Drive.Disable();
 		}
+	}
+	
+	public void DeactivateBot() {
+		gameObject.SetActive(false);
 	}
 	
 	public void SetEnemy() {

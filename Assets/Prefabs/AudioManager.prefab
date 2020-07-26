@@ -292,13 +292,6 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     source: {fileID: 0}
-  - name: next-heap-with
-    clip: {fileID: 8300000, guid: 767cd97020a48f04cb969af7323aa57a, type: 3}
-    volume: 0.25
-    defaultVolume: 0
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
   - name: tha
     clip: {fileID: 8300000, guid: 5dda25a68e2d1c842845f58791df82f1, type: 3}
     volume: 0.25
@@ -309,20 +302,6 @@ MonoBehaviour:
   - name: we-are-the-music-makers
     clip: {fileID: 8300000, guid: 50a64aa807daf3a45954adf8e66d2fc5, type: 3}
     volume: 0.5
-    defaultVolume: 0
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
-  - name: we-have-arrived
-    clip: {fileID: 8300000, guid: 19825d1b28b9460489fd329e0a75fdc3, type: 3}
-    volume: 0.025
-    defaultVolume: 0
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
-  - name: wet-tip-hen-axe
-    clip: {fileID: 8300000, guid: 324189511cfa061499d723a1c0004c3f, type: 3}
-    volume: 0.25
     defaultVolume: 0
     pitch: 1
     loop: 1

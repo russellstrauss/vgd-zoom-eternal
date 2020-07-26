@@ -57,6 +57,9 @@ public class PeckerWreckerController : MonoBehaviour
 		else {
 			if (player != null && player == gameObject) SetPlayer();
 			else if (enemy != null && enemy == gameObject) SetEnemy();
+			else {
+				DeactivateBot();
+			}
 		}
 	}
 	
@@ -91,9 +94,6 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	void Update() {
 		if (gameObject == player) UpdatePlayerMovement();
-		if (gameObject == enemy) updateAIBehavior();
-		
-		
 		
 		// Spin the object around the target at 20 degrees/second.
 		if (hammering) _hammering();
@@ -122,10 +122,6 @@ public class PeckerWreckerController : MonoBehaviour
 		controls.Player.Select.Disable();
 	}
 	
-	void updateAIBehavior() {
-		
-	}
-	
 	public void SetEnemy() {
 		gameObject.AddComponent<EnemyController>();
 		gameObject.tag = "enemy";
@@ -141,7 +137,7 @@ public class PeckerWreckerController : MonoBehaviour
 	}
 	
 	public void DeactivateBot() {
-		if (enemy != gameObject) gameObject.SetActive(false);
+		gameObject.SetActive(false);
 	}
 	
 	void EnablePlayerControls() {

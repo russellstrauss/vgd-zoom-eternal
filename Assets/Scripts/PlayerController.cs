@@ -10,12 +10,12 @@ public class PlayerController : MonoBehaviour {
 	OrbitalCameraController cameraController;
 	bool exploded = false;
 	float particleSize = .2f;
-	int particleSubdivisions = 5;
+	int particleSubdivisions = 10;
 	float particleMass;
 	float particlePivotDistance;
 	Vector3 particlesPivot;
-	float explosionForce = 100f;
-	float explosionRadius = 2f;
+	float explosionForce = 250f;
+	float explosionRadius = 1.75f;
 	float explosionUpward = .5f;
 	public Material explosionParticleMaterial;
 	Renderer particleRenderer;

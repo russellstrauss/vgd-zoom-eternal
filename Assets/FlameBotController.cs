@@ -67,6 +67,9 @@ public class FlameBotController : MonoBehaviour
 		else {
 			if (player != null && player == gameObject) SetPlayer();
 			else if (enemy != null && enemy == gameObject) SetEnemy();
+			else {
+				DeactivateBot();
+			}
 		}
 	}
 
@@ -228,6 +231,10 @@ public class FlameBotController : MonoBehaviour
         currentPrefabScript = null;
     }
 	
+	public void DeactivateBot() {
+		gameObject.SetActive(false);
+	}
+	
 	public void SetPlayer()
 	{
 		gameObject.tag = "Player";
@@ -235,7 +242,6 @@ public class FlameBotController : MonoBehaviour
 		player = gameObject;
 		EnablePlayerControls();
 		cameraController.SetPlayerFocus();
-		Debug.Log("Init flame bot here");
 	}
 	
 	public void SetEnemy()
