@@ -27,9 +27,7 @@ public class PeckerWreckerController : MonoBehaviour
 	GameObject floor;
 	
 	GameObject robotHammer;
-	GameObject robotHammerHead;
 	GameObject RobotHammerPivot;
-	Rigidbody robotHammerHeadRB;
 	float hammerSpeed = 2000;
 	float currentRotation = 0;
 	
@@ -50,20 +48,20 @@ public class PeckerWreckerController : MonoBehaviour
 		enemyController = FindObjectOfType<EnemyController>();
 		RobotHammerPivot = gameObject.GetComponentInChildren<RobotHammerPivot>().gameObject;
 		robotHammer = gameObject.GetComponentInChildren<RobotHammer>().gameObject;
-		// robotHammerHead = gameObject.GetComponentInChildren<RobotHammerHead>().gameObject;
-		// robotHammerHeadRB = robotHammerHead.GetComponent<Rigidbody>();
-
+		
 		if (BotSelectorController.selectedBot == "Pecker Wrecker") SetPlayer();
 		else if (BotSelectorController.selectedEnemyBot == "Pecker Wrecker") {
 			SetEnemy();
 		}
-		else {
+		else { // If manually selected in scene
 			if (player != null && player == gameObject) SetPlayer();
 			else if (enemy != null && enemy == gameObject) SetEnemy();
 			else {
 				DeactivateBot();
 			}
 		}
+		
+		if (BotSelectorController.selectedBot == "Stellar Propeller") SetEnemy(); // testing remove
 	}
 	
 	void HammerOn() {
@@ -104,7 +102,7 @@ public class PeckerWreckerController : MonoBehaviour
 	void OnCollisionStay(Collision otherObjectCollision) {}
 	void OnCollisionEnter(Collision otherObjectCollision) {
 		// float hammerHeadDamage = 250f;
-		float hammerHeadDamage = 1f;
+		float hammerHeadDamage = 6f;
 		if (otherObjectCollision.gameObject.GetComponent<EnemyController>() != null) {
 			otherObjectCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(hammerHeadDamage);
 		}

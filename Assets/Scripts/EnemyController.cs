@@ -44,7 +44,7 @@ public class EnemyController : MonoBehaviour {
 	public void SubtractHealth(float amount) {
 		health -= amount;
 		if (health < 0) health = 0;
-		enemyScoreController.SetScore(health);
+		if (enemyScoreController != null) enemyScoreController.SetScore(health);
 		if (health < .1 && !exploded) {
 			Explode();
 			FindObjectOfType<PlayerController>().TriggerWinState();

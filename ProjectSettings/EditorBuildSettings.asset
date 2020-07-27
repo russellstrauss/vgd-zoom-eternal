@@ -14,9 +14,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ArenaSelector.unity
     guid: e298529e26219a14bbbbb994cc9d2ac1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MountainArena.unity
     guid: 8cb7ec290b8c6f84aa5126756a6da086
+  - enabled: 1
+    path: Assets/Scenes/MountainArena_new.unity
+    guid: b9149c31ce19013468309b9285add34b
   - enabled: 1
     path: Assets/Scenes/RageInTheCage.unity
     guid: 5096e2b1f09bf4e4c9cc564f9d62f4a0

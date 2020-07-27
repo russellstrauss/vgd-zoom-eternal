@@ -7,7 +7,7 @@ public class BotSelectorController : MonoBehaviour
 	static public string selectedBot;
 	float botRotationSpeed = 20f;
 	GameObject[] characterSelections;
-	static public string selectedEnemyBot;
+	static public string selectedEnemyBot = string.Empty;
     bool enemySet = false;
 	
 	HeliBotController heliBotController;
@@ -17,37 +17,10 @@ public class BotSelectorController : MonoBehaviour
 		characterSelections = GameObject.FindGameObjectsWithTag("characterSelect");
 		HideAllBotIcons();
 		
-		if (selectedBot != null) {
-			
-			try {
-				
-				while (!enemySet) {
-                    
-					// Select random bot to be enemy
-                    System.Random random = new System.Random();
-                    int value = random.Next(0, 2);
-                    if (value == 0 && selectedBot != "Pecker Wrecker") {
-                        selectedEnemyBot = "Pecker Wrecker";
-                        FindObjectOfType<HeliBotController>().SetEnemy();
-                        enemySet = true;
-                    }
-                    else if (value == 1 && selectedBot != "Stellar Propeller") {
-                        selectedEnemyBot = "Stellar Propeller";
-                        FindObjectOfType<PeckerWreckerController>().SetEnemy();
-                        enemySet = true;
-                    }
-                    else if (value == 2 && selectedBot != "Hot Bot") {
-                        selectedEnemyBot = "Hot Bot";
-                        FindObjectOfType<DigitalRuby.PyroParticles.FlameBotController>().SetEnemy();
-                        enemySet = true;
-                    }
-                    Debug.Log("Match bots selected. Player: "  + selectedBot + " Enemy: " + selectedEnemyBot);
-                }
-			}
-			catch (System.Exception error) {
-				Debug.Log("Error setting enemy: " + error);
-			}
-		}
+		System.Random random = new System.Random();
+		int value = random.Next(0, 2);
+		Debug.Log(value);
+		Debug.Log(selectedEnemyBot);
 	}
 
 	void Update() {

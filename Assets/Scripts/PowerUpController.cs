@@ -36,7 +36,6 @@ public class PowerUpController : MonoBehaviour
 			FindObjectOfType<AudioManager>().Play("robust-beep");
 			IncreaseSpeed(100);
     	}
-		Debug.Log(gameObject.name == "PowerUpCube");
 		if (gameObject.name == "PowerUpCube" && other.gameObject.CompareTag("playerCollider")) {
 			FindObjectOfType<PlayerController>().AddHealth(250);
 		}

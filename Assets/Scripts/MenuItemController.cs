@@ -52,7 +52,13 @@ public class MenuItemController : MonoBehaviour
 	public void menuClick() {
 		
 		if (scene.name == "ArenaSelector") SceneManager.LoadScene(sceneNameToLoad);
-		else if (scene.name == "BotSelector") SceneManager.LoadScene("ArenaSelector");
+		else if (scene.name == "BotSelector") {
+			SceneManager.LoadScene("ArenaSelector");
+			BotSelectorController.selectedBot = gameObject.GetComponentInChildren<TextMeshProUGUI>().text;
+			
+			if (BotSelectorController.selectedBot == "Pecker Wrecker") BotSelectorController.selectedEnemyBot = "Stellar Propeller"; // testing, remove me
+			if (BotSelectorController.selectedBot == "Stellar Propeller") BotSelectorController.selectedEnemyBot = "Pecker Wrecker"; // testing, remove me
+		}
 		else {
 			
 			if (FindObjectOfType<MusicManagerController>() != null) FindObjectOfType<MusicManagerController>().Stop();

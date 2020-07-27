@@ -27,6 +27,12 @@ public class SpikeController : MonoBehaviour {
 	float sawActiveTime = 8f;
 	private GameObject m_spike_trigger;
 	
+	// Damage
+	float spikeDamage = 250;
+	float playerDamageTimer = 0f;
+	float enemyDamageTimer = 0f;
+	float damageThrottle = 1f; // To prevent many health subtractions from fire repeatedly and instantly killing
+	
 	// Test vars
 	int count = 0;
 	
@@ -81,10 +87,11 @@ public class SpikeController : MonoBehaviour {
 			}
 		}
 
-
+		playerDamageTimer += Time.deltaTime;
+		enemyDamageTimer += Time.deltaTime;
 	}
 	
-	public void TriggerAttack(Collider otherCollision) {
+	public void TriggerAttack(Collider collision) {
 		sawTimer = 0;
 		count = 0;
 		isColliding = true;
@@ -103,6 +110,17 @@ public class SpikeController : MonoBehaviour {
 			playerRb.AddForce(new Vector3(0, 1, 0) * 10000, ForceMode.Impulse);
 			// FindObjectOfType<AudioManager>().Play("crash");
 			StartCoroutine(Damage());
+		}
+		
+		Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
+		rb.AddForce(new Vector3(0, 1, 0) * 10000f, ForceMode.Impulse);
+		if (collision.gameObject.GetComponent<PlayerController>() != null && playerDamageTimer > damageThrottle) {
+			collision.gameObject.GetComponent<PlayerController>().SubtractHealth(spikeDamage);
+			playerDamageTimer = 0f;
+		}
+		if (collision.gameObject.GetComponent<EnemyController>() != null && enemyDamageTimer > damageThrottle) {
+			collision.gameObject.GetComponent<EnemyController>().SubtractHealth(spikeDamage);
+			enemyDamageTimer = 0f;
 		}
 	}
 

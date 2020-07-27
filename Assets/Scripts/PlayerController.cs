@@ -34,8 +34,10 @@ public class PlayerController : MonoBehaviour {
 		
 		cameraController = FindObjectOfType<OrbitalCameraController>();
 		endState = GameObject.FindWithTag("endState");
-		endStateText = endState.GetComponentInChildren<TextMeshProUGUI>();
-		endState.SetActive(false);
+		if (endState != null) {
+			endStateText = endState.GetComponentInChildren<TextMeshProUGUI>();
+			endState.SetActive(false);
+		}
 		SetParticles();
 		playerScoreController = FindObjectOfType<PlayerScoreController>();
 
@@ -97,7 +99,7 @@ public class PlayerController : MonoBehaviour {
 	public void SubtractHealth(float amount) {
 		health -= amount;
 		if (health < 0) health = 0;
-		playerScoreController.SetScore(health);
+		if (playerScoreController) playerScoreController.SetScore(health);
 		if (health < .1) {
 			TriggerDeathState();
 		}
@@ -160,11 +162,12 @@ public class PlayerController : MonoBehaviour {
 	void SetExplosionForces() {
 		
 		if (BotSelectorController.selectedBot == "Pecker Wrecker") {
-			explosionForce = .00001f;
+			// explosionForce = .00001f;
+			explosionForce = 1f;
 			explosionRadius = .5f;
 		}
 		if (BotSelectorController.selectedBot == "Stellar Propeller") {
-			explosionForce = .002f;
+			explosionForce = .005f;
 			explosionRadius = .5f;
 		}
 		if (BotSelectorController.selectedBot == "Hot Bot") {

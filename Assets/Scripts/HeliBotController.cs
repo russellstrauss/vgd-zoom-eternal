@@ -87,6 +87,8 @@ public class HeliBotController : MonoBehaviour
 				DeactivateBot();
 			}
 		}
+		
+		if (BotSelectorController.selectedBot == "Pecker Wrecker") SetEnemy(); // testing remove
 	}
 
 	void OnCollisionStay(Collision otherObjectCollision) {
@@ -253,7 +255,6 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	public void SetPlayer() {
-		
 		gameObject.tag = "Player";
 		gameObject.AddComponent<PlayerController>();
 		player = gameObject;
