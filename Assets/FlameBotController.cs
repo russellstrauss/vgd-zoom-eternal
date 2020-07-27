@@ -241,7 +241,7 @@ public class FlameBotController : MonoBehaviour
 		gameObject.AddComponent<PlayerController>();
 		player = gameObject;
 		EnablePlayerControls();
-		if (cameraController) cameraController.SetPlayerFocus();
+		if (cameraController != null) cameraController.SetPlayerFocus();
 	}
 	
 	public void SetEnemy()

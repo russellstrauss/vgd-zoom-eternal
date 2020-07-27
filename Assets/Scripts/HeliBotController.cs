@@ -259,7 +259,7 @@ public class HeliBotController : MonoBehaviour
 		gameObject.AddComponent<PlayerController>();
 		player = gameObject;
 		EnablePlayerControls();
-		cameraController.SetPlayerFocus();
+		if (cameraController != null) cameraController.SetPlayerFocus();
 	}
 	
 	void EnablePlayerControls() {
