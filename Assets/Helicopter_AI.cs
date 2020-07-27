@@ -60,6 +60,7 @@ public class Helicopter_AI : MonoBehaviour
 		baseRB = gameObject.GetComponent<Rigidbody>();
 		enemy = GameObject.FindWithTag("enemy");
 		floor = GameObject.FindWithTag("Floor");
+		propellerTimer = 2f;
 
 		sparks = gameObject.GetComponentsInChildren<ParticleSystem>();
 		HideWheelSparks();
