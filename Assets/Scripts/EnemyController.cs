@@ -47,7 +47,7 @@ public class EnemyController : MonoBehaviour {
 		if (enemyScoreController != null) enemyScoreController.SetScore(health);
 		if (health < .1 && !exploded) {
 			Explode();
-			FindObjectOfType<PlayerController>().TriggerWinState();
+			if (FindObjectOfType<PlayerController>() != null) FindObjectOfType<PlayerController>().TriggerWinState();
 		}
 	}
 	

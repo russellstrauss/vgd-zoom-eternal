@@ -133,6 +133,7 @@ public class PeckerWreckerController : MonoBehaviour
 	
 	public void SetEnemy() {
 		gameObject.AddComponent<EnemyController>();
+		gameObject.AddComponent<PeckerWreckerAi>();
 		gameObject.tag = "enemy";
 		enemy = gameObject;
 	}
