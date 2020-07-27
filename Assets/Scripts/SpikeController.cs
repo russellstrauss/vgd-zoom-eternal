@@ -20,7 +20,7 @@ public class SpikeController : MonoBehaviour {
 	GameObject player;
 	Rigidbody[] sawRigidbodies;
 	
-	Vector3 displacement = new Vector3(0, 1.2f, 0);
+	Vector3 displacement = new Vector3(0, 2.2f, 0);
 	float sawSpeed = 5f;
 	Vector3[] bladeStartingPositions;
 	float sawTimer = 0f;
