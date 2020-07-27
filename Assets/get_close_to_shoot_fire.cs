@@ -4,36 +4,37 @@ using UnityEngine;
 namespace DigitalRuby.PyroParticles {
 public class get_close_to_shoot_fire : MonoBehaviour
 {
-	private GameObject wayPoint;
-	private Vector3 wayPointPos;
+	GameObject wayPoint;
+	Vector3 wayPointPos;
 	//This will be the AI's speed. Adjust as necessary.
-	private float speed = 10.0f;
-	private Transform Target;
-	private float RotationSpeed = 3.0f;
+	float speed = 10.0f;
+	Transform Target;
+	float RotationSpeed = 3.0f;
 
 	//values for internal u
-	private Quaternion _lookRotation;
-	private Vector3 _direction;
-	private float distance;
-	private float trail = 8.0f;
+	Quaternion _lookRotation;
+	Vector3 _direction;
+	float distance;
+	float trail = 8.0f;
 	public GameObject[] Prefabs;
 	public UnityEngine.UI.Text CurrentItemText;
 
-	private GameObject currentPrefabObject;
-	private FireBaseScript currentPrefabScript;
-	private int currentPrefabIndex;
-	private Quaternion originalRotation;
+	GameObject currentPrefabObject;
+	FireBaseScript currentPrefabScript;
+	int currentPrefabIndex;
+	Quaternion originalRotation;
 
 	// Player damage
-	private GameObject player;
-	private HeliBotController heliBotController;
-	private float enemyDamageRatio = .25f;
-	private float timer = 0.0f;
+	GameObject player;
+	HeliBotController heliBotController;
+	float enemyDamageRatio = .25f;
+	float timer = 0.0f;
 
     void Start ()
     {
 		//At the start of the game, the zombies will find the gameobject called wayPoint.
 		wayPoint = GameObject.Find("wayPoint");
+		
 		Target = wayPoint.transform;
 		originalRotation = transform.localRotation;
 		player = GameObject.FindWithTag("Player");
@@ -47,8 +48,8 @@ public class get_close_to_shoot_fire : MonoBehaviour
 		// wayPoint.transform.position = FindObjectOfType<PlayerController>().gameObject.transform.position;
 		// wayPoint.transform.rotation = FindObjectOfType<PlayerController>().gameObject.transform.rotation;
 		timer += Time.deltaTime;
-		wayPoint.transform.position = player.transform.position;
-		wayPoint.transform.rotation = player.transform.rotation;
+		// wayPoint.transform.position = player.transform.position;
+		// wayPoint.transform.rotation = player.transform.rotation;
     }
 
 	void UpdatePlayerAI()
@@ -100,7 +101,7 @@ public class get_close_to_shoot_fire : MonoBehaviour
 	}
 
 
-    private static float ClampAngle(float angle, float min, float max)
+    static float ClampAngle(float angle, float min, float max)
     {
         if (angle < -360F)
         {
@@ -114,7 +115,7 @@ public class get_close_to_shoot_fire : MonoBehaviour
         return Mathf.Clamp(angle, min, max);
     }
 
-    private void BeginEffect()
+    void BeginEffect()
     {
         Vector3 pos;
         float yRot = transform.rotation.eulerAngles.y;
@@ -167,7 +168,7 @@ public class get_close_to_shoot_fire : MonoBehaviour
         BeginEffect();
     }
 
-    private void StopCurrent()
+    void StopCurrent()
     {
         // if we are running a constant effect like wall of fire, stop it now
         if (currentPrefabScript != null && currentPrefabScript.Duration > 10000)

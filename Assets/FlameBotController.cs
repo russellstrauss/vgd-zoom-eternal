@@ -11,41 +11,38 @@ public class FlameBotController : MonoBehaviour
 	OrbitalCameraController cameraController;
 	Vector2 movementInput;
 	InputMaster controls;
-	private Vector3 playerStartPosition;
-	private Vector3 cameraStartPosition;
+	Vector3 playerStartPosition;
+	Vector3 cameraStartPosition;
 
-	private GameObject enemyWayPoint;
+	GameObject enemyWayPoint;
 
-	private bool fireOn = false;
-	private Rigidbody baseRB;
-    private Quaternion _lookRotation;
-	private Vector3 _direction;
-	private float distance;
-	private float trail = 8.0f;
+	bool fireOn = false;
+	Rigidbody baseRB;
+    Quaternion _lookRotation;
+	Vector3 _direction;
+	float distance;
+	float trail = 8.0f;
 	public GameObject[] Prefabs;
 	public UnityEngine.UI.Text CurrentItemText;
 
-	private GameObject currentPrefabObject;
-	private FireBaseScript currentPrefabScript;
-	private int currentPrefabIndex;
-	private Quaternion originalRotation;
+	GameObject currentPrefabObject;
+	FireBaseScript currentPrefabScript;
+	int currentPrefabIndex;
+	Quaternion originalRotation;
 
 	// bot
 	bool driving = false;
-	private float healthDefault = 1000f;
+	float healthDefault = 1000f;
+	[HideInInspector]
 	public float health = 1000f;
-	private float botRotationSpeed = 200f;
-	public float botMovementSpeed = 2000f;
-	// private float botMovementSpeedDefault = 2000f;
-	private bool grounded = true;
-	private int gravityMultiplier = 4000;
-	public GameObject explosionEffect;
-	public GameObject sparkEffect;
-	private GameObject explosion;
-	private GameObject player;
-	private GameObject enemy;
-	private GameObject floor;
-	private bool upsideDown = false;
+	float botRotationSpeed = 200f;
+	float botMovementSpeed = 2000f;
+	bool grounded = true;
+	int gravityMultiplier = 4000;
+	GameObject player;
+	GameObject enemy;
+	GameObject floor;
+	bool upsideDown = false;
 
 	EnemyController enemyController;
 
@@ -166,7 +163,7 @@ public class FlameBotController : MonoBehaviour
         }
     }
 
-    private void BeginEffect()
+    void BeginEffect()
     {
         fireOn = true;
         Vector3 pos;
@@ -219,7 +216,7 @@ public class FlameBotController : MonoBehaviour
         BeginEffect();
     }
 
-    private void StopCurrent()
+    void StopCurrent()
     {
         // if we are running a constant effect like wall of fire, stop it now
         fireOn = false;
@@ -232,6 +229,7 @@ public class FlameBotController : MonoBehaviour
     }
 	
 	public void DeactivateBot() {
+		Debug.Log("FlameBot Enemy deactivated");
 		gameObject.SetActive(false);
 	}
 	
@@ -246,7 +244,9 @@ public class FlameBotController : MonoBehaviour
 	
 	public void SetEnemy()
 	{
+		Debug.Log("FlameBot Enemy set");
 		gameObject.AddComponent<EnemyController>();
+		gameObject.AddComponent<get_close_to_shoot_fire>();
 		gameObject.tag = "enemy";
 		enemy = gameObject;
 	}

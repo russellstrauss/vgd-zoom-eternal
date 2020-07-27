@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour {
 	int count = 0;
 	
 	void Start() {
-		
+		Debug.Log("Player controller start()");
 		cameraController = FindObjectOfType<OrbitalCameraController>();
 		endState = GameObject.FindWithTag("endState");
 		if (endState != null) {

@@ -53443,7 +53443,7 @@ PrefabInstance:
     - target: {fileID: 3434045897552436103, guid: 6b6acd0ddfd3bed40b98820e470d6e4e,
         type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: enemy
       objectReference: {fileID: 0}
     - target: {fileID: 8373399236234728473, guid: 6b6acd0ddfd3bed40b98820e470d6e4e,
         type: 3}
