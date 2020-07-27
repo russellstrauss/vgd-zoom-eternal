@@ -6420,7 +6420,12 @@ PrefabInstance:
     - target: {fileID: 169898239898309876, guid: d715bece0242c3f46bd92488fccc62d8,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 169898241324988128, guid: d715bece0242c3f46bd92488fccc62d8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8778082259901381218, guid: d715bece0242c3f46bd92488fccc62d8,
         type: 3}
@@ -106592,6 +106597,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PeckerWrecker
+      objectReference: {fileID: 0}
+    - target: {fileID: 7153747465492258264, guid: 538791c95eef56649a773d4a59a3bd51,
+        type: 3}
+      propertyPath: m_TagString
+      value: enemy
       objectReference: {fileID: 0}
     - target: {fileID: 7749987948328653133, guid: 538791c95eef56649a773d4a59a3bd51,
         type: 3}
