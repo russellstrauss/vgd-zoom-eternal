@@ -23,12 +23,13 @@ public class get_close_to_shoot_fire : MonoBehaviour
 	private FireBaseScript currentPrefabScript;
 	private int currentPrefabIndex;
 	private Quaternion originalRotation;
-	
+
 	// Player damage
 	private GameObject player;
 	private HeliBotController heliBotController;
 	private float enemyDamageRatio = .25f;
-	
+	private float timer = 0.0f;
+
     void Start ()
     {
 		//At the start of the game, the zombies will find the gameobject called wayPoint.
@@ -36,17 +37,23 @@ public class get_close_to_shoot_fire : MonoBehaviour
 		Target = wayPoint.transform;
 		originalRotation = transform.localRotation;
 		player = GameObject.FindWithTag("Player");
-		if (FindObjectsOfType<HeliBotController>().Length > 0) heliBotController = FindObjectsOfType<HeliBotController>()[0];
+		//if (FindObjectsOfType<PlayerController>().Length > 0) heliBotController = FindObjectsOfType<HeliBotController>()[0];
     }
 
     void Update ()
     {
 		if (gameObject.CompareTag("enemy")) UpdatePlayerAI();
+		//in case you would rather update by finding playercontroller
+		// wayPoint.transform.position = FindObjectOfType<PlayerController>().gameObject.transform.position;
+		// wayPoint.transform.rotation = FindObjectOfType<PlayerController>().gameObject.transform.rotation;
+		timer += Time.deltaTime;
+		wayPoint.transform.position = player.transform.position;
+		wayPoint.transform.rotation = player.transform.rotation;
     }
-	
+
 	void UpdatePlayerAI()
 	{
-		Debug.Log("update flame AI");
+		//Debug.Log("update flame AI");
 		distance = Vector3.Distance(this.transform.position, wayPoint.transform.position);
 		//we are too close and do not want to be hit
 		wayPointPos = new Vector3(wayPoint.transform.position.x, wayPoint.transform.position.y, wayPoint.transform.position.z);
