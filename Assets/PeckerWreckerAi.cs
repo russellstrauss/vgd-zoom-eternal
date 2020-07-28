@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PeckerWreckerAi : MonoBehaviour
 {
@@ -32,13 +33,18 @@ public class PeckerWreckerAi : MonoBehaviour
     private float hammerTimer = 0.0f;
     private Transform Target;
     private bool grounded = true;
+	Scene scene;
 
 	EnemyController enemyController;
 
 	bool hammering = false;
 
 	void Start() {
+		
+		scene = SceneManager.GetActiveScene();
 
+		if (scene.name == "ArenaSelector" || scene.name == "BotSelector") Destroy(gameObject);
+		
 		player = GameObject.FindWithTag("Player");
 		baseRB = gameObject.GetComponent<Rigidbody>();
 
@@ -51,21 +57,7 @@ public class PeckerWreckerAi : MonoBehaviour
         if (wayPoint != null && player != null) {
 			wayPoint.transform.position = player.transform.position;
 		}
-		Target = wayPoint.transform;
-		// robotHammerHead = gameObject.GetComponentInChildren<RobotHammerHead>().gameObject;
-		// robotHammerHeadRB = robotHammerHead.GetComponent<Rigidbody>();
-
-		// if (BotSelectorController.selectedBot == "Pecker Wrecker") SetPlayer();
-		// else if (BotSelectorController.selectedEnemyBot == "Pecker Wrecker") {
-		// 	SetEnemy();
-		// }
-		// else {
-		// 	if (player != null && player == gameObject) SetPlayer();
-		// 	else if (enemy != null && enemy == gameObject) SetEnemy();
-		// 	else {
-		// 		DeactivateBot();
-		// 	}
-		// }
+		if (wayPoint != null) Target = wayPoint.transform;
 	}
 
 	void HammerOn() {
@@ -131,10 +123,10 @@ public class PeckerWreckerAi : MonoBehaviour
     }
 
 	void UpdatePlayerMovement() {
-        if (wayPoint != null) {
+        if (wayPoint != null && player != null) {
 			wayPoint.transform.position = player.transform.position;
 		}
-        if (timer > 25) {
+        if (timer > 5) {
             timer = 0;
         }
 		if ((timer < 12 && timer > 14) || (timer < 18 && timer > 21)){

@@ -108,12 +108,14 @@ public class TimerCountdownController : MonoBehaviour
 	}
 	
 	void StartCountdown() {
+		Time.timeScale = 0f;
 		FindObjectOfType<MusicManagerController>().StopMainMenuMusic();
 		countdownInitialized = true;
 		FindObjectOfType<AudioManager>().Play("short-beep");
 	}
 	
 	public void StartTimer() {
+		Time.timeScale = 1f;
 		FindObjectOfType<MusicManagerController>().PlayRandomSong();
 		if (pauseMenuController != null) pauseMenuController.ResumeGame();
 		battleClockInitialized = true;

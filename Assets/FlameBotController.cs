@@ -57,19 +57,23 @@ namespace DigitalRuby.PyroParticles
 			wayPoint = GameObject.Find("wayPoint");
 			enemy = GameObject.FindWithTag("enemy");
 			floor = GameObject.FindWithTag("Floor");
-			enemyController = FindObjectOfType<EnemyController>();
+			enemyController = FindObjectOfType<EnemyController>();	
+			InitBot();
+		}
+		
+		public void InitBot() {
 			
-			if (BotSelectorController.selectedBot == "Hot Bot") SetPlayer();
-			else if (BotSelectorController.selectedEnemyBot == "Hot Bot") {
-				SetEnemy();
-			}
-			else {
-				if (player != null && player == gameObject) SetPlayer();
-				else if (enemy != null && enemy == gameObject) SetEnemy();
-				else {
-					DeactivateBot();
+				if (BotSelectorController.selectedBot == "Hot Bot") SetPlayer();
+				else if (BotSelectorController.selectedEnemyBot == "Hot Bot") {
+					SetEnemy();
 				}
-			}
+				else {
+					if (player != null && player == gameObject) SetPlayer();
+					else if (enemy != null && enemy == gameObject) SetEnemy();
+					else {
+						DeactivateBot();
+					}
+				}
 		}
 
 		void OnCollisionEnter(Collision otherObjectCollision) {

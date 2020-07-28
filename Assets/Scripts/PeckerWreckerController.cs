@@ -48,6 +48,11 @@ public class PeckerWreckerController : MonoBehaviour
 		enemyController = FindObjectOfType<EnemyController>();
 		RobotHammerPivot = gameObject.GetComponentInChildren<RobotHammerPivot>().gameObject;
 		robotHammer = gameObject.GetComponentInChildren<RobotHammer>().gameObject;
+		InitBot();
+	}
+	public void InitBot() {
+		Debug.Log("Pecker Wrecker InitBot()");
+		if (BotSelectorController.selectedBot == "Stellar Propeller") SetEnemy(); // testing remove
 		
 		if (BotSelectorController.selectedBot == "Pecker Wrecker") SetPlayer();
 		else if (BotSelectorController.selectedEnemyBot == "Pecker Wrecker") {
@@ -60,8 +65,6 @@ public class PeckerWreckerController : MonoBehaviour
 				DeactivateBot();
 			}
 		}
-		
-		if (BotSelectorController.selectedBot == "Stellar Propeller") SetEnemy(); // testing remove
 	}
 	
 	void HammerOn() {
@@ -132,6 +135,7 @@ public class PeckerWreckerController : MonoBehaviour
 	}
 	
 	public void SetEnemy() {
+		Debug.Log("PeckerWrecker SetEnemy()");
 		gameObject.AddComponent<EnemyController>();
 		gameObject.AddComponent<PeckerWreckerAi>();
 		gameObject.tag = "enemy";

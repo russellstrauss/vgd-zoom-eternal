@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour {
 	OrbitalCameraController cameraController;
 	bool exploded = false;
 	float particleSize = .2f;
-	int particleSubdivisions = 10;
+	int particleSubdivisions = 8;
 	float particleMass;
 	float particlePivotDistance;
 	Vector3 particlesPivot;
@@ -28,6 +28,10 @@ public class PlayerController : MonoBehaviour {
 	float soundThrottle = .1f;
 	float soundThrottleTimer = 0;
 	
+	HeliBotController heliBotController;
+	PeckerWreckerController peckerWreckerController;
+	DigitalRuby.PyroParticles.FlameBotController flameBotController;
+	
 	int count = 0;
 	
 	void Start() {
@@ -40,7 +44,9 @@ public class PlayerController : MonoBehaviour {
 		}
 		SetParticles();
 		playerScoreController = FindObjectOfType<PlayerScoreController>();
-
+		if (gameObject.GetComponent<HeliBotController>() != null) heliBotController = gameObject.GetComponent<HeliBotController>();
+		if (gameObject.GetComponent<PeckerWreckerController>() != null) peckerWreckerController = gameObject.GetComponent<PeckerWreckerController>();
+		if (gameObject.GetComponent<DigitalRuby.PyroParticles.FlameBotController>() != null) flameBotController = gameObject.GetComponent<DigitalRuby.PyroParticles.FlameBotController>();
 		battleClock = FindObjectOfType<TimerCountdownController>();
 		
 		count++;
@@ -140,7 +146,7 @@ public class PlayerController : MonoBehaviour {
 		
 		if (endState != null) endState.SetActive(true);
 		if (endStateText != null) endStateText.enabled = true;
-		cameraController.distance = 10f;
+		cameraController.distance = 20f;
 		battleClock.StopTimer();
 	}
 	
@@ -173,5 +179,11 @@ public class PlayerController : MonoBehaviour {
 		if (BotSelectorController.selectedBot == "Hot Bot") {
 			
 		}
+	}
+	
+	public void SetUpEnemyVsPlayer() {
+		if (heliBotController != null) heliBotController.InitBot();
+		if (peckerWreckerController != null) peckerWreckerController.InitBot();
+		if (flameBotController != null) flameBotController.InitBot();
 	}
 }

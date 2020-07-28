@@ -19,8 +19,8 @@ public class BotSelectorController : MonoBehaviour
 		
 		System.Random random = new System.Random();
 		int value = random.Next(0, 2);
-		Debug.Log(value);
-		Debug.Log(selectedEnemyBot);
+		// Debug.Log(value);
+		// Debug.Log(selectedEnemyBot);
 	}
 
 	void Update() {

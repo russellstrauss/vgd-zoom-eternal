@@ -75,6 +75,11 @@ public class HeliBotController : MonoBehaviour
 
 		sparks = gameObject.GetComponentsInChildren<ParticleSystem>();
 		HideWheelSparks();
+		InitBot();
+	}
+
+	public void InitBot() {
+		if (BotSelectorController.selectedBot == "Pecker Wrecker") SetEnemy(); // testing remove
 		
 		if (BotSelectorController.selectedBot == "Stellar Propeller") SetPlayer();
 		else if (BotSelectorController.selectedEnemyBot == "Stellar Propeller") {
@@ -87,26 +92,21 @@ public class HeliBotController : MonoBehaviour
 				DeactivateBot();
 			}
 		}
-		
-		if (BotSelectorController.selectedBot == "Pecker Wrecker") SetEnemy(); // testing remove
-	}
-
-	void OnCollisionStay(Collision otherObjectCollision) {
-
 	}
 
 	void OnCollisionEnter(Collision otherObjectCollision) {
 
 		Rigidbody otherRB = otherObjectCollision.gameObject.GetComponent<Rigidbody>();
 		if (otherObjectCollision.gameObject.GetComponent<PlayerController>() != null) {
-			otherObjectCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(propellerRotationSpeed * propellerBaseDamage);
+			Debug.Log("HeliBot damage to: " + otherObjectCollision.gameObject.name);
+			otherObjectCollision.gameObject.GetComponent<PlayerController>().SubtractHealth(GetPropellerSpeed() * propellerBaseDamage);
 		}
 		if (otherObjectCollision.gameObject.GetComponent<EnemyController>() != null) {
-			otherObjectCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(propellerRotationSpeed * propellerBaseDamage);
+			otherObjectCollision.gameObject.GetComponent<EnemyController>().SubtractHealth(GetPropellerSpeed() * propellerBaseDamage);
 		}
 		if (otherRB != null) {
 			
-			if (propellerForceTimer > propellerForceThrottle) otherRB.AddForce(transform.right * (propellerRotationSpeed + botMovementSpeed) * 2, ForceMode.Impulse);
+			if (propellerForceTimer > propellerForceThrottle) otherRB.AddForce(transform.right * (GetPropellerSpeed() + botMovementSpeed) * 2, ForceMode.Impulse);
 			propellerRotationSpeed = 0;
 			PropellerOff();
 		}
@@ -119,9 +119,6 @@ public class HeliBotController : MonoBehaviour
 	void OnCollisionExit(Collision otherObjectCollision) {
 
 		if (otherObjectCollision.gameObject == floor) grounded = false;
-		else {
-			
-		}
 	}
 
 	void FixedUpdate() {
@@ -243,7 +240,7 @@ public class HeliBotController : MonoBehaviour
 	}
 	
 	public float GetPropellerSpeed() {
-		if (gameObject.GetComponent<Helicopter_AI>() != null) return gameObject.GetComponent<Helicopter_AI>().propellerRotationSpeed;
+		if (gameObject.GetComponent<Helicopter_AI>() != null) return gameObject.GetComponent<Helicopter_AI>().propellerRotationSpeed / 50;
 		else return propellerRotationSpeed;
 	}
 	
